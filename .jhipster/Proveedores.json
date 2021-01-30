@@ -1,0 +1,57 @@
+{
+  "name": "Proveedores",
+  "fields": [
+    {
+      "fieldName": "createdAt",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "direccion",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "nombreContacto",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "nombreEmpresa",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "notas",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "sitioWeb",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "telefonoFijo",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "telefonoFijo2",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "telefonoMovil",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "telefonoMovil2",
+      "fieldType": "String"
+    }
+  ],
+  "relationships": [],
+  "changelogDate": "20210129203315",
+  "entityTableName": "proveedores",
+  "dto": "no",
+  "pagination": "no",
+  "service": "no",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "clientRootFolder": "",
+  "applications": "*"
+}

@@ -1,0 +1,25 @@
+{
+  "lacampesinaApp": {
+    "precios": {
+      "home": {
+        "title": "Precios",
+        "createLabel": "Create a new Precios",
+        "createOrEditLabel": "Create or edit a Precios",
+        "notFound": "No Precios found"
+      },
+      "created": "A new Precios is created with identifier {{ param }}",
+      "updated": "A Precios is updated with identifier {{ param }}",
+      "deleted": "A Precios is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Precios {{ id }}?"
+      },
+      "detail": {
+        "title": "Precios"
+      },
+      "createdAt": "Created At",
+      "fechaFin": "Fecha Fin",
+      "fechaInicio": "Fecha Inicio",
+      "precio": "Precio"
+    }
+  }
+}

@@ -1,0 +1,73 @@
+{
+  "name": "Clientes",
+  "fields": [
+    {
+      "fieldName": "activo",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "apellidos",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "createdAt",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "direcion",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "email",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "nombreContacto",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "nombreEmpresa",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "nombres",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "notas",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "sitioWeb",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "telefonoFijo",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "telefonoFijo2",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "telefonoMovil",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "telefonoMovil2",
+      "fieldType": "String"
+    }
+  ],
+  "relationships": [],
+  "changelogDate": "20210129203015",
+  "entityTableName": "clientes",
+  "dto": "no",
+  "pagination": "no",
+  "service": "no",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "clientRootFolder": "",
+  "applications": "*"
+}

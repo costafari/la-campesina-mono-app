@@ -1,0 +1,42 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="precios">
+            <h2><span jhiTranslate="lacampesinaApp.precios.detail.title">Precios</span> {{ precios.id }}</h2>
+
+            <hr>
+
+            <jhi-alert-error></jhi-alert-error>
+
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="lacampesinaApp.precios.createdAt">Created At</span></dt>
+                <dd>
+                    <span>{{ precios.createdAt }}</span>
+                </dd>
+                <dt><span jhiTranslate="lacampesinaApp.precios.fechaFin">Fecha Fin</span></dt>
+                <dd>
+                    <span>{{ precios.fechaFin }}</span>
+                </dd>
+                <dt><span jhiTranslate="lacampesinaApp.precios.fechaInicio">Fecha Inicio</span></dt>
+                <dd>
+                    <span>{{ precios.fechaInicio }}</span>
+                </dd>
+                <dt><span jhiTranslate="lacampesinaApp.precios.precio">Precio</span></dt>
+                <dd>
+                    <span>{{ precios.precio }}</span>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/precios', precios.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

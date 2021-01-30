@@ -1,0 +1,72 @@
+
+entity Tickets {
+	id Long required
+    cantidad Long
+    createdAt Instant
+    fechaExpedicion Instant
+    total Long
+}
+
+entity Precios {
+	id Long required
+    createdAt Instant
+    fechaFin Instant
+    fechaInicio Instant
+    precio Long
+}
+
+entity Clientes {
+	id Long required
+    activo Integer
+    apellidos String
+    createdAt Instant
+    direcion String
+    email String
+    nombreContacto String
+    nombreEmpresa String
+    nombres String
+    notas String
+    sitioWeb String
+    telefonoFijo String
+    telefonoFijo2 String
+    telefonoMovil String
+    telefonoMovil2 String
+}
+
+entity Lotes {
+	id Long required
+    cantidad Integer
+    createdAt Instant
+    fechaEntrada Instant
+    lote String
+}
+
+entity Productos {
+	id Long required
+    createdAt Instant
+    descipcion String
+    nombre String
+    notas String
+}
+
+entity Proveedores {
+	id Long required
+    createdAt Instant
+    direccion String
+    nombreContacto String
+    nombreEmpresa String
+    notas String
+    sitioWeb String
+    telefonoFijo String
+    telefonoFijo2 String
+    telefonoMovil String
+    telefonoMovil2 String
+}
+
+entity Generalidades {
+	id Long required
+    createdAt Instant
+    fechaInicio Instant
+    nombreEmpresa String
+    nombrePropietario String
+}

@@ -1,0 +1,79 @@
+<div>
+    <h2 id="page-heading">
+        <span jhiTranslate="lacampesinaApp.proveedores.home.title">Proveedores</span>
+
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-proveedores" [routerLink]="['/proveedores/new']">
+            <fa-icon icon="plus"></fa-icon>
+            <span  jhiTranslate="lacampesinaApp.proveedores.home.createLabel">
+            Create a new Proveedores
+            </span>
+        </button>
+    </h2>
+
+    <jhi-alert-error></jhi-alert-error>
+
+    <jhi-alert></jhi-alert>
+
+    <div class="alert alert-warning" id="no-result" *ngIf="proveedores?.length === 0">
+        <span jhiTranslate="lacampesinaApp.proveedores.home.notFound">No proveedores found</span>
+    </div>
+
+    <div class="table-responsive" id="entities" *ngIf="proveedores && proveedores.length > 0">
+        <table class="table table-striped" aria-describedby="page-heading">
+            <thead>
+                <tr>
+                    <th scope="col" ><span jhiTranslate="global.field.id">ID</span></th>
+                    <th scope="col" ><span jhiTranslate="lacampesinaApp.proveedores.createdAt">Created At</span></th>
+                    <th scope="col" ><span jhiTranslate="lacampesinaApp.proveedores.direccion">Direccion</span></th>
+                    <th scope="col" ><span jhiTranslate="lacampesinaApp.proveedores.nombreContacto">Nombre Contacto</span></th>
+                    <th scope="col" ><span jhiTranslate="lacampesinaApp.proveedores.nombreEmpresa">Nombre Empresa</span></th>
+                    <th scope="col" ><span jhiTranslate="lacampesinaApp.proveedores.notas">Notas</span></th>
+                    <th scope="col" ><span jhiTranslate="lacampesinaApp.proveedores.sitioWeb">Sitio Web</span></th>
+                    <th scope="col" ><span jhiTranslate="lacampesinaApp.proveedores.telefonoFijo">Telefono Fijo</span></th>
+                    <th scope="col" ><span jhiTranslate="lacampesinaApp.proveedores.telefonoFijo2">Telefono Fijo 2</span></th>
+                    <th scope="col" ><span jhiTranslate="lacampesinaApp.proveedores.telefonoMovil">Telefono Movil</span></th>
+                    <th scope="col" ><span jhiTranslate="lacampesinaApp.proveedores.telefonoMovil2">Telefono Movil 2</span></th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let proveedores of proveedores ;trackBy: trackId">
+                    <td><a [routerLink]="['/proveedores', proveedores.id, 'view']">{{ proveedores.id }}</a></td>
+                    <td>{{ proveedores.createdAt | date:'medium' }}</td>
+                    <td>{{ proveedores.direccion }}</td>
+                    <td>{{ proveedores.nombreContacto }}</td>
+                    <td>{{ proveedores.nombreEmpresa }}</td>
+                    <td>{{ proveedores.notas }}</td>
+                    <td>{{ proveedores.sitioWeb }}</td>
+                    <td>{{ proveedores.telefonoFijo }}</td>
+                    <td>{{ proveedores.telefonoFijo2 }}</td>
+                    <td>{{ proveedores.telefonoMovil }}</td>
+                    <td>{{ proveedores.telefonoMovil2 }}</td>
+                    <td class="text-right">
+                        <div class="btn-group">
+                            <button type="submit"
+                                    [routerLink]="['/proveedores', proveedores.id, 'view']"
+                                    class="btn btn-info btn-sm">
+                                <fa-icon icon="eye"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                            </button>
+
+                            <button type="submit"
+                                    [routerLink]="['/proveedores', proveedores.id, 'edit']"
+                                    class="btn btn-primary btn-sm">
+                                <fa-icon icon="pencil-alt"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                            </button>
+
+                            <button type="submit" (click)="delete(proveedores)"
+                                    class="btn btn-danger btn-sm">
+                                <fa-icon icon="times"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

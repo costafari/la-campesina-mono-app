@@ -1,0 +1,35 @@
+{
+  "lacampesinaApp": {
+    "clientes": {
+      "home": {
+        "title": "Clientes",
+        "createLabel": "Crear nuevo Clientes",
+        "createOrEditLabel": "Crear o editar Clientes",
+        "notFound": "Ningún Clientes encontrado"
+      },
+      "created": "Un nuevo Clientes ha sido creado con el identificador {{ param }}",
+      "updated": "Un Clientes ha sido actualizado con el identificador {{ param }}",
+      "deleted": "Un Clientes ha sido eliminado con el identificador {{ param }}",
+      "delete": {
+        "question": "¿Seguro que quiere eliminar Clientes {{ id }}?"
+      },
+      "detail": {
+        "title": "Clientes"
+      },
+      "activo": "Activo",
+      "apellidos": "Apellidos",
+      "createdAt": "Created At",
+      "direcion": "Direcion",
+      "email": "Email",
+      "nombreContacto": "Nombre Contacto",
+      "nombreEmpresa": "Nombre Empresa",
+      "nombres": "Nombres",
+      "notas": "Notas",
+      "sitioWeb": "Sitio Web",
+      "telefonoFijo": "Telefono Fijo",
+      "telefonoFijo2": "Telefono Fijo 2",
+      "telefonoMovil": "Telefono Movil",
+      "telefonoMovil2": "Telefono Movil 2"
+    }
+  }
+}

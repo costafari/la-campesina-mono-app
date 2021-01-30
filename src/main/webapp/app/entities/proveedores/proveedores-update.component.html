@@ -1,0 +1,87 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+            <h2 id="jhi-proveedores-heading" jhiTranslate="lacampesinaApp.proveedores.home.createOrEditLabel">Create or edit a Proveedores</h2>
+
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+
+                <div class="form-group" [hidden]="!editForm.get('id')!.value">
+                    <label for="id" jhiTranslate="global.field.id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id" formControlName="id" readonly />
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="lacampesinaApp.proveedores.createdAt" for="field_createdAt">Created At</label>
+                    <div class="d-flex">
+                        <input id="field_createdAt" type="datetime-local" class="form-control" name="createdAt" formControlName="createdAt" placeholder="YYYY-MM-DD HH:mm"/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="lacampesinaApp.proveedores.direccion" for="field_direccion">Direccion</label>
+                    <input type="text" class="form-control" name="direccion" id="field_direccion"
+                           formControlName="direccion"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="lacampesinaApp.proveedores.nombreContacto" for="field_nombreContacto">Nombre Contacto</label>
+                    <input type="text" class="form-control" name="nombreContacto" id="field_nombreContacto"
+                           formControlName="nombreContacto"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="lacampesinaApp.proveedores.nombreEmpresa" for="field_nombreEmpresa">Nombre Empresa</label>
+                    <input type="text" class="form-control" name="nombreEmpresa" id="field_nombreEmpresa"
+                           formControlName="nombreEmpresa"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="lacampesinaApp.proveedores.notas" for="field_notas">Notas</label>
+                    <input type="text" class="form-control" name="notas" id="field_notas"
+                           formControlName="notas"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="lacampesinaApp.proveedores.sitioWeb" for="field_sitioWeb">Sitio Web</label>
+                    <input type="text" class="form-control" name="sitioWeb" id="field_sitioWeb"
+                           formControlName="sitioWeb"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="lacampesinaApp.proveedores.telefonoFijo" for="field_telefonoFijo">Telefono Fijo</label>
+                    <input type="text" class="form-control" name="telefonoFijo" id="field_telefonoFijo"
+                           formControlName="telefonoFijo"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="lacampesinaApp.proveedores.telefonoFijo2" for="field_telefonoFijo2">Telefono Fijo 2</label>
+                    <input type="text" class="form-control" name="telefonoFijo2" id="field_telefonoFijo2"
+                           formControlName="telefonoFijo2"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="lacampesinaApp.proveedores.telefonoMovil" for="field_telefonoMovil">Telefono Movil</label>
+                    <input type="text" class="form-control" name="telefonoMovil" id="field_telefonoMovil"
+                           formControlName="telefonoMovil"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="lacampesinaApp.proveedores.telefonoMovil2" for="field_telefonoMovil2">Telefono Movil 2</label>
+                    <input type="text" class="form-control" name="telefonoMovil2" id="field_telefonoMovil2"
+                           formControlName="telefonoMovil2"/>
+                </div>
+            </div>
+
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
+                    <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+                </button>
+
+                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

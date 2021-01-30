@@ -1,0 +1,66 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="proveedores">
+            <h2><span jhiTranslate="lacampesinaApp.proveedores.detail.title">Proveedores</span> {{ proveedores.id }}</h2>
+
+            <hr>
+
+            <jhi-alert-error></jhi-alert-error>
+
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="lacampesinaApp.proveedores.createdAt">Created At</span></dt>
+                <dd>
+                    <span>{{ proveedores.createdAt }}</span>
+                </dd>
+                <dt><span jhiTranslate="lacampesinaApp.proveedores.direccion">Direccion</span></dt>
+                <dd>
+                    <span>{{ proveedores.direccion }}</span>
+                </dd>
+                <dt><span jhiTranslate="lacampesinaApp.proveedores.nombreContacto">Nombre Contacto</span></dt>
+                <dd>
+                    <span>{{ proveedores.nombreContacto }}</span>
+                </dd>
+                <dt><span jhiTranslate="lacampesinaApp.proveedores.nombreEmpresa">Nombre Empresa</span></dt>
+                <dd>
+                    <span>{{ proveedores.nombreEmpresa }}</span>
+                </dd>
+                <dt><span jhiTranslate="lacampesinaApp.proveedores.notas">Notas</span></dt>
+                <dd>
+                    <span>{{ proveedores.notas }}</span>
+                </dd>
+                <dt><span jhiTranslate="lacampesinaApp.proveedores.sitioWeb">Sitio Web</span></dt>
+                <dd>
+                    <span>{{ proveedores.sitioWeb }}</span>
+                </dd>
+                <dt><span jhiTranslate="lacampesinaApp.proveedores.telefonoFijo">Telefono Fijo</span></dt>
+                <dd>
+                    <span>{{ proveedores.telefonoFijo }}</span>
+                </dd>
+                <dt><span jhiTranslate="lacampesinaApp.proveedores.telefonoFijo2">Telefono Fijo 2</span></dt>
+                <dd>
+                    <span>{{ proveedores.telefonoFijo2 }}</span>
+                </dd>
+                <dt><span jhiTranslate="lacampesinaApp.proveedores.telefonoMovil">Telefono Movil</span></dt>
+                <dd>
+                    <span>{{ proveedores.telefonoMovil }}</span>
+                </dd>
+                <dt><span jhiTranslate="lacampesinaApp.proveedores.telefonoMovil2">Telefono Movil 2</span></dt>
+                <dd>
+                    <span>{{ proveedores.telefonoMovil2 }}</span>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/proveedores', proveedores.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

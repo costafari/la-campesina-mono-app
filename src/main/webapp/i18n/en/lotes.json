@@ -1,0 +1,25 @@
+{
+  "lacampesinaApp": {
+    "lotes": {
+      "home": {
+        "title": "Lotes",
+        "createLabel": "Create a new Lotes",
+        "createOrEditLabel": "Create or edit a Lotes",
+        "notFound": "No Lotes found"
+      },
+      "created": "A new Lotes is created with identifier {{ param }}",
+      "updated": "A Lotes is updated with identifier {{ param }}",
+      "deleted": "A Lotes is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Lotes {{ id }}?"
+      },
+      "detail": {
+        "title": "Lotes"
+      },
+      "cantidad": "Cantidad",
+      "createdAt": "Created At",
+      "fechaEntrada": "Fecha Entrada",
+      "lote": "Lote"
+    }
+  }
+}

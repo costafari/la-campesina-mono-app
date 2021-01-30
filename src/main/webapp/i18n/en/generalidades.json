@@ -1,0 +1,25 @@
+{
+  "lacampesinaApp": {
+    "generalidades": {
+      "home": {
+        "title": "Generalidades",
+        "createLabel": "Create a new Generalidades",
+        "createOrEditLabel": "Create or edit a Generalidades",
+        "notFound": "No Generalidades found"
+      },
+      "created": "A new Generalidades is created with identifier {{ param }}",
+      "updated": "A Generalidades is updated with identifier {{ param }}",
+      "deleted": "A Generalidades is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Generalidades {{ id }}?"
+      },
+      "detail": {
+        "title": "Generalidades"
+      },
+      "createdAt": "Created At",
+      "fechaInicio": "Fecha Inicio",
+      "nombreEmpresa": "Nombre Empresa",
+      "nombrePropietario": "Nombre Propietario"
+    }
+  }
+}

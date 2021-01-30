@@ -1,0 +1,31 @@
+{
+  "lacampesinaApp": {
+    "proveedores": {
+      "home": {
+        "title": "Proveedores",
+        "createLabel": "Crear nuevo Proveedores",
+        "createOrEditLabel": "Crear o editar Proveedores",
+        "notFound": "Ningún Proveedores encontrado"
+      },
+      "created": "Un nuevo Proveedores ha sido creado con el identificador {{ param }}",
+      "updated": "Un Proveedores ha sido actualizado con el identificador {{ param }}",
+      "deleted": "Un Proveedores ha sido eliminado con el identificador {{ param }}",
+      "delete": {
+        "question": "¿Seguro que quiere eliminar Proveedores {{ id }}?"
+      },
+      "detail": {
+        "title": "Proveedores"
+      },
+      "createdAt": "Created At",
+      "direccion": "Direccion",
+      "nombreContacto": "Nombre Contacto",
+      "nombreEmpresa": "Nombre Empresa",
+      "notas": "Notas",
+      "sitioWeb": "Sitio Web",
+      "telefonoFijo": "Telefono Fijo",
+      "telefonoFijo2": "Telefono Fijo 2",
+      "telefonoMovil": "Telefono Movil",
+      "telefonoMovil2": "Telefono Movil 2"
+    }
+  }
+}
