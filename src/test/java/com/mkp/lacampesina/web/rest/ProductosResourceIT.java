@@ -14,8 +14,6 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -30,9 +28,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @WithMockUser
 public class ProductosResourceIT {
-
-    private static final Instant DEFAULT_CREATED_AT = Instant.ofEpochMilli(0L);
-    private static final Instant UPDATED_CREATED_AT = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
     private static final String DEFAULT_DESCIPCION = "AAAAAAAAAA";
     private static final String UPDATED_DESCIPCION = "BBBBBBBBBB";
@@ -62,7 +57,6 @@ public class ProductosResourceIT {
      */
     public static Productos createEntity(EntityManager em) {
         Productos productos = new Productos()
-            .createdAt(DEFAULT_CREATED_AT)
             .descipcion(DEFAULT_DESCIPCION)
             .nombre(DEFAULT_NOMBRE)
             .notas(DEFAULT_NOTAS);
@@ -76,7 +70,6 @@ public class ProductosResourceIT {
      */
     public static Productos createUpdatedEntity(EntityManager em) {
         Productos productos = new Productos()
-            .createdAt(UPDATED_CREATED_AT)
             .descipcion(UPDATED_DESCIPCION)
             .nombre(UPDATED_NOMBRE)
             .notas(UPDATED_NOTAS);
@@ -102,7 +95,6 @@ public class ProductosResourceIT {
         List<Productos> productosList = productosRepository.findAll();
         assertThat(productosList).hasSize(databaseSizeBeforeCreate + 1);
         Productos testProductos = productosList.get(productosList.size() - 1);
-        assertThat(testProductos.getCreatedAt()).isEqualTo(DEFAULT_CREATED_AT);
         assertThat(testProductos.getDescipcion()).isEqualTo(DEFAULT_DESCIPCION);
         assertThat(testProductos.getNombre()).isEqualTo(DEFAULT_NOMBRE);
         assertThat(testProductos.getNotas()).isEqualTo(DEFAULT_NOTAS);
@@ -139,7 +131,6 @@ public class ProductosResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(productos.getId().intValue())))
-            .andExpect(jsonPath("$.[*].createdAt").value(hasItem(DEFAULT_CREATED_AT.toString())))
             .andExpect(jsonPath("$.[*].descipcion").value(hasItem(DEFAULT_DESCIPCION)))
             .andExpect(jsonPath("$.[*].nombre").value(hasItem(DEFAULT_NOMBRE)))
             .andExpect(jsonPath("$.[*].notas").value(hasItem(DEFAULT_NOTAS)));
@@ -156,7 +147,6 @@ public class ProductosResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(productos.getId().intValue()))
-            .andExpect(jsonPath("$.createdAt").value(DEFAULT_CREATED_AT.toString()))
             .andExpect(jsonPath("$.descipcion").value(DEFAULT_DESCIPCION))
             .andExpect(jsonPath("$.nombre").value(DEFAULT_NOMBRE))
             .andExpect(jsonPath("$.notas").value(DEFAULT_NOTAS));
@@ -182,7 +172,6 @@ public class ProductosResourceIT {
         // Disconnect from session so that the updates on updatedProductos are not directly saved in db
         em.detach(updatedProductos);
         updatedProductos
-            .createdAt(UPDATED_CREATED_AT)
             .descipcion(UPDATED_DESCIPCION)
             .nombre(UPDATED_NOMBRE)
             .notas(UPDATED_NOTAS);
@@ -196,7 +185,6 @@ public class ProductosResourceIT {
         List<Productos> productosList = productosRepository.findAll();
         assertThat(productosList).hasSize(databaseSizeBeforeUpdate);
         Productos testProductos = productosList.get(productosList.size() - 1);
-        assertThat(testProductos.getCreatedAt()).isEqualTo(UPDATED_CREATED_AT);
         assertThat(testProductos.getDescipcion()).isEqualTo(UPDATED_DESCIPCION);
         assertThat(testProductos.getNombre()).isEqualTo(UPDATED_NOMBRE);
         assertThat(testProductos.getNotas()).isEqualTo(UPDATED_NOTAS);

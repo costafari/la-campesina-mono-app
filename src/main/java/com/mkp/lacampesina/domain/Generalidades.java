@@ -22,9 +22,6 @@ public class Generalidades implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "created_at")
-    private Instant createdAt;
-
     @Column(name = "fecha_inicio")
     private Instant fechaInicio;
 
@@ -41,19 +38,6 @@ public class Generalidades implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Instant getCreatedAt() {
-        return createdAt;
-    }
-
-    public Generalidades createdAt(Instant createdAt) {
-        this.createdAt = createdAt;
-        return this;
-    }
-
-    public void setCreatedAt(Instant createdAt) {
-        this.createdAt = createdAt;
     }
 
     public Instant getFechaInicio() {
@@ -117,7 +101,6 @@ public class Generalidades implements Serializable {
     public String toString() {
         return "Generalidades{" +
             "id=" + getId() +
-            ", createdAt='" + getCreatedAt() + "'" +
             ", fechaInicio='" + getFechaInicio() + "'" +
             ", nombreEmpresa='" + getNombreEmpresa() + "'" +
             ", nombrePropietario='" + getNombrePropietario() + "'" +

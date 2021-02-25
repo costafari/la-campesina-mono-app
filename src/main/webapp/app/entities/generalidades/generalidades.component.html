@@ -23,7 +23,6 @@
             <thead>
                 <tr>
                     <th scope="col" ><span jhiTranslate="global.field.id">ID</span></th>
-                    <th scope="col" ><span jhiTranslate="lacampesinaApp.generalidades.createdAt">Created At</span></th>
                     <th scope="col" ><span jhiTranslate="lacampesinaApp.generalidades.fechaInicio">Fecha Inicio</span></th>
                     <th scope="col" ><span jhiTranslate="lacampesinaApp.generalidades.nombreEmpresa">Nombre Empresa</span></th>
                     <th scope="col" ><span jhiTranslate="lacampesinaApp.generalidades.nombrePropietario">Nombre Propietario</span></th>
@@ -33,7 +32,6 @@
             <tbody>
                 <tr *ngFor="let generalidades of generalidades ;trackBy: trackId">
                     <td><a [routerLink]="['/generalidades', generalidades.id, 'view']">{{ generalidades.id }}</a></td>
-                    <td>{{ generalidades.createdAt | date:'medium' }}</td>
                     <td>{{ generalidades.fechaInicio | date:'medium' }}</td>
                     <td>{{ generalidades.nombreEmpresa }}</td>
                     <td>{{ generalidades.nombrePropietario }}</td>

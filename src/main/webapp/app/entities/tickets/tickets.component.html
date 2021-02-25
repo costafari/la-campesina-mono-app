@@ -24,9 +24,9 @@
                 <tr>
                     <th scope="col" ><span jhiTranslate="global.field.id">ID</span></th>
                     <th scope="col" ><span jhiTranslate="lacampesinaApp.tickets.cantidad">Cantidad</span></th>
-                    <th scope="col" ><span jhiTranslate="lacampesinaApp.tickets.createdAt">Created At</span></th>
                     <th scope="col" ><span jhiTranslate="lacampesinaApp.tickets.fechaExpedicion">Fecha Expedicion</span></th>
                     <th scope="col" ><span jhiTranslate="lacampesinaApp.tickets.total">Total</span></th>
+                    <th scope="col" ><span jhiTranslate="lacampesinaApp.tickets.precioId">Precio Id</span></th>
                     <th scope="col"></th>
                 </tr>
             </thead>
@@ -34,9 +34,13 @@
                 <tr *ngFor="let tickets of tickets ;trackBy: trackId">
                     <td><a [routerLink]="['/tickets', tickets.id, 'view']">{{ tickets.id }}</a></td>
                     <td>{{ tickets.cantidad }}</td>
-                    <td>{{ tickets.createdAt | date:'medium' }}</td>
-                    <td>{{ tickets.fechaExpedicion | date:'medium' }}</td>
+                    <td>{{ tickets.fechaExpedicion | date:'mediumDate' }}</td>
                     <td>{{ tickets.total }}</td>
+                    <td>
+                        <div *ngIf="tickets.precioId">
+                            <a [routerLink]="['/precios', tickets.precioId?.id, 'view']" >{{ tickets.precioId?.id }}</a>
+                        </div>
+                    </td>
                     <td class="text-right">
                         <div class="btn-group">
                             <button type="submit"

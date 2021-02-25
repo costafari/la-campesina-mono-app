@@ -4,11 +4,11 @@ import { HttpResponse } from '@angular/common/http';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import * as moment from 'moment';
-import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 
 import { ITickets, Tickets } from 'app/shared/model/tickets.model';
 import { TicketsService } from './tickets.service';
+import { IPrecios } from 'app/shared/model/precios.model';
+import { PreciosService } from 'app/entities/precios/precios.service';
 
 @Component({
   selector: 'jhi-tickets-update',
@@ -16,26 +16,29 @@ import { TicketsService } from './tickets.service';
 })
 export class TicketsUpdateComponent implements OnInit {
   isSaving = false;
+  precios: IPrecios[] = [];
+  fechaExpedicionDp: any;
 
   editForm = this.fb.group({
     id: [],
     cantidad: [],
-    createdAt: [],
     fechaExpedicion: [],
     total: [],
+    precioId: [],
   });
 
-  constructor(protected ticketsService: TicketsService, protected activatedRoute: ActivatedRoute, private fb: FormBuilder) {}
+  constructor(
+    protected ticketsService: TicketsService,
+    protected preciosService: PreciosService,
+    protected activatedRoute: ActivatedRoute,
+    private fb: FormBuilder
+  ) {}
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ tickets }) => {
-      if (!tickets.id) {
-        const today = moment().startOf('day');
-        tickets.createdAt = today;
-        tickets.fechaExpedicion = today;
-      }
-
       this.updateForm(tickets);
+
+      this.preciosService.query().subscribe((res: HttpResponse<IPrecios[]>) => (this.precios = res.body || []));
     });
   }
 
@@ -43,9 +46,9 @@ export class TicketsUpdateComponent implements OnInit {
     this.editForm.patchValue({
       id: tickets.id,
       cantidad: tickets.cantidad,
-      createdAt: tickets.createdAt ? tickets.createdAt.format(DATE_TIME_FORMAT) : null,
-      fechaExpedicion: tickets.fechaExpedicion ? tickets.fechaExpedicion.format(DATE_TIME_FORMAT) : null,
+      fechaExpedicion: tickets.fechaExpedicion,
       total: tickets.total,
+      precioId: tickets.precioId,
     });
   }
 
@@ -68,11 +71,9 @@ export class TicketsUpdateComponent implements OnInit {
       ...new Tickets(),
       id: this.editForm.get(['id'])!.value,
       cantidad: this.editForm.get(['cantidad'])!.value,
-      createdAt: this.editForm.get(['createdAt'])!.value ? moment(this.editForm.get(['createdAt'])!.value, DATE_TIME_FORMAT) : undefined,
-      fechaExpedicion: this.editForm.get(['fechaExpedicion'])!.value
-        ? moment(this.editForm.get(['fechaExpedicion'])!.value, DATE_TIME_FORMAT)
-        : undefined,
+      fechaExpedicion: this.editForm.get(['fechaExpedicion'])!.value,
       total: this.editForm.get(['total'])!.value,
+      precioId: this.editForm.get(['precioId'])!.value,
     };
   }
 
@@ -90,5 +91,9 @@ export class TicketsUpdateComponent implements OnInit {
 
   protected onSaveError(): void {
     this.isSaving = false;
+  }
+
+  trackById(index: number, item: IPrecios): any {
+    return item.id;
   }
 }

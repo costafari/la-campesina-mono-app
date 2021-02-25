@@ -4,11 +4,15 @@ import { HttpResponse } from '@angular/common/http';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import * as moment from 'moment';
-import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 
 import { IPrecios, Precios } from 'app/shared/model/precios.model';
 import { PreciosService } from './precios.service';
+import { ILotes } from 'app/shared/model/lotes.model';
+import { LotesService } from 'app/entities/lotes/lotes.service';
+import { IClientes } from 'app/shared/model/clientes.model';
+import { ClientesService } from 'app/entities/clientes/clientes.service';
+
+type SelectableEntity = ILotes | IClientes;
 
 @Component({
   selector: 'jhi-precios-update',
@@ -16,37 +20,46 @@ import { PreciosService } from './precios.service';
 })
 export class PreciosUpdateComponent implements OnInit {
   isSaving = false;
+  lotes: ILotes[] = [];
+  clientes: IClientes[] = [];
+  fechaFinDp: any;
+  fechaInicioDp: any;
 
   editForm = this.fb.group({
     id: [],
-    createdAt: [],
     fechaFin: [],
     fechaInicio: [],
     precio: [],
+    loteId: [],
+    clienteId: [],
   });
 
-  constructor(protected preciosService: PreciosService, protected activatedRoute: ActivatedRoute, private fb: FormBuilder) {}
+  constructor(
+    protected preciosService: PreciosService,
+    protected lotesService: LotesService,
+    protected clientesService: ClientesService,
+    protected activatedRoute: ActivatedRoute,
+    private fb: FormBuilder
+  ) {}
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ precios }) => {
-      if (!precios.id) {
-        const today = moment().startOf('day');
-        precios.createdAt = today;
-        precios.fechaFin = today;
-        precios.fechaInicio = today;
-      }
-
       this.updateForm(precios);
+
+      this.lotesService.query().subscribe((res: HttpResponse<ILotes[]>) => (this.lotes = res.body || []));
+
+      this.clientesService.query().subscribe((res: HttpResponse<IClientes[]>) => (this.clientes = res.body || []));
     });
   }
 
   updateForm(precios: IPrecios): void {
     this.editForm.patchValue({
       id: precios.id,
-      createdAt: precios.createdAt ? precios.createdAt.format(DATE_TIME_FORMAT) : null,
-      fechaFin: precios.fechaFin ? precios.fechaFin.format(DATE_TIME_FORMAT) : null,
-      fechaInicio: precios.fechaInicio ? precios.fechaInicio.format(DATE_TIME_FORMAT) : null,
+      fechaFin: precios.fechaFin,
+      fechaInicio: precios.fechaInicio,
       precio: precios.precio,
+      loteId: precios.loteId,
+      clienteId: precios.clienteId,
     });
   }
 
@@ -68,12 +81,11 @@ export class PreciosUpdateComponent implements OnInit {
     return {
       ...new Precios(),
       id: this.editForm.get(['id'])!.value,
-      createdAt: this.editForm.get(['createdAt'])!.value ? moment(this.editForm.get(['createdAt'])!.value, DATE_TIME_FORMAT) : undefined,
-      fechaFin: this.editForm.get(['fechaFin'])!.value ? moment(this.editForm.get(['fechaFin'])!.value, DATE_TIME_FORMAT) : undefined,
-      fechaInicio: this.editForm.get(['fechaInicio'])!.value
-        ? moment(this.editForm.get(['fechaInicio'])!.value, DATE_TIME_FORMAT)
-        : undefined,
+      fechaFin: this.editForm.get(['fechaFin'])!.value,
+      fechaInicio: this.editForm.get(['fechaInicio'])!.value,
       precio: this.editForm.get(['precio'])!.value,
+      loteId: this.editForm.get(['loteId'])!.value,
+      clienteId: this.editForm.get(['clienteId'])!.value,
     };
   }
 
@@ -91,5 +103,9 @@ export class PreciosUpdateComponent implements OnInit {
 
   protected onSaveError(): void {
     this.isSaving = false;
+  }
+
+  trackById(index: number, item: SelectableEntity): any {
+    return item.id;
   }
 }

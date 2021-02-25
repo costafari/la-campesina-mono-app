@@ -12,10 +12,6 @@
                 <dd>
                     <span>{{ tickets.cantidad }}</span>
                 </dd>
-                <dt><span jhiTranslate="lacampesinaApp.tickets.createdAt">Created At</span></dt>
-                <dd>
-                    <span>{{ tickets.createdAt }}</span>
-                </dd>
                 <dt><span jhiTranslate="lacampesinaApp.tickets.fechaExpedicion">Fecha Expedicion</span></dt>
                 <dd>
                     <span>{{ tickets.fechaExpedicion }}</span>
@@ -23,6 +19,12 @@
                 <dt><span jhiTranslate="lacampesinaApp.tickets.total">Total</span></dt>
                 <dd>
                     <span>{{ tickets.total }}</span>
+                </dd>
+                <dt><span jhiTranslate="lacampesinaApp.tickets.precioId">Precio Id</span></dt>
+                <dd>
+                    <div *ngIf="tickets.precioId">
+                        <a [routerLink]="['/precios', tickets.precioId?.id, 'view']">{{ tickets.precioId?.id }}</a>
+                    </div>
                 </dd>
             </dl>
 

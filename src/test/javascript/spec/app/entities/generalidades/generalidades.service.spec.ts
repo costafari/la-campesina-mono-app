@@ -24,14 +24,13 @@ describe('Service Tests', () => {
       httpMock = injector.get(HttpTestingController);
       currentDate = moment();
 
-      elemDefault = new Generalidades(0, currentDate, currentDate, 'AAAAAAA', 'AAAAAAA');
+      elemDefault = new Generalidades(0, currentDate, 'AAAAAAA', 'AAAAAAA');
     });
 
     describe('Service methods', () => {
       it('should find an element', () => {
         const returnedFromService = Object.assign(
           {
-            createdAt: currentDate.format(DATE_TIME_FORMAT),
             fechaInicio: currentDate.format(DATE_TIME_FORMAT),
           },
           elemDefault
@@ -48,7 +47,6 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             id: 0,
-            createdAt: currentDate.format(DATE_TIME_FORMAT),
             fechaInicio: currentDate.format(DATE_TIME_FORMAT),
           },
           elemDefault
@@ -56,7 +54,6 @@ describe('Service Tests', () => {
 
         const expected = Object.assign(
           {
-            createdAt: currentDate,
             fechaInicio: currentDate,
           },
           returnedFromService
@@ -72,7 +69,6 @@ describe('Service Tests', () => {
       it('should update a Generalidades', () => {
         const returnedFromService = Object.assign(
           {
-            createdAt: currentDate.format(DATE_TIME_FORMAT),
             fechaInicio: currentDate.format(DATE_TIME_FORMAT),
             nombreEmpresa: 'BBBBBB',
             nombrePropietario: 'BBBBBB',
@@ -82,7 +78,6 @@ describe('Service Tests', () => {
 
         const expected = Object.assign(
           {
-            createdAt: currentDate,
             fechaInicio: currentDate,
           },
           returnedFromService
@@ -98,7 +93,6 @@ describe('Service Tests', () => {
       it('should return a list of Generalidades', () => {
         const returnedFromService = Object.assign(
           {
-            createdAt: currentDate.format(DATE_TIME_FORMAT),
             fechaInicio: currentDate.format(DATE_TIME_FORMAT),
             nombreEmpresa: 'BBBBBB',
             nombrePropietario: 'BBBBBB',
@@ -108,7 +102,6 @@ describe('Service Tests', () => {
 
         const expected = Object.assign(
           {
-            createdAt: currentDate,
             fechaInicio: currentDate,
           },
           returnedFromService

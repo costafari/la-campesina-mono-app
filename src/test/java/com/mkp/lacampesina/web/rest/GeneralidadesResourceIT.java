@@ -31,9 +31,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WithMockUser
 public class GeneralidadesResourceIT {
 
-    private static final Instant DEFAULT_CREATED_AT = Instant.ofEpochMilli(0L);
-    private static final Instant UPDATED_CREATED_AT = Instant.now().truncatedTo(ChronoUnit.MILLIS);
-
     private static final Instant DEFAULT_FECHA_INICIO = Instant.ofEpochMilli(0L);
     private static final Instant UPDATED_FECHA_INICIO = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
@@ -62,7 +59,6 @@ public class GeneralidadesResourceIT {
      */
     public static Generalidades createEntity(EntityManager em) {
         Generalidades generalidades = new Generalidades()
-            .createdAt(DEFAULT_CREATED_AT)
             .fechaInicio(DEFAULT_FECHA_INICIO)
             .nombreEmpresa(DEFAULT_NOMBRE_EMPRESA)
             .nombrePropietario(DEFAULT_NOMBRE_PROPIETARIO);
@@ -76,7 +72,6 @@ public class GeneralidadesResourceIT {
      */
     public static Generalidades createUpdatedEntity(EntityManager em) {
         Generalidades generalidades = new Generalidades()
-            .createdAt(UPDATED_CREATED_AT)
             .fechaInicio(UPDATED_FECHA_INICIO)
             .nombreEmpresa(UPDATED_NOMBRE_EMPRESA)
             .nombrePropietario(UPDATED_NOMBRE_PROPIETARIO);
@@ -102,7 +97,6 @@ public class GeneralidadesResourceIT {
         List<Generalidades> generalidadesList = generalidadesRepository.findAll();
         assertThat(generalidadesList).hasSize(databaseSizeBeforeCreate + 1);
         Generalidades testGeneralidades = generalidadesList.get(generalidadesList.size() - 1);
-        assertThat(testGeneralidades.getCreatedAt()).isEqualTo(DEFAULT_CREATED_AT);
         assertThat(testGeneralidades.getFechaInicio()).isEqualTo(DEFAULT_FECHA_INICIO);
         assertThat(testGeneralidades.getNombreEmpresa()).isEqualTo(DEFAULT_NOMBRE_EMPRESA);
         assertThat(testGeneralidades.getNombrePropietario()).isEqualTo(DEFAULT_NOMBRE_PROPIETARIO);
@@ -139,7 +133,6 @@ public class GeneralidadesResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(generalidades.getId().intValue())))
-            .andExpect(jsonPath("$.[*].createdAt").value(hasItem(DEFAULT_CREATED_AT.toString())))
             .andExpect(jsonPath("$.[*].fechaInicio").value(hasItem(DEFAULT_FECHA_INICIO.toString())))
             .andExpect(jsonPath("$.[*].nombreEmpresa").value(hasItem(DEFAULT_NOMBRE_EMPRESA)))
             .andExpect(jsonPath("$.[*].nombrePropietario").value(hasItem(DEFAULT_NOMBRE_PROPIETARIO)));
@@ -156,7 +149,6 @@ public class GeneralidadesResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(generalidades.getId().intValue()))
-            .andExpect(jsonPath("$.createdAt").value(DEFAULT_CREATED_AT.toString()))
             .andExpect(jsonPath("$.fechaInicio").value(DEFAULT_FECHA_INICIO.toString()))
             .andExpect(jsonPath("$.nombreEmpresa").value(DEFAULT_NOMBRE_EMPRESA))
             .andExpect(jsonPath("$.nombrePropietario").value(DEFAULT_NOMBRE_PROPIETARIO));
@@ -182,7 +174,6 @@ public class GeneralidadesResourceIT {
         // Disconnect from session so that the updates on updatedGeneralidades are not directly saved in db
         em.detach(updatedGeneralidades);
         updatedGeneralidades
-            .createdAt(UPDATED_CREATED_AT)
             .fechaInicio(UPDATED_FECHA_INICIO)
             .nombreEmpresa(UPDATED_NOMBRE_EMPRESA)
             .nombrePropietario(UPDATED_NOMBRE_PROPIETARIO);
@@ -196,7 +187,6 @@ public class GeneralidadesResourceIT {
         List<Generalidades> generalidadesList = generalidadesRepository.findAll();
         assertThat(generalidadesList).hasSize(databaseSizeBeforeUpdate);
         Generalidades testGeneralidades = generalidadesList.get(generalidadesList.size() - 1);
-        assertThat(testGeneralidades.getCreatedAt()).isEqualTo(UPDATED_CREATED_AT);
         assertThat(testGeneralidades.getFechaInicio()).isEqualTo(UPDATED_FECHA_INICIO);
         assertThat(testGeneralidades.getNombreEmpresa()).isEqualTo(UPDATED_NOMBRE_EMPRESA);
         assertThat(testGeneralidades.getNombrePropietario()).isEqualTo(UPDATED_NOMBRE_PROPIETARIO);

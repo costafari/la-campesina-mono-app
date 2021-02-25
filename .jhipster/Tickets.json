@@ -6,19 +6,23 @@
       "fieldType": "Long"
     },
     {
-      "fieldName": "createdAt",
-      "fieldType": "Instant"
-    },
-    {
       "fieldName": "fechaExpedicion",
-      "fieldType": "Instant"
+      "fieldType": "LocalDate"
     },
     {
       "fieldName": "total",
       "fieldType": "Long"
     }
   ],
-  "relationships": [],
+  "relationships": [
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "precios",
+      "otherEntityRelationshipName": "tickets",
+      "relationshipName": "precioId",
+      "otherEntityField": "id"
+    }
+  ],
   "changelogDate": "20210129202815",
   "entityTableName": "tickets",
   "dto": "no",

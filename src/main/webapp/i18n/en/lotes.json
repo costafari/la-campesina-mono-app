@@ -17,9 +17,11 @@
         "title": "Lotes"
       },
       "cantidad": "Cantidad",
-      "createdAt": "Created At",
       "fechaEntrada": "Fecha Entrada",
-      "lote": "Lote"
+      "lote": "Lote",
+      "precios": "Precios",
+      "productoId": "Producto Id",
+      "proveedorId": "Proveedor Id"
     }
   }
 }

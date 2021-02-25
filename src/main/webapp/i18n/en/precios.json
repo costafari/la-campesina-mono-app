@@ -16,10 +16,12 @@
       "detail": {
         "title": "Precios"
       },
-      "createdAt": "Created At",
       "fechaFin": "Fecha Fin",
       "fechaInicio": "Fecha Inicio",
-      "precio": "Precio"
+      "precio": "Precio",
+      "tickets": "Tickets",
+      "loteId": "Lote Id",
+      "clienteId": "Cliente Id"
     }
   }
 }

@@ -4,8 +4,6 @@ import { HttpResponse } from '@angular/common/http';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import * as moment from 'moment';
-import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 
 import { IClientes, Clientes } from 'app/shared/model/clientes.model';
 import { ClientesService } from './clientes.service';
@@ -21,7 +19,6 @@ export class ClientesUpdateComponent implements OnInit {
     id: [],
     activo: [],
     apellidos: [],
-    createdAt: [],
     direcion: [],
     email: [],
     nombreContacto: [],
@@ -39,11 +36,6 @@ export class ClientesUpdateComponent implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ clientes }) => {
-      if (!clientes.id) {
-        const today = moment().startOf('day');
-        clientes.createdAt = today;
-      }
-
       this.updateForm(clientes);
     });
   }
@@ -53,7 +45,6 @@ export class ClientesUpdateComponent implements OnInit {
       id: clientes.id,
       activo: clientes.activo,
       apellidos: clientes.apellidos,
-      createdAt: clientes.createdAt ? clientes.createdAt.format(DATE_TIME_FORMAT) : null,
       direcion: clientes.direcion,
       email: clientes.email,
       nombreContacto: clientes.nombreContacto,
@@ -88,7 +79,6 @@ export class ClientesUpdateComponent implements OnInit {
       id: this.editForm.get(['id'])!.value,
       activo: this.editForm.get(['activo'])!.value,
       apellidos: this.editForm.get(['apellidos'])!.value,
-      createdAt: this.editForm.get(['createdAt'])!.value ? moment(this.editForm.get(['createdAt'])!.value, DATE_TIME_FORMAT) : undefined,
       direcion: this.editForm.get(['direcion'])!.value,
       email: this.editForm.get(['email'])!.value,
       nombreContacto: this.editForm.get(['nombreContacto'])!.value,

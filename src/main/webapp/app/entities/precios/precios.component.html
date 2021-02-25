@@ -23,20 +23,30 @@
             <thead>
                 <tr>
                     <th scope="col" ><span jhiTranslate="global.field.id">ID</span></th>
-                    <th scope="col" ><span jhiTranslate="lacampesinaApp.precios.createdAt">Created At</span></th>
                     <th scope="col" ><span jhiTranslate="lacampesinaApp.precios.fechaFin">Fecha Fin</span></th>
                     <th scope="col" ><span jhiTranslate="lacampesinaApp.precios.fechaInicio">Fecha Inicio</span></th>
                     <th scope="col" ><span jhiTranslate="lacampesinaApp.precios.precio">Precio</span></th>
+                    <th scope="col" ><span jhiTranslate="lacampesinaApp.precios.loteId">Lote Id</span></th>
+                    <th scope="col" ><span jhiTranslate="lacampesinaApp.precios.clienteId">Cliente Id</span></th>
                     <th scope="col"></th>
                 </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let precios of precios ;trackBy: trackId">
                     <td><a [routerLink]="['/precios', precios.id, 'view']">{{ precios.id }}</a></td>
-                    <td>{{ precios.createdAt | date:'medium' }}</td>
-                    <td>{{ precios.fechaFin | date:'medium' }}</td>
-                    <td>{{ precios.fechaInicio | date:'medium' }}</td>
+                    <td>{{ precios.fechaFin | date:'mediumDate' }}</td>
+                    <td>{{ precios.fechaInicio | date:'mediumDate' }}</td>
                     <td>{{ precios.precio }}</td>
+                    <td>
+                        <div *ngIf="precios.loteId">
+                            <a [routerLink]="['/lotes', precios.loteId?.id, 'view']" >{{ precios.loteId?.id }}</a>
+                        </div>
+                    </td>
+                    <td>
+                        <div *ngIf="precios.clienteId">
+                            <a [routerLink]="['/clientes', precios.clienteId?.id, 'view']" >{{ precios.clienteId?.id }}</a>
+                        </div>
+                    </td>
                     <td class="text-right">
                         <div class="btn-group">
                             <button type="submit"

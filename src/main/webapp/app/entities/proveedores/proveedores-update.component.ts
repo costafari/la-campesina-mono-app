@@ -4,8 +4,6 @@ import { HttpResponse } from '@angular/common/http';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import * as moment from 'moment';
-import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 
 import { IProveedores, Proveedores } from 'app/shared/model/proveedores.model';
 import { ProveedoresService } from './proveedores.service';
@@ -19,7 +17,6 @@ export class ProveedoresUpdateComponent implements OnInit {
 
   editForm = this.fb.group({
     id: [],
-    createdAt: [],
     direccion: [],
     nombreContacto: [],
     nombreEmpresa: [],
@@ -35,11 +32,6 @@ export class ProveedoresUpdateComponent implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ proveedores }) => {
-      if (!proveedores.id) {
-        const today = moment().startOf('day');
-        proveedores.createdAt = today;
-      }
-
       this.updateForm(proveedores);
     });
   }
@@ -47,7 +39,6 @@ export class ProveedoresUpdateComponent implements OnInit {
   updateForm(proveedores: IProveedores): void {
     this.editForm.patchValue({
       id: proveedores.id,
-      createdAt: proveedores.createdAt ? proveedores.createdAt.format(DATE_TIME_FORMAT) : null,
       direccion: proveedores.direccion,
       nombreContacto: proveedores.nombreContacto,
       nombreEmpresa: proveedores.nombreEmpresa,
@@ -78,7 +69,6 @@ export class ProveedoresUpdateComponent implements OnInit {
     return {
       ...new Proveedores(),
       id: this.editForm.get(['id'])!.value,
-      createdAt: this.editForm.get(['createdAt'])!.value ? moment(this.editForm.get(['createdAt'])!.value, DATE_TIME_FORMAT) : undefined,
       direccion: this.editForm.get(['direccion'])!.value,
       nombreContacto: this.editForm.get(['nombreContacto'])!.value,
       nombreEmpresa: this.editForm.get(['nombreEmpresa'])!.value,

@@ -50,7 +50,6 @@ export class GeneralidadesService {
 
   protected convertDateFromClient(generalidades: IGeneralidades): IGeneralidades {
     const copy: IGeneralidades = Object.assign({}, generalidades, {
-      createdAt: generalidades.createdAt && generalidades.createdAt.isValid() ? generalidades.createdAt.toJSON() : undefined,
       fechaInicio: generalidades.fechaInicio && generalidades.fechaInicio.isValid() ? generalidades.fechaInicio.toJSON() : undefined,
     });
     return copy;
@@ -58,7 +57,6 @@ export class GeneralidadesService {
 
   protected convertDateFromServer(res: EntityResponseType): EntityResponseType {
     if (res.body) {
-      res.body.createdAt = res.body.createdAt ? moment(res.body.createdAt) : undefined;
       res.body.fechaInicio = res.body.fechaInicio ? moment(res.body.fechaInicio) : undefined;
     }
     return res;
@@ -67,7 +65,6 @@ export class GeneralidadesService {
   protected convertDateArrayFromServer(res: EntityArrayResponseType): EntityArrayResponseType {
     if (res.body) {
       res.body.forEach((generalidades: IGeneralidades) => {
-        generalidades.createdAt = generalidades.createdAt ? moment(generalidades.createdAt) : undefined;
         generalidades.fechaInicio = generalidades.fechaInicio ? moment(generalidades.fechaInicio) : undefined;
       });
     }

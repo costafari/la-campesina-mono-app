@@ -3,15 +3,11 @@
   "fields": [
     {
       "fieldName": "activo",
-      "fieldType": "Integer"
+      "fieldType": "Boolean"
     },
     {
       "fieldName": "apellidos",
       "fieldType": "String"
-    },
-    {
-      "fieldName": "createdAt",
-      "fieldType": "Instant"
     },
     {
       "fieldName": "direcion",
@@ -43,22 +39,29 @@
     },
     {
       "fieldName": "telefonoFijo",
-      "fieldType": "String"
+      "fieldType": "Integer"
     },
     {
       "fieldName": "telefonoFijo2",
-      "fieldType": "String"
+      "fieldType": "Integer"
     },
     {
       "fieldName": "telefonoMovil",
-      "fieldType": "String"
+      "fieldType": "Integer"
     },
     {
       "fieldName": "telefonoMovil2",
-      "fieldType": "String"
+      "fieldType": "Integer"
     }
   ],
-  "relationships": [],
+  "relationships": [
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "precios",
+      "otherEntityRelationshipName": "clienteId",
+      "relationshipName": "precios"
+    }
+  ],
   "changelogDate": "20210129203015",
   "entityTableName": "clientes",
   "dto": "no",

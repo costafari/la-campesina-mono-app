@@ -25,7 +25,6 @@
                     <th scope="col" ><span jhiTranslate="global.field.id">ID</span></th>
                     <th scope="col" ><span jhiTranslate="lacampesinaApp.clientes.activo">Activo</span></th>
                     <th scope="col" ><span jhiTranslate="lacampesinaApp.clientes.apellidos">Apellidos</span></th>
-                    <th scope="col" ><span jhiTranslate="lacampesinaApp.clientes.createdAt">Created At</span></th>
                     <th scope="col" ><span jhiTranslate="lacampesinaApp.clientes.direcion">Direcion</span></th>
                     <th scope="col" ><span jhiTranslate="lacampesinaApp.clientes.email">Email</span></th>
                     <th scope="col" ><span jhiTranslate="lacampesinaApp.clientes.nombreContacto">Nombre Contacto</span></th>
@@ -45,7 +44,6 @@
                     <td><a [routerLink]="['/clientes', clientes.id, 'view']">{{ clientes.id }}</a></td>
                     <td>{{ clientes.activo }}</td>
                     <td>{{ clientes.apellidos }}</td>
-                    <td>{{ clientes.createdAt | date:'medium' }}</td>
                     <td>{{ clientes.direcion }}</td>
                     <td>{{ clientes.email }}</td>
                     <td>{{ clientes.nombreContacto }}</td>

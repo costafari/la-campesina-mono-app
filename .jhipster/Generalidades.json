@@ -2,10 +2,6 @@
   "name": "Generalidades",
   "fields": [
     {
-      "fieldName": "createdAt",
-      "fieldType": "Instant"
-    },
-    {
       "fieldName": "fechaInicio",
       "fieldType": "Instant"
     },

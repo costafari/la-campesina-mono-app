@@ -14,8 +14,8 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -31,14 +31,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WithMockUser
 public class PreciosResourceIT {
 
-    private static final Instant DEFAULT_CREATED_AT = Instant.ofEpochMilli(0L);
-    private static final Instant UPDATED_CREATED_AT = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+    private static final LocalDate DEFAULT_FECHA_FIN = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_FECHA_FIN = LocalDate.now(ZoneId.systemDefault());
 
-    private static final Instant DEFAULT_FECHA_FIN = Instant.ofEpochMilli(0L);
-    private static final Instant UPDATED_FECHA_FIN = Instant.now().truncatedTo(ChronoUnit.MILLIS);
-
-    private static final Instant DEFAULT_FECHA_INICIO = Instant.ofEpochMilli(0L);
-    private static final Instant UPDATED_FECHA_INICIO = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+    private static final LocalDate DEFAULT_FECHA_INICIO = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_FECHA_INICIO = LocalDate.now(ZoneId.systemDefault());
 
     private static final Long DEFAULT_PRECIO = 1L;
     private static final Long UPDATED_PRECIO = 2L;
@@ -62,7 +59,6 @@ public class PreciosResourceIT {
      */
     public static Precios createEntity(EntityManager em) {
         Precios precios = new Precios()
-            .createdAt(DEFAULT_CREATED_AT)
             .fechaFin(DEFAULT_FECHA_FIN)
             .fechaInicio(DEFAULT_FECHA_INICIO)
             .precio(DEFAULT_PRECIO);
@@ -76,7 +72,6 @@ public class PreciosResourceIT {
      */
     public static Precios createUpdatedEntity(EntityManager em) {
         Precios precios = new Precios()
-            .createdAt(UPDATED_CREATED_AT)
             .fechaFin(UPDATED_FECHA_FIN)
             .fechaInicio(UPDATED_FECHA_INICIO)
             .precio(UPDATED_PRECIO);
@@ -102,7 +97,6 @@ public class PreciosResourceIT {
         List<Precios> preciosList = preciosRepository.findAll();
         assertThat(preciosList).hasSize(databaseSizeBeforeCreate + 1);
         Precios testPrecios = preciosList.get(preciosList.size() - 1);
-        assertThat(testPrecios.getCreatedAt()).isEqualTo(DEFAULT_CREATED_AT);
         assertThat(testPrecios.getFechaFin()).isEqualTo(DEFAULT_FECHA_FIN);
         assertThat(testPrecios.getFechaInicio()).isEqualTo(DEFAULT_FECHA_INICIO);
         assertThat(testPrecios.getPrecio()).isEqualTo(DEFAULT_PRECIO);
@@ -139,7 +133,6 @@ public class PreciosResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(precios.getId().intValue())))
-            .andExpect(jsonPath("$.[*].createdAt").value(hasItem(DEFAULT_CREATED_AT.toString())))
             .andExpect(jsonPath("$.[*].fechaFin").value(hasItem(DEFAULT_FECHA_FIN.toString())))
             .andExpect(jsonPath("$.[*].fechaInicio").value(hasItem(DEFAULT_FECHA_INICIO.toString())))
             .andExpect(jsonPath("$.[*].precio").value(hasItem(DEFAULT_PRECIO.intValue())));
@@ -156,7 +149,6 @@ public class PreciosResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(precios.getId().intValue()))
-            .andExpect(jsonPath("$.createdAt").value(DEFAULT_CREATED_AT.toString()))
             .andExpect(jsonPath("$.fechaFin").value(DEFAULT_FECHA_FIN.toString()))
             .andExpect(jsonPath("$.fechaInicio").value(DEFAULT_FECHA_INICIO.toString()))
             .andExpect(jsonPath("$.precio").value(DEFAULT_PRECIO.intValue()));
@@ -182,7 +174,6 @@ public class PreciosResourceIT {
         // Disconnect from session so that the updates on updatedPrecios are not directly saved in db
         em.detach(updatedPrecios);
         updatedPrecios
-            .createdAt(UPDATED_CREATED_AT)
             .fechaFin(UPDATED_FECHA_FIN)
             .fechaInicio(UPDATED_FECHA_INICIO)
             .precio(UPDATED_PRECIO);
@@ -196,7 +187,6 @@ public class PreciosResourceIT {
         List<Precios> preciosList = preciosRepository.findAll();
         assertThat(preciosList).hasSize(databaseSizeBeforeUpdate);
         Precios testPrecios = preciosList.get(preciosList.size() - 1);
-        assertThat(testPrecios.getCreatedAt()).isEqualTo(UPDATED_CREATED_AT);
         assertThat(testPrecios.getFechaFin()).isEqualTo(UPDATED_FECHA_FIN);
         assertThat(testPrecios.getFechaInicio()).isEqualTo(UPDATED_FECHA_INICIO);
         assertThat(testPrecios.getPrecio()).isEqualTo(UPDATED_PRECIO);

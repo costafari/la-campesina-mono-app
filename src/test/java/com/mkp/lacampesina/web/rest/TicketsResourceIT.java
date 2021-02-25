@@ -14,8 +14,8 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -34,11 +34,8 @@ public class TicketsResourceIT {
     private static final Long DEFAULT_CANTIDAD = 1L;
     private static final Long UPDATED_CANTIDAD = 2L;
 
-    private static final Instant DEFAULT_CREATED_AT = Instant.ofEpochMilli(0L);
-    private static final Instant UPDATED_CREATED_AT = Instant.now().truncatedTo(ChronoUnit.MILLIS);
-
-    private static final Instant DEFAULT_FECHA_EXPEDICION = Instant.ofEpochMilli(0L);
-    private static final Instant UPDATED_FECHA_EXPEDICION = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+    private static final LocalDate DEFAULT_FECHA_EXPEDICION = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_FECHA_EXPEDICION = LocalDate.now(ZoneId.systemDefault());
 
     private static final Long DEFAULT_TOTAL = 1L;
     private static final Long UPDATED_TOTAL = 2L;
@@ -63,7 +60,6 @@ public class TicketsResourceIT {
     public static Tickets createEntity(EntityManager em) {
         Tickets tickets = new Tickets()
             .cantidad(DEFAULT_CANTIDAD)
-            .createdAt(DEFAULT_CREATED_AT)
             .fechaExpedicion(DEFAULT_FECHA_EXPEDICION)
             .total(DEFAULT_TOTAL);
         return tickets;
@@ -77,7 +73,6 @@ public class TicketsResourceIT {
     public static Tickets createUpdatedEntity(EntityManager em) {
         Tickets tickets = new Tickets()
             .cantidad(UPDATED_CANTIDAD)
-            .createdAt(UPDATED_CREATED_AT)
             .fechaExpedicion(UPDATED_FECHA_EXPEDICION)
             .total(UPDATED_TOTAL);
         return tickets;
@@ -103,7 +98,6 @@ public class TicketsResourceIT {
         assertThat(ticketsList).hasSize(databaseSizeBeforeCreate + 1);
         Tickets testTickets = ticketsList.get(ticketsList.size() - 1);
         assertThat(testTickets.getCantidad()).isEqualTo(DEFAULT_CANTIDAD);
-        assertThat(testTickets.getCreatedAt()).isEqualTo(DEFAULT_CREATED_AT);
         assertThat(testTickets.getFechaExpedicion()).isEqualTo(DEFAULT_FECHA_EXPEDICION);
         assertThat(testTickets.getTotal()).isEqualTo(DEFAULT_TOTAL);
     }
@@ -140,7 +134,6 @@ public class TicketsResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(tickets.getId().intValue())))
             .andExpect(jsonPath("$.[*].cantidad").value(hasItem(DEFAULT_CANTIDAD.intValue())))
-            .andExpect(jsonPath("$.[*].createdAt").value(hasItem(DEFAULT_CREATED_AT.toString())))
             .andExpect(jsonPath("$.[*].fechaExpedicion").value(hasItem(DEFAULT_FECHA_EXPEDICION.toString())))
             .andExpect(jsonPath("$.[*].total").value(hasItem(DEFAULT_TOTAL.intValue())));
     }
@@ -157,7 +150,6 @@ public class TicketsResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(tickets.getId().intValue()))
             .andExpect(jsonPath("$.cantidad").value(DEFAULT_CANTIDAD.intValue()))
-            .andExpect(jsonPath("$.createdAt").value(DEFAULT_CREATED_AT.toString()))
             .andExpect(jsonPath("$.fechaExpedicion").value(DEFAULT_FECHA_EXPEDICION.toString()))
             .andExpect(jsonPath("$.total").value(DEFAULT_TOTAL.intValue()));
     }
@@ -183,7 +175,6 @@ public class TicketsResourceIT {
         em.detach(updatedTickets);
         updatedTickets
             .cantidad(UPDATED_CANTIDAD)
-            .createdAt(UPDATED_CREATED_AT)
             .fechaExpedicion(UPDATED_FECHA_EXPEDICION)
             .total(UPDATED_TOTAL);
 
@@ -197,7 +188,6 @@ public class TicketsResourceIT {
         assertThat(ticketsList).hasSize(databaseSizeBeforeUpdate);
         Tickets testTickets = ticketsList.get(ticketsList.size() - 1);
         assertThat(testTickets.getCantidad()).isEqualTo(UPDATED_CANTIDAD);
-        assertThat(testTickets.getCreatedAt()).isEqualTo(UPDATED_CREATED_AT);
         assertThat(testTickets.getFechaExpedicion()).isEqualTo(UPDATED_FECHA_EXPEDICION);
         assertThat(testTickets.getTotal()).isEqualTo(UPDATED_TOTAL);
     }

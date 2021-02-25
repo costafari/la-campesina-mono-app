@@ -2,10 +2,6 @@
   "name": "Proveedores",
   "fields": [
     {
-      "fieldName": "createdAt",
-      "fieldType": "Instant"
-    },
-    {
       "fieldName": "direccion",
       "fieldType": "String"
     },
@@ -27,22 +23,29 @@
     },
     {
       "fieldName": "telefonoFijo",
-      "fieldType": "String"
+      "fieldType": "Integer"
     },
     {
       "fieldName": "telefonoFijo2",
-      "fieldType": "String"
+      "fieldType": "Integer"
     },
     {
       "fieldName": "telefonoMovil",
-      "fieldType": "String"
+      "fieldType": "Integer"
     },
     {
       "fieldName": "telefonoMovil2",
-      "fieldType": "String"
+      "fieldType": "Integer"
     }
   ],
-  "relationships": [],
+  "relationships": [
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "lotes",
+      "otherEntityRelationshipName": "proveedorId",
+      "relationshipName": "lotes"
+    }
+  ],
   "changelogDate": "20210129203315",
   "entityTableName": "proveedores",
   "dto": "no",

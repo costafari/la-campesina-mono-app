@@ -14,8 +14,8 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -34,11 +34,8 @@ public class LotesResourceIT {
     private static final Integer DEFAULT_CANTIDAD = 1;
     private static final Integer UPDATED_CANTIDAD = 2;
 
-    private static final Instant DEFAULT_CREATED_AT = Instant.ofEpochMilli(0L);
-    private static final Instant UPDATED_CREATED_AT = Instant.now().truncatedTo(ChronoUnit.MILLIS);
-
-    private static final Instant DEFAULT_FECHA_ENTRADA = Instant.ofEpochMilli(0L);
-    private static final Instant UPDATED_FECHA_ENTRADA = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+    private static final LocalDate DEFAULT_FECHA_ENTRADA = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_FECHA_ENTRADA = LocalDate.now(ZoneId.systemDefault());
 
     private static final String DEFAULT_LOTE = "AAAAAAAAAA";
     private static final String UPDATED_LOTE = "BBBBBBBBBB";
@@ -63,7 +60,6 @@ public class LotesResourceIT {
     public static Lotes createEntity(EntityManager em) {
         Lotes lotes = new Lotes()
             .cantidad(DEFAULT_CANTIDAD)
-            .createdAt(DEFAULT_CREATED_AT)
             .fechaEntrada(DEFAULT_FECHA_ENTRADA)
             .lote(DEFAULT_LOTE);
         return lotes;
@@ -77,7 +73,6 @@ public class LotesResourceIT {
     public static Lotes createUpdatedEntity(EntityManager em) {
         Lotes lotes = new Lotes()
             .cantidad(UPDATED_CANTIDAD)
-            .createdAt(UPDATED_CREATED_AT)
             .fechaEntrada(UPDATED_FECHA_ENTRADA)
             .lote(UPDATED_LOTE);
         return lotes;
@@ -103,7 +98,6 @@ public class LotesResourceIT {
         assertThat(lotesList).hasSize(databaseSizeBeforeCreate + 1);
         Lotes testLotes = lotesList.get(lotesList.size() - 1);
         assertThat(testLotes.getCantidad()).isEqualTo(DEFAULT_CANTIDAD);
-        assertThat(testLotes.getCreatedAt()).isEqualTo(DEFAULT_CREATED_AT);
         assertThat(testLotes.getFechaEntrada()).isEqualTo(DEFAULT_FECHA_ENTRADA);
         assertThat(testLotes.getLote()).isEqualTo(DEFAULT_LOTE);
     }
@@ -140,7 +134,6 @@ public class LotesResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(lotes.getId().intValue())))
             .andExpect(jsonPath("$.[*].cantidad").value(hasItem(DEFAULT_CANTIDAD)))
-            .andExpect(jsonPath("$.[*].createdAt").value(hasItem(DEFAULT_CREATED_AT.toString())))
             .andExpect(jsonPath("$.[*].fechaEntrada").value(hasItem(DEFAULT_FECHA_ENTRADA.toString())))
             .andExpect(jsonPath("$.[*].lote").value(hasItem(DEFAULT_LOTE)));
     }
@@ -157,7 +150,6 @@ public class LotesResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(lotes.getId().intValue()))
             .andExpect(jsonPath("$.cantidad").value(DEFAULT_CANTIDAD))
-            .andExpect(jsonPath("$.createdAt").value(DEFAULT_CREATED_AT.toString()))
             .andExpect(jsonPath("$.fechaEntrada").value(DEFAULT_FECHA_ENTRADA.toString()))
             .andExpect(jsonPath("$.lote").value(DEFAULT_LOTE));
     }
@@ -183,7 +175,6 @@ public class LotesResourceIT {
         em.detach(updatedLotes);
         updatedLotes
             .cantidad(UPDATED_CANTIDAD)
-            .createdAt(UPDATED_CREATED_AT)
             .fechaEntrada(UPDATED_FECHA_ENTRADA)
             .lote(UPDATED_LOTE);
 
@@ -197,7 +188,6 @@ public class LotesResourceIT {
         assertThat(lotesList).hasSize(databaseSizeBeforeUpdate);
         Lotes testLotes = lotesList.get(lotesList.size() - 1);
         assertThat(testLotes.getCantidad()).isEqualTo(UPDATED_CANTIDAD);
-        assertThat(testLotes.getCreatedAt()).isEqualTo(UPDATED_CREATED_AT);
         assertThat(testLotes.getFechaEntrada()).isEqualTo(UPDATED_FECHA_ENTRADA);
         assertThat(testLotes.getLote()).isEqualTo(UPDATED_LOTE);
     }

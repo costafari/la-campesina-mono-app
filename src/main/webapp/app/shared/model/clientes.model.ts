@@ -1,10 +1,9 @@
-import { Moment } from 'moment';
+import { IPrecios } from 'app/shared/model/precios.model';
 
 export interface IClientes {
   id?: number;
-  activo?: number;
+  activo?: boolean;
   apellidos?: string;
-  createdAt?: Moment;
   direcion?: string;
   email?: string;
   nombreContacto?: string;
@@ -12,18 +11,18 @@ export interface IClientes {
   nombres?: string;
   notas?: string;
   sitioWeb?: string;
-  telefonoFijo?: string;
-  telefonoFijo2?: string;
-  telefonoMovil?: string;
-  telefonoMovil2?: string;
+  telefonoFijo?: number;
+  telefonoFijo2?: number;
+  telefonoMovil?: number;
+  telefonoMovil2?: number;
+  precios?: IPrecios[];
 }
 
 export class Clientes implements IClientes {
   constructor(
     public id?: number,
-    public activo?: number,
+    public activo?: boolean,
     public apellidos?: string,
-    public createdAt?: Moment,
     public direcion?: string,
     public email?: string,
     public nombreContacto?: string,
@@ -31,9 +30,12 @@ export class Clientes implements IClientes {
     public nombres?: string,
     public notas?: string,
     public sitioWeb?: string,
-    public telefonoFijo?: string,
-    public telefonoFijo2?: string,
-    public telefonoMovil?: string,
-    public telefonoMovil2?: string
-  ) {}
+    public telefonoFijo?: number,
+    public telefonoFijo2?: number,
+    public telefonoMovil?: number,
+    public telefonoMovil2?: number,
+    public precios?: IPrecios[]
+  ) {
+    this.activo = this.activo || false;
+  }
 }

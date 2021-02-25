@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import * as moment from 'moment';
 
+import { DATE_FORMAT } from 'app/shared/constants/input.constants';
 import { SERVER_API_URL } from 'app/app.constants';
 import { createRequestOption } from 'app/shared/util/request-util';
 import { IPrecios } from 'app/shared/model/precios.model';
@@ -50,16 +51,14 @@ export class PreciosService {
 
   protected convertDateFromClient(precios: IPrecios): IPrecios {
     const copy: IPrecios = Object.assign({}, precios, {
-      createdAt: precios.createdAt && precios.createdAt.isValid() ? precios.createdAt.toJSON() : undefined,
-      fechaFin: precios.fechaFin && precios.fechaFin.isValid() ? precios.fechaFin.toJSON() : undefined,
-      fechaInicio: precios.fechaInicio && precios.fechaInicio.isValid() ? precios.fechaInicio.toJSON() : undefined,
+      fechaFin: precios.fechaFin && precios.fechaFin.isValid() ? precios.fechaFin.format(DATE_FORMAT) : undefined,
+      fechaInicio: precios.fechaInicio && precios.fechaInicio.isValid() ? precios.fechaInicio.format(DATE_FORMAT) : undefined,
     });
     return copy;
   }
 
   protected convertDateFromServer(res: EntityResponseType): EntityResponseType {
     if (res.body) {
-      res.body.createdAt = res.body.createdAt ? moment(res.body.createdAt) : undefined;
       res.body.fechaFin = res.body.fechaFin ? moment(res.body.fechaFin) : undefined;
       res.body.fechaInicio = res.body.fechaInicio ? moment(res.body.fechaInicio) : undefined;
     }
@@ -69,7 +68,6 @@ export class PreciosService {
   protected convertDateArrayFromServer(res: EntityArrayResponseType): EntityArrayResponseType {
     if (res.body) {
       res.body.forEach((precios: IPrecios) => {
-        precios.createdAt = precios.createdAt ? moment(precios.createdAt) : undefined;
         precios.fechaFin = precios.fechaFin ? moment(precios.fechaFin) : undefined;
         precios.fechaInicio = precios.fechaInicio ? moment(precios.fechaInicio) : undefined;
       });

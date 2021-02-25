@@ -12,23 +12,22 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="lacampesinaApp.precios.createdAt" for="field_createdAt">Created At</label>
-                    <div class="d-flex">
-                        <input id="field_createdAt" type="datetime-local" class="form-control" name="createdAt" formControlName="createdAt" placeholder="YYYY-MM-DD HH:mm"/>
-                    </div>
-                </div>
-
-                <div class="form-group">
                     <label class="form-control-label" jhiTranslate="lacampesinaApp.precios.fechaFin" for="field_fechaFin">Fecha Fin</label>
-                    <div class="d-flex">
-                        <input id="field_fechaFin" type="datetime-local" class="form-control" name="fechaFin" formControlName="fechaFin" placeholder="YYYY-MM-DD HH:mm"/>
+                    <div class="input-group">
+                        <input id="field_fechaFin" type="text" class="form-control" name="fechaFin" ngbDatepicker #fechaFinDp="ngbDatepicker" formControlName="fechaFin"/>
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="fechaFinDp.toggle()"><fa-icon icon="calendar-alt"></fa-icon></button>
+                        </span>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label class="form-control-label" jhiTranslate="lacampesinaApp.precios.fechaInicio" for="field_fechaInicio">Fecha Inicio</label>
-                    <div class="d-flex">
-                        <input id="field_fechaInicio" type="datetime-local" class="form-control" name="fechaInicio" formControlName="fechaInicio" placeholder="YYYY-MM-DD HH:mm"/>
+                    <div class="input-group">
+                        <input id="field_fechaInicio" type="text" class="form-control" name="fechaInicio" ngbDatepicker #fechaInicioDp="ngbDatepicker" formControlName="fechaInicio"/>
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="fechaInicioDp.toggle()"><fa-icon icon="calendar-alt"></fa-icon></button>
+                        </span>
                     </div>
                 </div>
 
@@ -36,6 +35,22 @@
                     <label class="form-control-label" jhiTranslate="lacampesinaApp.precios.precio" for="field_precio">Precio</label>
                     <input type="number" class="form-control" name="precio" id="field_precio"
                            formControlName="precio"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="lacampesinaApp.precios.loteId" for="field_loteId">Lote Id</label>
+                    <select class="form-control" id="field_loteId" name="loteId" formControlName="loteId">
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="lotesOption.id === editForm.get('loteId')!.value?.id ? editForm.get('loteId')!.value : lotesOption" *ngFor="let lotesOption of lotes; trackBy: trackById">{{ lotesOption.id }}</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="lacampesinaApp.precios.clienteId" for="field_clienteId">Cliente Id</label>
+                    <select class="form-control" id="field_clienteId" name="clienteId" formControlName="clienteId">
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="clientesOption.id === editForm.get('clienteId')!.value?.id ? editForm.get('clienteId')!.value : clientesOption" *ngFor="let clientesOption of clientes; trackBy: trackById">{{ clientesOption.id }}</option>
+                    </select>
                 </div>
             </div>
 

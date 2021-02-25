@@ -14,8 +14,6 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -31,14 +29,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WithMockUser
 public class ClientesResourceIT {
 
-    private static final Integer DEFAULT_ACTIVO = 1;
-    private static final Integer UPDATED_ACTIVO = 2;
+    private static final Boolean DEFAULT_ACTIVO = false;
+    private static final Boolean UPDATED_ACTIVO = true;
 
     private static final String DEFAULT_APELLIDOS = "AAAAAAAAAA";
     private static final String UPDATED_APELLIDOS = "BBBBBBBBBB";
-
-    private static final Instant DEFAULT_CREATED_AT = Instant.ofEpochMilli(0L);
-    private static final Instant UPDATED_CREATED_AT = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
     private static final String DEFAULT_DIRECION = "AAAAAAAAAA";
     private static final String UPDATED_DIRECION = "BBBBBBBBBB";
@@ -61,17 +56,17 @@ public class ClientesResourceIT {
     private static final String DEFAULT_SITIO_WEB = "AAAAAAAAAA";
     private static final String UPDATED_SITIO_WEB = "BBBBBBBBBB";
 
-    private static final String DEFAULT_TELEFONO_FIJO = "AAAAAAAAAA";
-    private static final String UPDATED_TELEFONO_FIJO = "BBBBBBBBBB";
+    private static final Integer DEFAULT_TELEFONO_FIJO = 1;
+    private static final Integer UPDATED_TELEFONO_FIJO = 2;
 
-    private static final String DEFAULT_TELEFONO_FIJO_2 = "AAAAAAAAAA";
-    private static final String UPDATED_TELEFONO_FIJO_2 = "BBBBBBBBBB";
+    private static final Integer DEFAULT_TELEFONO_FIJO_2 = 1;
+    private static final Integer UPDATED_TELEFONO_FIJO_2 = 2;
 
-    private static final String DEFAULT_TELEFONO_MOVIL = "AAAAAAAAAA";
-    private static final String UPDATED_TELEFONO_MOVIL = "BBBBBBBBBB";
+    private static final Integer DEFAULT_TELEFONO_MOVIL = 1;
+    private static final Integer UPDATED_TELEFONO_MOVIL = 2;
 
-    private static final String DEFAULT_TELEFONO_MOVIL_2 = "AAAAAAAAAA";
-    private static final String UPDATED_TELEFONO_MOVIL_2 = "BBBBBBBBBB";
+    private static final Integer DEFAULT_TELEFONO_MOVIL_2 = 1;
+    private static final Integer UPDATED_TELEFONO_MOVIL_2 = 2;
 
     @Autowired
     private ClientesRepository clientesRepository;
@@ -94,7 +89,6 @@ public class ClientesResourceIT {
         Clientes clientes = new Clientes()
             .activo(DEFAULT_ACTIVO)
             .apellidos(DEFAULT_APELLIDOS)
-            .createdAt(DEFAULT_CREATED_AT)
             .direcion(DEFAULT_DIRECION)
             .email(DEFAULT_EMAIL)
             .nombreContacto(DEFAULT_NOMBRE_CONTACTO)
@@ -118,7 +112,6 @@ public class ClientesResourceIT {
         Clientes clientes = new Clientes()
             .activo(UPDATED_ACTIVO)
             .apellidos(UPDATED_APELLIDOS)
-            .createdAt(UPDATED_CREATED_AT)
             .direcion(UPDATED_DIRECION)
             .email(UPDATED_EMAIL)
             .nombreContacto(UPDATED_NOMBRE_CONTACTO)
@@ -152,9 +145,8 @@ public class ClientesResourceIT {
         List<Clientes> clientesList = clientesRepository.findAll();
         assertThat(clientesList).hasSize(databaseSizeBeforeCreate + 1);
         Clientes testClientes = clientesList.get(clientesList.size() - 1);
-        assertThat(testClientes.getActivo()).isEqualTo(DEFAULT_ACTIVO);
+        assertThat(testClientes.isActivo()).isEqualTo(DEFAULT_ACTIVO);
         assertThat(testClientes.getApellidos()).isEqualTo(DEFAULT_APELLIDOS);
-        assertThat(testClientes.getCreatedAt()).isEqualTo(DEFAULT_CREATED_AT);
         assertThat(testClientes.getDirecion()).isEqualTo(DEFAULT_DIRECION);
         assertThat(testClientes.getEmail()).isEqualTo(DEFAULT_EMAIL);
         assertThat(testClientes.getNombreContacto()).isEqualTo(DEFAULT_NOMBRE_CONTACTO);
@@ -199,9 +191,8 @@ public class ClientesResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(clientes.getId().intValue())))
-            .andExpect(jsonPath("$.[*].activo").value(hasItem(DEFAULT_ACTIVO)))
+            .andExpect(jsonPath("$.[*].activo").value(hasItem(DEFAULT_ACTIVO.booleanValue())))
             .andExpect(jsonPath("$.[*].apellidos").value(hasItem(DEFAULT_APELLIDOS)))
-            .andExpect(jsonPath("$.[*].createdAt").value(hasItem(DEFAULT_CREATED_AT.toString())))
             .andExpect(jsonPath("$.[*].direcion").value(hasItem(DEFAULT_DIRECION)))
             .andExpect(jsonPath("$.[*].email").value(hasItem(DEFAULT_EMAIL)))
             .andExpect(jsonPath("$.[*].nombreContacto").value(hasItem(DEFAULT_NOMBRE_CONTACTO)))
@@ -226,9 +217,8 @@ public class ClientesResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(clientes.getId().intValue()))
-            .andExpect(jsonPath("$.activo").value(DEFAULT_ACTIVO))
+            .andExpect(jsonPath("$.activo").value(DEFAULT_ACTIVO.booleanValue()))
             .andExpect(jsonPath("$.apellidos").value(DEFAULT_APELLIDOS))
-            .andExpect(jsonPath("$.createdAt").value(DEFAULT_CREATED_AT.toString()))
             .andExpect(jsonPath("$.direcion").value(DEFAULT_DIRECION))
             .andExpect(jsonPath("$.email").value(DEFAULT_EMAIL))
             .andExpect(jsonPath("$.nombreContacto").value(DEFAULT_NOMBRE_CONTACTO))
@@ -264,7 +254,6 @@ public class ClientesResourceIT {
         updatedClientes
             .activo(UPDATED_ACTIVO)
             .apellidos(UPDATED_APELLIDOS)
-            .createdAt(UPDATED_CREATED_AT)
             .direcion(UPDATED_DIRECION)
             .email(UPDATED_EMAIL)
             .nombreContacto(UPDATED_NOMBRE_CONTACTO)
@@ -286,9 +275,8 @@ public class ClientesResourceIT {
         List<Clientes> clientesList = clientesRepository.findAll();
         assertThat(clientesList).hasSize(databaseSizeBeforeUpdate);
         Clientes testClientes = clientesList.get(clientesList.size() - 1);
-        assertThat(testClientes.getActivo()).isEqualTo(UPDATED_ACTIVO);
+        assertThat(testClientes.isActivo()).isEqualTo(UPDATED_ACTIVO);
         assertThat(testClientes.getApellidos()).isEqualTo(UPDATED_APELLIDOS);
-        assertThat(testClientes.getCreatedAt()).isEqualTo(UPDATED_CREATED_AT);
         assertThat(testClientes.getDirecion()).isEqualTo(UPDATED_DIRECION);
         assertThat(testClientes.getEmail()).isEqualTo(UPDATED_EMAIL);
         assertThat(testClientes.getNombreContacto()).isEqualTo(UPDATED_NOMBRE_CONTACTO);

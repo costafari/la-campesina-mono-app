@@ -16,9 +16,6 @@
             <column name="id" type="bigint" autoIncrement="${autoIncrement}">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="created_at" type="datetime">
-                <constraints nullable="true" />
-            </column>
             <column name="descipcion" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
@@ -30,7 +27,6 @@
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
-        <dropDefaultValue tableName="productos" columnName="created_at" columnDataType="datetime"/>
     </changeSet>
 
     <changeSet id="20210129203215-1-relations" author="jhipster">
@@ -52,7 +48,6 @@
                   separator=";"
                   tableName="productos">
             <column name="id" type="numeric"/>
-            <column name="created_at" type="datetime"/>
             <column name="descipcion" type="string"/>
             <column name="nombre" type="string"/>
             <column name="notas" type="string"/>

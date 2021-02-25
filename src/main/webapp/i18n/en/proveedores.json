@@ -16,7 +16,6 @@
       "detail": {
         "title": "Proveedores"
       },
-      "createdAt": "Created At",
       "direccion": "Direccion",
       "nombreContacto": "Nombre Contacto",
       "nombreEmpresa": "Nombre Empresa",
@@ -25,7 +24,8 @@
       "telefonoFijo": "Telefono Fijo",
       "telefonoFijo2": "Telefono Fijo 2",
       "telefonoMovil": "Telefono Movil",
-      "telefonoMovil2": "Telefono Movil 2"
+      "telefonoMovil2": "Telefono Movil 2",
+      "lotes": "Lotes"
     }
   }
 }

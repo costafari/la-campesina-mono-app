@@ -1,12 +1,13 @@
 package com.mkp.lacampesina.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 
 import java.io.Serializable;
-import java.time.Instant;
+import java.time.LocalDate;
 
 /**
  * A Tickets.
@@ -25,14 +26,15 @@ public class Tickets implements Serializable {
     @Column(name = "cantidad")
     private Long cantidad;
 
-    @Column(name = "created_at")
-    private Instant createdAt;
-
     @Column(name = "fecha_expedicion")
-    private Instant fechaExpedicion;
+    private LocalDate fechaExpedicion;
 
     @Column(name = "total")
     private Long total;
+
+    @ManyToOne
+    @JsonIgnoreProperties(value = "tickets", allowSetters = true)
+    private Precios precioId;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
@@ -56,29 +58,16 @@ public class Tickets implements Serializable {
         this.cantidad = cantidad;
     }
 
-    public Instant getCreatedAt() {
-        return createdAt;
-    }
-
-    public Tickets createdAt(Instant createdAt) {
-        this.createdAt = createdAt;
-        return this;
-    }
-
-    public void setCreatedAt(Instant createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Instant getFechaExpedicion() {
+    public LocalDate getFechaExpedicion() {
         return fechaExpedicion;
     }
 
-    public Tickets fechaExpedicion(Instant fechaExpedicion) {
+    public Tickets fechaExpedicion(LocalDate fechaExpedicion) {
         this.fechaExpedicion = fechaExpedicion;
         return this;
     }
 
-    public void setFechaExpedicion(Instant fechaExpedicion) {
+    public void setFechaExpedicion(LocalDate fechaExpedicion) {
         this.fechaExpedicion = fechaExpedicion;
     }
 
@@ -93,6 +82,19 @@ public class Tickets implements Serializable {
 
     public void setTotal(Long total) {
         this.total = total;
+    }
+
+    public Precios getPrecioId() {
+        return precioId;
+    }
+
+    public Tickets precioId(Precios precios) {
+        this.precioId = precios;
+        return this;
+    }
+
+    public void setPrecioId(Precios precios) {
+        this.precioId = precios;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
@@ -118,7 +120,6 @@ public class Tickets implements Serializable {
         return "Tickets{" +
             "id=" + getId() +
             ", cantidad=" + getCantidad() +
-            ", createdAt='" + getCreatedAt() + "'" +
             ", fechaExpedicion='" + getFechaExpedicion() + "'" +
             ", total=" + getTotal() +
             "}";

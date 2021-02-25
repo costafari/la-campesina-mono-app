@@ -6,7 +6,8 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import javax.persistence.*;
 
 import java.io.Serializable;
-import java.time.Instant;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * A Proveedores.
@@ -21,9 +22,6 @@ public class Proveedores implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(name = "created_at")
-    private Instant createdAt;
 
     @Column(name = "direccion")
     private String direccion;
@@ -41,16 +39,20 @@ public class Proveedores implements Serializable {
     private String sitioWeb;
 
     @Column(name = "telefono_fijo")
-    private String telefonoFijo;
+    private Integer telefonoFijo;
 
     @Column(name = "telefono_fijo_2")
-    private String telefonoFijo2;
+    private Integer telefonoFijo2;
 
     @Column(name = "telefono_movil")
-    private String telefonoMovil;
+    private Integer telefonoMovil;
 
     @Column(name = "telefono_movil_2")
-    private String telefonoMovil2;
+    private Integer telefonoMovil2;
+
+    @OneToMany(mappedBy = "proveedorId")
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    private Set<Lotes> lotes = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
@@ -59,19 +61,6 @@ public class Proveedores implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Instant getCreatedAt() {
-        return createdAt;
-    }
-
-    public Proveedores createdAt(Instant createdAt) {
-        this.createdAt = createdAt;
-        return this;
-    }
-
-    public void setCreatedAt(Instant createdAt) {
-        this.createdAt = createdAt;
     }
 
     public String getDireccion() {
@@ -139,56 +128,81 @@ public class Proveedores implements Serializable {
         this.sitioWeb = sitioWeb;
     }
 
-    public String getTelefonoFijo() {
+    public Integer getTelefonoFijo() {
         return telefonoFijo;
     }
 
-    public Proveedores telefonoFijo(String telefonoFijo) {
+    public Proveedores telefonoFijo(Integer telefonoFijo) {
         this.telefonoFijo = telefonoFijo;
         return this;
     }
 
-    public void setTelefonoFijo(String telefonoFijo) {
+    public void setTelefonoFijo(Integer telefonoFijo) {
         this.telefonoFijo = telefonoFijo;
     }
 
-    public String getTelefonoFijo2() {
+    public Integer getTelefonoFijo2() {
         return telefonoFijo2;
     }
 
-    public Proveedores telefonoFijo2(String telefonoFijo2) {
+    public Proveedores telefonoFijo2(Integer telefonoFijo2) {
         this.telefonoFijo2 = telefonoFijo2;
         return this;
     }
 
-    public void setTelefonoFijo2(String telefonoFijo2) {
+    public void setTelefonoFijo2(Integer telefonoFijo2) {
         this.telefonoFijo2 = telefonoFijo2;
     }
 
-    public String getTelefonoMovil() {
+    public Integer getTelefonoMovil() {
         return telefonoMovil;
     }
 
-    public Proveedores telefonoMovil(String telefonoMovil) {
+    public Proveedores telefonoMovil(Integer telefonoMovil) {
         this.telefonoMovil = telefonoMovil;
         return this;
     }
 
-    public void setTelefonoMovil(String telefonoMovil) {
+    public void setTelefonoMovil(Integer telefonoMovil) {
         this.telefonoMovil = telefonoMovil;
     }
 
-    public String getTelefonoMovil2() {
+    public Integer getTelefonoMovil2() {
         return telefonoMovil2;
     }
 
-    public Proveedores telefonoMovil2(String telefonoMovil2) {
+    public Proveedores telefonoMovil2(Integer telefonoMovil2) {
         this.telefonoMovil2 = telefonoMovil2;
         return this;
     }
 
-    public void setTelefonoMovil2(String telefonoMovil2) {
+    public void setTelefonoMovil2(Integer telefonoMovil2) {
         this.telefonoMovil2 = telefonoMovil2;
+    }
+
+    public Set<Lotes> getLotes() {
+        return lotes;
+    }
+
+    public Proveedores lotes(Set<Lotes> lotes) {
+        this.lotes = lotes;
+        return this;
+    }
+
+    public Proveedores addLotes(Lotes lotes) {
+        this.lotes.add(lotes);
+        lotes.setProveedorId(this);
+        return this;
+    }
+
+    public Proveedores removeLotes(Lotes lotes) {
+        this.lotes.remove(lotes);
+        lotes.setProveedorId(null);
+        return this;
+    }
+
+    public void setLotes(Set<Lotes> lotes) {
+        this.lotes = lotes;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
@@ -213,16 +227,15 @@ public class Proveedores implements Serializable {
     public String toString() {
         return "Proveedores{" +
             "id=" + getId() +
-            ", createdAt='" + getCreatedAt() + "'" +
             ", direccion='" + getDireccion() + "'" +
             ", nombreContacto='" + getNombreContacto() + "'" +
             ", nombreEmpresa='" + getNombreEmpresa() + "'" +
             ", notas='" + getNotas() + "'" +
             ", sitioWeb='" + getSitioWeb() + "'" +
-            ", telefonoFijo='" + getTelefonoFijo() + "'" +
-            ", telefonoFijo2='" + getTelefonoFijo2() + "'" +
-            ", telefonoMovil='" + getTelefonoMovil() + "'" +
-            ", telefonoMovil2='" + getTelefonoMovil2() + "'" +
+            ", telefonoFijo=" + getTelefonoFijo() +
+            ", telefonoFijo2=" + getTelefonoFijo2() +
+            ", telefonoMovil=" + getTelefonoMovil() +
+            ", telefonoMovil2=" + getTelefonoMovil2() +
             "}";
     }
 }

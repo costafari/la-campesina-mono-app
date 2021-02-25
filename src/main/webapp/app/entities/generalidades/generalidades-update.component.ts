@@ -19,7 +19,6 @@ export class GeneralidadesUpdateComponent implements OnInit {
 
   editForm = this.fb.group({
     id: [],
-    createdAt: [],
     fechaInicio: [],
     nombreEmpresa: [],
     nombrePropietario: [],
@@ -31,7 +30,6 @@ export class GeneralidadesUpdateComponent implements OnInit {
     this.activatedRoute.data.subscribe(({ generalidades }) => {
       if (!generalidades.id) {
         const today = moment().startOf('day');
-        generalidades.createdAt = today;
         generalidades.fechaInicio = today;
       }
 
@@ -42,7 +40,6 @@ export class GeneralidadesUpdateComponent implements OnInit {
   updateForm(generalidades: IGeneralidades): void {
     this.editForm.patchValue({
       id: generalidades.id,
-      createdAt: generalidades.createdAt ? generalidades.createdAt.format(DATE_TIME_FORMAT) : null,
       fechaInicio: generalidades.fechaInicio ? generalidades.fechaInicio.format(DATE_TIME_FORMAT) : null,
       nombreEmpresa: generalidades.nombreEmpresa,
       nombrePropietario: generalidades.nombrePropietario,
@@ -67,7 +64,6 @@ export class GeneralidadesUpdateComponent implements OnInit {
     return {
       ...new Generalidades(),
       id: this.editForm.get(['id'])!.value,
-      createdAt: this.editForm.get(['createdAt'])!.value ? moment(this.editForm.get(['createdAt'])!.value, DATE_TIME_FORMAT) : undefined,
       fechaInicio: this.editForm.get(['fechaInicio'])!.value
         ? moment(this.editForm.get(['fechaInicio'])!.value, DATE_TIME_FORMAT)
         : undefined,

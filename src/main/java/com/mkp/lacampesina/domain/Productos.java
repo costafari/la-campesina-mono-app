@@ -6,7 +6,8 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import javax.persistence.*;
 
 import java.io.Serializable;
-import java.time.Instant;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * A Productos.
@@ -22,9 +23,6 @@ public class Productos implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "created_at")
-    private Instant createdAt;
-
     @Column(name = "descipcion")
     private String descipcion;
 
@@ -34,6 +32,10 @@ public class Productos implements Serializable {
     @Column(name = "notas")
     private String notas;
 
+    @OneToMany(mappedBy = "productoId")
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    private Set<Lotes> lotes = new HashSet<>();
+
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
         return id;
@@ -41,19 +43,6 @@ public class Productos implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Instant getCreatedAt() {
-        return createdAt;
-    }
-
-    public Productos createdAt(Instant createdAt) {
-        this.createdAt = createdAt;
-        return this;
-    }
-
-    public void setCreatedAt(Instant createdAt) {
-        this.createdAt = createdAt;
     }
 
     public String getDescipcion() {
@@ -94,6 +83,31 @@ public class Productos implements Serializable {
     public void setNotas(String notas) {
         this.notas = notas;
     }
+
+    public Set<Lotes> getLotes() {
+        return lotes;
+    }
+
+    public Productos lotes(Set<Lotes> lotes) {
+        this.lotes = lotes;
+        return this;
+    }
+
+    public Productos addLotes(Lotes lotes) {
+        this.lotes.add(lotes);
+        lotes.setProductoId(this);
+        return this;
+    }
+
+    public Productos removeLotes(Lotes lotes) {
+        this.lotes.remove(lotes);
+        lotes.setProductoId(null);
+        return this;
+    }
+
+    public void setLotes(Set<Lotes> lotes) {
+        this.lotes = lotes;
+    }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override
@@ -117,7 +131,6 @@ public class Productos implements Serializable {
     public String toString() {
         return "Productos{" +
             "id=" + getId() +
-            ", createdAt='" + getCreatedAt() + "'" +
             ", descipcion='" + getDescipcion() + "'" +
             ", nombre='" + getNombre() + "'" +
             ", notas='" + getNotas() + "'" +

@@ -1,7 +1,7 @@
 import { TestBed, getTestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import * as moment from 'moment';
-import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
+import { DATE_FORMAT } from 'app/shared/constants/input.constants';
 import { TicketsService } from 'app/entities/tickets/tickets.service';
 import { ITickets, Tickets } from 'app/shared/model/tickets.model';
 
@@ -24,15 +24,14 @@ describe('Service Tests', () => {
       httpMock = injector.get(HttpTestingController);
       currentDate = moment();
 
-      elemDefault = new Tickets(0, 0, currentDate, currentDate, 0);
+      elemDefault = new Tickets(0, 0, currentDate, 0);
     });
 
     describe('Service methods', () => {
       it('should find an element', () => {
         const returnedFromService = Object.assign(
           {
-            createdAt: currentDate.format(DATE_TIME_FORMAT),
-            fechaExpedicion: currentDate.format(DATE_TIME_FORMAT),
+            fechaExpedicion: currentDate.format(DATE_FORMAT),
           },
           elemDefault
         );
@@ -48,15 +47,13 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             id: 0,
-            createdAt: currentDate.format(DATE_TIME_FORMAT),
-            fechaExpedicion: currentDate.format(DATE_TIME_FORMAT),
+            fechaExpedicion: currentDate.format(DATE_FORMAT),
           },
           elemDefault
         );
 
         const expected = Object.assign(
           {
-            createdAt: currentDate,
             fechaExpedicion: currentDate,
           },
           returnedFromService
@@ -73,8 +70,7 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             cantidad: 1,
-            createdAt: currentDate.format(DATE_TIME_FORMAT),
-            fechaExpedicion: currentDate.format(DATE_TIME_FORMAT),
+            fechaExpedicion: currentDate.format(DATE_FORMAT),
             total: 1,
           },
           elemDefault
@@ -82,7 +78,6 @@ describe('Service Tests', () => {
 
         const expected = Object.assign(
           {
-            createdAt: currentDate,
             fechaExpedicion: currentDate,
           },
           returnedFromService
@@ -99,8 +94,7 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             cantidad: 1,
-            createdAt: currentDate.format(DATE_TIME_FORMAT),
-            fechaExpedicion: currentDate.format(DATE_TIME_FORMAT),
+            fechaExpedicion: currentDate.format(DATE_FORMAT),
             total: 1,
           },
           elemDefault
@@ -108,7 +102,6 @@ describe('Service Tests', () => {
 
         const expected = Object.assign(
           {
-            createdAt: currentDate,
             fechaExpedicion: currentDate,
           },
           returnedFromService

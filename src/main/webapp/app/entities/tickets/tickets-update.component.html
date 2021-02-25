@@ -18,16 +18,12 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="lacampesinaApp.tickets.createdAt" for="field_createdAt">Created At</label>
-                    <div class="d-flex">
-                        <input id="field_createdAt" type="datetime-local" class="form-control" name="createdAt" formControlName="createdAt" placeholder="YYYY-MM-DD HH:mm"/>
-                    </div>
-                </div>
-
-                <div class="form-group">
                     <label class="form-control-label" jhiTranslate="lacampesinaApp.tickets.fechaExpedicion" for="field_fechaExpedicion">Fecha Expedicion</label>
-                    <div class="d-flex">
-                        <input id="field_fechaExpedicion" type="datetime-local" class="form-control" name="fechaExpedicion" formControlName="fechaExpedicion" placeholder="YYYY-MM-DD HH:mm"/>
+                    <div class="input-group">
+                        <input id="field_fechaExpedicion" type="text" class="form-control" name="fechaExpedicion" ngbDatepicker #fechaExpedicionDp="ngbDatepicker" formControlName="fechaExpedicion"/>
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="fechaExpedicionDp.toggle()"><fa-icon icon="calendar-alt"></fa-icon></button>
+                        </span>
                     </div>
                 </div>
 
@@ -35,6 +31,14 @@
                     <label class="form-control-label" jhiTranslate="lacampesinaApp.tickets.total" for="field_total">Total</label>
                     <input type="number" class="form-control" name="total" id="field_total"
                            formControlName="total"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="lacampesinaApp.tickets.precioId" for="field_precioId">Precio Id</label>
+                    <select class="form-control" id="field_precioId" name="precioId" formControlName="precioId">
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="preciosOption.id === editForm.get('precioId')!.value?.id ? editForm.get('precioId')!.value : preciosOption" *ngFor="let preciosOption of precios; trackBy: trackById">{{ preciosOption.id }}</option>
+                    </select>
                 </div>
             </div>
 

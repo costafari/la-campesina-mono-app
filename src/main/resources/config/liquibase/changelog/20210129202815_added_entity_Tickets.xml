@@ -19,19 +19,17 @@
             <column name="cantidad" type="bigint">
                 <constraints nullable="true" />
             </column>
-            <column name="created_at" type="datetime">
-                <constraints nullable="true" />
-            </column>
-            <column name="fecha_expedicion" type="datetime">
+            <column name="fecha_expedicion" type="date">
                 <constraints nullable="true" />
             </column>
             <column name="total" type="bigint">
                 <constraints nullable="true" />
             </column>
+            <column name="precio_id_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
-        <dropDefaultValue tableName="tickets" columnName="created_at" columnDataType="datetime"/>
-        <dropDefaultValue tableName="tickets" columnName="fecha_expedicion" columnDataType="datetime"/>
     </changeSet>
 
     <changeSet id="20210129202815-1-relations" author="jhipster">
@@ -54,8 +52,7 @@
                   tableName="tickets">
             <column name="id" type="numeric"/>
             <column name="cantidad" type="numeric"/>
-            <column name="created_at" type="datetime"/>
-            <column name="fecha_expedicion" type="datetime"/>
+            <column name="fecha_expedicion" type="date"/>
             <column name="total" type="numeric"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>

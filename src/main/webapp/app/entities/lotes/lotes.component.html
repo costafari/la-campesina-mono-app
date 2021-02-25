@@ -24,9 +24,10 @@
                 <tr>
                     <th scope="col" ><span jhiTranslate="global.field.id">ID</span></th>
                     <th scope="col" ><span jhiTranslate="lacampesinaApp.lotes.cantidad">Cantidad</span></th>
-                    <th scope="col" ><span jhiTranslate="lacampesinaApp.lotes.createdAt">Created At</span></th>
                     <th scope="col" ><span jhiTranslate="lacampesinaApp.lotes.fechaEntrada">Fecha Entrada</span></th>
                     <th scope="col" ><span jhiTranslate="lacampesinaApp.lotes.lote">Lote</span></th>
+                    <th scope="col" ><span jhiTranslate="lacampesinaApp.lotes.productoId">Producto Id</span></th>
+                    <th scope="col" ><span jhiTranslate="lacampesinaApp.lotes.proveedorId">Proveedor Id</span></th>
                     <th scope="col"></th>
                 </tr>
             </thead>
@@ -34,9 +35,18 @@
                 <tr *ngFor="let lotes of lotes ;trackBy: trackId">
                     <td><a [routerLink]="['/lotes', lotes.id, 'view']">{{ lotes.id }}</a></td>
                     <td>{{ lotes.cantidad }}</td>
-                    <td>{{ lotes.createdAt | date:'medium' }}</td>
-                    <td>{{ lotes.fechaEntrada | date:'medium' }}</td>
+                    <td>{{ lotes.fechaEntrada | date:'mediumDate' }}</td>
                     <td>{{ lotes.lote }}</td>
+                    <td>
+                        <div *ngIf="lotes.productoId">
+                            <a [routerLink]="['/productos', lotes.productoId?.id, 'view']" >{{ lotes.productoId?.id }}</a>
+                        </div>
+                    </td>
+                    <td>
+                        <div *ngIf="lotes.proveedorId">
+                            <a [routerLink]="['/proveedores', lotes.proveedorId?.id, 'view']" >{{ lotes.proveedorId?.id }}</a>
+                        </div>
+                    </td>
                     <td class="text-right">
                         <div class="btn-group">
                             <button type="submit"

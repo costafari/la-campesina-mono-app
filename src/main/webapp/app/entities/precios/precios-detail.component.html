@@ -8,10 +8,6 @@
             <jhi-alert-error></jhi-alert-error>
 
             <dl class="row-md jh-entity-details">
-                <dt><span jhiTranslate="lacampesinaApp.precios.createdAt">Created At</span></dt>
-                <dd>
-                    <span>{{ precios.createdAt }}</span>
-                </dd>
                 <dt><span jhiTranslate="lacampesinaApp.precios.fechaFin">Fecha Fin</span></dt>
                 <dd>
                     <span>{{ precios.fechaFin }}</span>
@@ -23,6 +19,18 @@
                 <dt><span jhiTranslate="lacampesinaApp.precios.precio">Precio</span></dt>
                 <dd>
                     <span>{{ precios.precio }}</span>
+                </dd>
+                <dt><span jhiTranslate="lacampesinaApp.precios.loteId">Lote Id</span></dt>
+                <dd>
+                    <div *ngIf="precios.loteId">
+                        <a [routerLink]="['/lotes', precios.loteId?.id, 'view']">{{ precios.loteId?.id }}</a>
+                    </div>
+                </dd>
+                <dt><span jhiTranslate="lacampesinaApp.precios.clienteId">Cliente Id</span></dt>
+                <dd>
+                    <div *ngIf="precios.clienteId">
+                        <a [routerLink]="['/clientes', precios.clienteId?.id, 'view']">{{ precios.clienteId?.id }}</a>
+                    </div>
                 </dd>
             </dl>
 

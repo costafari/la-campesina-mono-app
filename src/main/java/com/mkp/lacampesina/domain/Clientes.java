@@ -6,7 +6,8 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import javax.persistence.*;
 
 import java.io.Serializable;
-import java.time.Instant;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * A Clientes.
@@ -23,13 +24,10 @@ public class Clientes implements Serializable {
     private Long id;
 
     @Column(name = "activo")
-    private Integer activo;
+    private Boolean activo;
 
     @Column(name = "apellidos")
     private String apellidos;
-
-    @Column(name = "created_at")
-    private Instant createdAt;
 
     @Column(name = "direcion")
     private String direcion;
@@ -53,16 +51,20 @@ public class Clientes implements Serializable {
     private String sitioWeb;
 
     @Column(name = "telefono_fijo")
-    private String telefonoFijo;
+    private Integer telefonoFijo;
 
     @Column(name = "telefono_fijo_2")
-    private String telefonoFijo2;
+    private Integer telefonoFijo2;
 
     @Column(name = "telefono_movil")
-    private String telefonoMovil;
+    private Integer telefonoMovil;
 
     @Column(name = "telefono_movil_2")
-    private String telefonoMovil2;
+    private Integer telefonoMovil2;
+
+    @OneToMany(mappedBy = "clienteId")
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    private Set<Precios> precios = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
@@ -73,16 +75,16 @@ public class Clientes implements Serializable {
         this.id = id;
     }
 
-    public Integer getActivo() {
+    public Boolean isActivo() {
         return activo;
     }
 
-    public Clientes activo(Integer activo) {
+    public Clientes activo(Boolean activo) {
         this.activo = activo;
         return this;
     }
 
-    public void setActivo(Integer activo) {
+    public void setActivo(Boolean activo) {
         this.activo = activo;
     }
 
@@ -97,19 +99,6 @@ public class Clientes implements Serializable {
 
     public void setApellidos(String apellidos) {
         this.apellidos = apellidos;
-    }
-
-    public Instant getCreatedAt() {
-        return createdAt;
-    }
-
-    public Clientes createdAt(Instant createdAt) {
-        this.createdAt = createdAt;
-        return this;
-    }
-
-    public void setCreatedAt(Instant createdAt) {
-        this.createdAt = createdAt;
     }
 
     public String getDirecion() {
@@ -203,56 +192,81 @@ public class Clientes implements Serializable {
         this.sitioWeb = sitioWeb;
     }
 
-    public String getTelefonoFijo() {
+    public Integer getTelefonoFijo() {
         return telefonoFijo;
     }
 
-    public Clientes telefonoFijo(String telefonoFijo) {
+    public Clientes telefonoFijo(Integer telefonoFijo) {
         this.telefonoFijo = telefonoFijo;
         return this;
     }
 
-    public void setTelefonoFijo(String telefonoFijo) {
+    public void setTelefonoFijo(Integer telefonoFijo) {
         this.telefonoFijo = telefonoFijo;
     }
 
-    public String getTelefonoFijo2() {
+    public Integer getTelefonoFijo2() {
         return telefonoFijo2;
     }
 
-    public Clientes telefonoFijo2(String telefonoFijo2) {
+    public Clientes telefonoFijo2(Integer telefonoFijo2) {
         this.telefonoFijo2 = telefonoFijo2;
         return this;
     }
 
-    public void setTelefonoFijo2(String telefonoFijo2) {
+    public void setTelefonoFijo2(Integer telefonoFijo2) {
         this.telefonoFijo2 = telefonoFijo2;
     }
 
-    public String getTelefonoMovil() {
+    public Integer getTelefonoMovil() {
         return telefonoMovil;
     }
 
-    public Clientes telefonoMovil(String telefonoMovil) {
+    public Clientes telefonoMovil(Integer telefonoMovil) {
         this.telefonoMovil = telefonoMovil;
         return this;
     }
 
-    public void setTelefonoMovil(String telefonoMovil) {
+    public void setTelefonoMovil(Integer telefonoMovil) {
         this.telefonoMovil = telefonoMovil;
     }
 
-    public String getTelefonoMovil2() {
+    public Integer getTelefonoMovil2() {
         return telefonoMovil2;
     }
 
-    public Clientes telefonoMovil2(String telefonoMovil2) {
+    public Clientes telefonoMovil2(Integer telefonoMovil2) {
         this.telefonoMovil2 = telefonoMovil2;
         return this;
     }
 
-    public void setTelefonoMovil2(String telefonoMovil2) {
+    public void setTelefonoMovil2(Integer telefonoMovil2) {
         this.telefonoMovil2 = telefonoMovil2;
+    }
+
+    public Set<Precios> getPrecios() {
+        return precios;
+    }
+
+    public Clientes precios(Set<Precios> precios) {
+        this.precios = precios;
+        return this;
+    }
+
+    public Clientes addPrecios(Precios precios) {
+        this.precios.add(precios);
+        precios.setClienteId(this);
+        return this;
+    }
+
+    public Clientes removePrecios(Precios precios) {
+        this.precios.remove(precios);
+        precios.setClienteId(null);
+        return this;
+    }
+
+    public void setPrecios(Set<Precios> precios) {
+        this.precios = precios;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
@@ -277,9 +291,8 @@ public class Clientes implements Serializable {
     public String toString() {
         return "Clientes{" +
             "id=" + getId() +
-            ", activo=" + getActivo() +
+            ", activo='" + isActivo() + "'" +
             ", apellidos='" + getApellidos() + "'" +
-            ", createdAt='" + getCreatedAt() + "'" +
             ", direcion='" + getDirecion() + "'" +
             ", email='" + getEmail() + "'" +
             ", nombreContacto='" + getNombreContacto() + "'" +
@@ -287,10 +300,10 @@ public class Clientes implements Serializable {
             ", nombres='" + getNombres() + "'" +
             ", notas='" + getNotas() + "'" +
             ", sitioWeb='" + getSitioWeb() + "'" +
-            ", telefonoFijo='" + getTelefonoFijo() + "'" +
-            ", telefonoFijo2='" + getTelefonoFijo2() + "'" +
-            ", telefonoMovil='" + getTelefonoMovil() + "'" +
-            ", telefonoMovil2='" + getTelefonoMovil2() + "'" +
+            ", telefonoFijo=" + getTelefonoFijo() +
+            ", telefonoFijo2=" + getTelefonoFijo2() +
+            ", telefonoMovil=" + getTelefonoMovil() +
+            ", telefonoMovil2=" + getTelefonoMovil2() +
             "}";
     }
 }

@@ -2,23 +2,40 @@
   "name": "Precios",
   "fields": [
     {
-      "fieldName": "createdAt",
-      "fieldType": "Instant"
-    },
-    {
       "fieldName": "fechaFin",
-      "fieldType": "Instant"
+      "fieldType": "LocalDate"
     },
     {
       "fieldName": "fechaInicio",
-      "fieldType": "Instant"
+      "fieldType": "LocalDate"
     },
     {
       "fieldName": "precio",
       "fieldType": "Long"
     }
   ],
-  "relationships": [],
+  "relationships": [
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "tickets",
+      "otherEntityRelationshipName": "precioId",
+      "relationshipName": "tickets"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "lotes",
+      "otherEntityRelationshipName": "precios",
+      "relationshipName": "loteId",
+      "otherEntityField": "id"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "clientes",
+      "otherEntityRelationshipName": "precios",
+      "relationshipName": "clienteId",
+      "otherEntityField": "id"
+    }
+  ],
   "changelogDate": "20210129202915",
   "entityTableName": "precios",
   "dto": "no",

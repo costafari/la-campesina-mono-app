@@ -17,9 +17,9 @@
         "title": "Tickets"
       },
       "cantidad": "Cantidad",
-      "createdAt": "Created At",
       "fechaExpedicion": "Fecha Expedicion",
-      "total": "Total"
+      "total": "Total",
+      "precioId": "Precio Id"
     }
   }
 }

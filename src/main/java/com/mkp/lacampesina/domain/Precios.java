@@ -1,12 +1,15 @@
 package com.mkp.lacampesina.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 
 import java.io.Serializable;
-import java.time.Instant;
+import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * A Precios.
@@ -22,17 +25,26 @@ public class Precios implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "created_at")
-    private Instant createdAt;
-
     @Column(name = "fecha_fin")
-    private Instant fechaFin;
+    private LocalDate fechaFin;
 
     @Column(name = "fecha_inicio")
-    private Instant fechaInicio;
+    private LocalDate fechaInicio;
 
     @Column(name = "precio")
     private Long precio;
+
+    @OneToMany(mappedBy = "precioId")
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    private Set<Tickets> tickets = new HashSet<>();
+
+    @ManyToOne
+    @JsonIgnoreProperties(value = "precios", allowSetters = true)
+    private Lotes loteId;
+
+    @ManyToOne
+    @JsonIgnoreProperties(value = "precios", allowSetters = true)
+    private Clientes clienteId;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
@@ -43,42 +55,29 @@ public class Precios implements Serializable {
         this.id = id;
     }
 
-    public Instant getCreatedAt() {
-        return createdAt;
-    }
-
-    public Precios createdAt(Instant createdAt) {
-        this.createdAt = createdAt;
-        return this;
-    }
-
-    public void setCreatedAt(Instant createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Instant getFechaFin() {
+    public LocalDate getFechaFin() {
         return fechaFin;
     }
 
-    public Precios fechaFin(Instant fechaFin) {
+    public Precios fechaFin(LocalDate fechaFin) {
         this.fechaFin = fechaFin;
         return this;
     }
 
-    public void setFechaFin(Instant fechaFin) {
+    public void setFechaFin(LocalDate fechaFin) {
         this.fechaFin = fechaFin;
     }
 
-    public Instant getFechaInicio() {
+    public LocalDate getFechaInicio() {
         return fechaInicio;
     }
 
-    public Precios fechaInicio(Instant fechaInicio) {
+    public Precios fechaInicio(LocalDate fechaInicio) {
         this.fechaInicio = fechaInicio;
         return this;
     }
 
-    public void setFechaInicio(Instant fechaInicio) {
+    public void setFechaInicio(LocalDate fechaInicio) {
         this.fechaInicio = fechaInicio;
     }
 
@@ -93,6 +92,57 @@ public class Precios implements Serializable {
 
     public void setPrecio(Long precio) {
         this.precio = precio;
+    }
+
+    public Set<Tickets> getTickets() {
+        return tickets;
+    }
+
+    public Precios tickets(Set<Tickets> tickets) {
+        this.tickets = tickets;
+        return this;
+    }
+
+    public Precios addTickets(Tickets tickets) {
+        this.tickets.add(tickets);
+        tickets.setPrecioId(this);
+        return this;
+    }
+
+    public Precios removeTickets(Tickets tickets) {
+        this.tickets.remove(tickets);
+        tickets.setPrecioId(null);
+        return this;
+    }
+
+    public void setTickets(Set<Tickets> tickets) {
+        this.tickets = tickets;
+    }
+
+    public Lotes getLoteId() {
+        return loteId;
+    }
+
+    public Precios loteId(Lotes lotes) {
+        this.loteId = lotes;
+        return this;
+    }
+
+    public void setLoteId(Lotes lotes) {
+        this.loteId = lotes;
+    }
+
+    public Clientes getClienteId() {
+        return clienteId;
+    }
+
+    public Precios clienteId(Clientes clientes) {
+        this.clienteId = clientes;
+        return this;
+    }
+
+    public void setClienteId(Clientes clientes) {
+        this.clienteId = clientes;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
@@ -117,7 +167,6 @@ public class Precios implements Serializable {
     public String toString() {
         return "Precios{" +
             "id=" + getId() +
-            ", createdAt='" + getCreatedAt() + "'" +
             ", fechaFin='" + getFechaFin() + "'" +
             ", fechaInicio='" + getFechaInicio() + "'" +
             ", precio=" + getPrecio() +

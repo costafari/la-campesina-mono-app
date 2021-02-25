@@ -4,11 +4,15 @@ import { HttpResponse } from '@angular/common/http';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import * as moment from 'moment';
-import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 
 import { ILotes, Lotes } from 'app/shared/model/lotes.model';
 import { LotesService } from './lotes.service';
+import { IProductos } from 'app/shared/model/productos.model';
+import { ProductosService } from 'app/entities/productos/productos.service';
+import { IProveedores } from 'app/shared/model/proveedores.model';
+import { ProveedoresService } from 'app/entities/proveedores/proveedores.service';
+
+type SelectableEntity = IProductos | IProveedores;
 
 @Component({
   selector: 'jhi-lotes-update',
@@ -16,26 +20,34 @@ import { LotesService } from './lotes.service';
 })
 export class LotesUpdateComponent implements OnInit {
   isSaving = false;
+  productos: IProductos[] = [];
+  proveedores: IProveedores[] = [];
+  fechaEntradaDp: any;
 
   editForm = this.fb.group({
     id: [],
     cantidad: [],
-    createdAt: [],
     fechaEntrada: [],
     lote: [],
+    productoId: [],
+    proveedorId: [],
   });
 
-  constructor(protected lotesService: LotesService, protected activatedRoute: ActivatedRoute, private fb: FormBuilder) {}
+  constructor(
+    protected lotesService: LotesService,
+    protected productosService: ProductosService,
+    protected proveedoresService: ProveedoresService,
+    protected activatedRoute: ActivatedRoute,
+    private fb: FormBuilder
+  ) {}
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ lotes }) => {
-      if (!lotes.id) {
-        const today = moment().startOf('day');
-        lotes.createdAt = today;
-        lotes.fechaEntrada = today;
-      }
-
       this.updateForm(lotes);
+
+      this.productosService.query().subscribe((res: HttpResponse<IProductos[]>) => (this.productos = res.body || []));
+
+      this.proveedoresService.query().subscribe((res: HttpResponse<IProveedores[]>) => (this.proveedores = res.body || []));
     });
   }
 
@@ -43,9 +55,10 @@ export class LotesUpdateComponent implements OnInit {
     this.editForm.patchValue({
       id: lotes.id,
       cantidad: lotes.cantidad,
-      createdAt: lotes.createdAt ? lotes.createdAt.format(DATE_TIME_FORMAT) : null,
-      fechaEntrada: lotes.fechaEntrada ? lotes.fechaEntrada.format(DATE_TIME_FORMAT) : null,
+      fechaEntrada: lotes.fechaEntrada,
       lote: lotes.lote,
+      productoId: lotes.productoId,
+      proveedorId: lotes.proveedorId,
     });
   }
 
@@ -68,11 +81,10 @@ export class LotesUpdateComponent implements OnInit {
       ...new Lotes(),
       id: this.editForm.get(['id'])!.value,
       cantidad: this.editForm.get(['cantidad'])!.value,
-      createdAt: this.editForm.get(['createdAt'])!.value ? moment(this.editForm.get(['createdAt'])!.value, DATE_TIME_FORMAT) : undefined,
-      fechaEntrada: this.editForm.get(['fechaEntrada'])!.value
-        ? moment(this.editForm.get(['fechaEntrada'])!.value, DATE_TIME_FORMAT)
-        : undefined,
+      fechaEntrada: this.editForm.get(['fechaEntrada'])!.value,
       lote: this.editForm.get(['lote'])!.value,
+      productoId: this.editForm.get(['productoId'])!.value,
+      proveedorId: this.editForm.get(['proveedorId'])!.value,
     };
   }
 
@@ -90,5 +102,9 @@ export class LotesUpdateComponent implements OnInit {
 
   protected onSaveError(): void {
     this.isSaving = false;
+  }
+
+  trackById(index: number, item: SelectableEntity): any {
+    return item.id;
   }
 }

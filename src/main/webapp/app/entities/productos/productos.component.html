@@ -23,7 +23,6 @@
             <thead>
                 <tr>
                     <th scope="col" ><span jhiTranslate="global.field.id">ID</span></th>
-                    <th scope="col" ><span jhiTranslate="lacampesinaApp.productos.createdAt">Created At</span></th>
                     <th scope="col" ><span jhiTranslate="lacampesinaApp.productos.descipcion">Descipcion</span></th>
                     <th scope="col" ><span jhiTranslate="lacampesinaApp.productos.nombre">Nombre</span></th>
                     <th scope="col" ><span jhiTranslate="lacampesinaApp.productos.notas">Notas</span></th>
@@ -33,7 +32,6 @@
             <tbody>
                 <tr *ngFor="let productos of productos ;trackBy: trackId">
                     <td><a [routerLink]="['/productos', productos.id, 'view']">{{ productos.id }}</a></td>
-                    <td>{{ productos.createdAt | date:'medium' }}</td>
                     <td>{{ productos.descipcion }}</td>
                     <td>{{ productos.nombre }}</td>
                     <td>{{ productos.notas }}</td>

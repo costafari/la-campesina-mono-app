@@ -2,10 +2,6 @@
   "name": "Productos",
   "fields": [
     {
-      "fieldName": "createdAt",
-      "fieldType": "Instant"
-    },
-    {
       "fieldName": "descipcion",
       "fieldType": "String"
     },
@@ -18,7 +14,14 @@
       "fieldType": "String"
     }
   ],
-  "relationships": [],
+  "relationships": [
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "lotes",
+      "otherEntityRelationshipName": "productoId",
+      "relationshipName": "lotes"
+    }
+  ],
   "changelogDate": "20210129203215",
   "entityTableName": "productos",
   "dto": "no",

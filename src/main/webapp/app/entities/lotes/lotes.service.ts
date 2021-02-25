@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import * as moment from 'moment';
 
+import { DATE_FORMAT } from 'app/shared/constants/input.constants';
 import { SERVER_API_URL } from 'app/app.constants';
 import { createRequestOption } from 'app/shared/util/request-util';
 import { ILotes } from 'app/shared/model/lotes.model';
@@ -50,15 +51,13 @@ export class LotesService {
 
   protected convertDateFromClient(lotes: ILotes): ILotes {
     const copy: ILotes = Object.assign({}, lotes, {
-      createdAt: lotes.createdAt && lotes.createdAt.isValid() ? lotes.createdAt.toJSON() : undefined,
-      fechaEntrada: lotes.fechaEntrada && lotes.fechaEntrada.isValid() ? lotes.fechaEntrada.toJSON() : undefined,
+      fechaEntrada: lotes.fechaEntrada && lotes.fechaEntrada.isValid() ? lotes.fechaEntrada.format(DATE_FORMAT) : undefined,
     });
     return copy;
   }
 
   protected convertDateFromServer(res: EntityResponseType): EntityResponseType {
     if (res.body) {
-      res.body.createdAt = res.body.createdAt ? moment(res.body.createdAt) : undefined;
       res.body.fechaEntrada = res.body.fechaEntrada ? moment(res.body.fechaEntrada) : undefined;
     }
     return res;
@@ -67,7 +66,6 @@ export class LotesService {
   protected convertDateArrayFromServer(res: EntityArrayResponseType): EntityArrayResponseType {
     if (res.body) {
       res.body.forEach((lotes: ILotes) => {
-        lotes.createdAt = lotes.createdAt ? moment(lotes.createdAt) : undefined;
         lotes.fechaEntrada = lotes.fechaEntrada ? moment(lotes.fechaEntrada) : undefined;
       });
     }

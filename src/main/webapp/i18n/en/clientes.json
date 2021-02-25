@@ -18,7 +18,6 @@
       },
       "activo": "Activo",
       "apellidos": "Apellidos",
-      "createdAt": "Created At",
       "direcion": "Direcion",
       "email": "Email",
       "nombreContacto": "Nombre Contacto",
@@ -29,7 +28,8 @@
       "telefonoFijo": "Telefono Fijo",
       "telefonoFijo2": "Telefono Fijo 2",
       "telefonoMovil": "Telefono Movil",
-      "telefonoMovil2": "Telefono Movil 2"
+      "telefonoMovil2": "Telefono Movil 2",
+      "precios": "Precios"
     }
   }
 }

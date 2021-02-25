@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import * as moment from 'moment';
 
+import { DATE_FORMAT } from 'app/shared/constants/input.constants';
 import { SERVER_API_URL } from 'app/app.constants';
 import { createRequestOption } from 'app/shared/util/request-util';
 import { ITickets } from 'app/shared/model/tickets.model';
@@ -50,15 +51,14 @@ export class TicketsService {
 
   protected convertDateFromClient(tickets: ITickets): ITickets {
     const copy: ITickets = Object.assign({}, tickets, {
-      createdAt: tickets.createdAt && tickets.createdAt.isValid() ? tickets.createdAt.toJSON() : undefined,
-      fechaExpedicion: tickets.fechaExpedicion && tickets.fechaExpedicion.isValid() ? tickets.fechaExpedicion.toJSON() : undefined,
+      fechaExpedicion:
+        tickets.fechaExpedicion && tickets.fechaExpedicion.isValid() ? tickets.fechaExpedicion.format(DATE_FORMAT) : undefined,
     });
     return copy;
   }
 
   protected convertDateFromServer(res: EntityResponseType): EntityResponseType {
     if (res.body) {
-      res.body.createdAt = res.body.createdAt ? moment(res.body.createdAt) : undefined;
       res.body.fechaExpedicion = res.body.fechaExpedicion ? moment(res.body.fechaExpedicion) : undefined;
     }
     return res;
@@ -67,7 +67,6 @@ export class TicketsService {
   protected convertDateArrayFromServer(res: EntityArrayResponseType): EntityArrayResponseType {
     if (res.body) {
       res.body.forEach((tickets: ITickets) => {
-        tickets.createdAt = tickets.createdAt ? moment(tickets.createdAt) : undefined;
         tickets.fechaExpedicion = tickets.fechaExpedicion ? moment(tickets.fechaExpedicion) : undefined;
       });
     }

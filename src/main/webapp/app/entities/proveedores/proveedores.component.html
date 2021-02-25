@@ -23,7 +23,6 @@
             <thead>
                 <tr>
                     <th scope="col" ><span jhiTranslate="global.field.id">ID</span></th>
-                    <th scope="col" ><span jhiTranslate="lacampesinaApp.proveedores.createdAt">Created At</span></th>
                     <th scope="col" ><span jhiTranslate="lacampesinaApp.proveedores.direccion">Direccion</span></th>
                     <th scope="col" ><span jhiTranslate="lacampesinaApp.proveedores.nombreContacto">Nombre Contacto</span></th>
                     <th scope="col" ><span jhiTranslate="lacampesinaApp.proveedores.nombreEmpresa">Nombre Empresa</span></th>
@@ -39,7 +38,6 @@
             <tbody>
                 <tr *ngFor="let proveedores of proveedores ;trackBy: trackId">
                     <td><a [routerLink]="['/proveedores', proveedores.id, 'view']">{{ proveedores.id }}</a></td>
-                    <td>{{ proveedores.createdAt | date:'medium' }}</td>
                     <td>{{ proveedores.direccion }}</td>
                     <td>{{ proveedores.nombreContacto }}</td>
                     <td>{{ proveedores.nombreEmpresa }}</td>

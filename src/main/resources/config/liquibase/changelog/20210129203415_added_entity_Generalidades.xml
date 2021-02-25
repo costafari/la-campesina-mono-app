@@ -16,9 +16,6 @@
             <column name="id" type="bigint" autoIncrement="${autoIncrement}">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="created_at" type="datetime">
-                <constraints nullable="true" />
-            </column>
             <column name="fecha_inicio" type="datetime">
                 <constraints nullable="true" />
             </column>
@@ -30,7 +27,6 @@
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
-        <dropDefaultValue tableName="generalidades" columnName="created_at" columnDataType="datetime"/>
         <dropDefaultValue tableName="generalidades" columnName="fecha_inicio" columnDataType="datetime"/>
     </changeSet>
 
@@ -53,7 +49,6 @@
                   separator=";"
                   tableName="generalidades">
             <column name="id" type="numeric"/>
-            <column name="created_at" type="datetime"/>
             <column name="fecha_inicio" type="datetime"/>
             <column name="nombre_empresa" type="string"/>
             <column name="nombre_propietario" type="string"/>

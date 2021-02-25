@@ -16,10 +16,10 @@
       "detail": {
         "title": "Productos"
       },
-      "createdAt": "Created At",
       "descipcion": "Descipcion",
       "nombre": "Nombre",
-      "notas": "Notas"
+      "notas": "Notas",
+      "lotes": "Lotes"
     }
   }
 }

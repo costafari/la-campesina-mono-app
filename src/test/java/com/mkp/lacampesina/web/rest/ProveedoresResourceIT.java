@@ -14,8 +14,6 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -30,9 +28,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @WithMockUser
 public class ProveedoresResourceIT {
-
-    private static final Instant DEFAULT_CREATED_AT = Instant.ofEpochMilli(0L);
-    private static final Instant UPDATED_CREATED_AT = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
     private static final String DEFAULT_DIRECCION = "AAAAAAAAAA";
     private static final String UPDATED_DIRECCION = "BBBBBBBBBB";
@@ -49,17 +44,17 @@ public class ProveedoresResourceIT {
     private static final String DEFAULT_SITIO_WEB = "AAAAAAAAAA";
     private static final String UPDATED_SITIO_WEB = "BBBBBBBBBB";
 
-    private static final String DEFAULT_TELEFONO_FIJO = "AAAAAAAAAA";
-    private static final String UPDATED_TELEFONO_FIJO = "BBBBBBBBBB";
+    private static final Integer DEFAULT_TELEFONO_FIJO = 1;
+    private static final Integer UPDATED_TELEFONO_FIJO = 2;
 
-    private static final String DEFAULT_TELEFONO_FIJO_2 = "AAAAAAAAAA";
-    private static final String UPDATED_TELEFONO_FIJO_2 = "BBBBBBBBBB";
+    private static final Integer DEFAULT_TELEFONO_FIJO_2 = 1;
+    private static final Integer UPDATED_TELEFONO_FIJO_2 = 2;
 
-    private static final String DEFAULT_TELEFONO_MOVIL = "AAAAAAAAAA";
-    private static final String UPDATED_TELEFONO_MOVIL = "BBBBBBBBBB";
+    private static final Integer DEFAULT_TELEFONO_MOVIL = 1;
+    private static final Integer UPDATED_TELEFONO_MOVIL = 2;
 
-    private static final String DEFAULT_TELEFONO_MOVIL_2 = "AAAAAAAAAA";
-    private static final String UPDATED_TELEFONO_MOVIL_2 = "BBBBBBBBBB";
+    private static final Integer DEFAULT_TELEFONO_MOVIL_2 = 1;
+    private static final Integer UPDATED_TELEFONO_MOVIL_2 = 2;
 
     @Autowired
     private ProveedoresRepository proveedoresRepository;
@@ -80,7 +75,6 @@ public class ProveedoresResourceIT {
      */
     public static Proveedores createEntity(EntityManager em) {
         Proveedores proveedores = new Proveedores()
-            .createdAt(DEFAULT_CREATED_AT)
             .direccion(DEFAULT_DIRECCION)
             .nombreContacto(DEFAULT_NOMBRE_CONTACTO)
             .nombreEmpresa(DEFAULT_NOMBRE_EMPRESA)
@@ -100,7 +94,6 @@ public class ProveedoresResourceIT {
      */
     public static Proveedores createUpdatedEntity(EntityManager em) {
         Proveedores proveedores = new Proveedores()
-            .createdAt(UPDATED_CREATED_AT)
             .direccion(UPDATED_DIRECCION)
             .nombreContacto(UPDATED_NOMBRE_CONTACTO)
             .nombreEmpresa(UPDATED_NOMBRE_EMPRESA)
@@ -132,7 +125,6 @@ public class ProveedoresResourceIT {
         List<Proveedores> proveedoresList = proveedoresRepository.findAll();
         assertThat(proveedoresList).hasSize(databaseSizeBeforeCreate + 1);
         Proveedores testProveedores = proveedoresList.get(proveedoresList.size() - 1);
-        assertThat(testProveedores.getCreatedAt()).isEqualTo(DEFAULT_CREATED_AT);
         assertThat(testProveedores.getDireccion()).isEqualTo(DEFAULT_DIRECCION);
         assertThat(testProveedores.getNombreContacto()).isEqualTo(DEFAULT_NOMBRE_CONTACTO);
         assertThat(testProveedores.getNombreEmpresa()).isEqualTo(DEFAULT_NOMBRE_EMPRESA);
@@ -175,7 +167,6 @@ public class ProveedoresResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(proveedores.getId().intValue())))
-            .andExpect(jsonPath("$.[*].createdAt").value(hasItem(DEFAULT_CREATED_AT.toString())))
             .andExpect(jsonPath("$.[*].direccion").value(hasItem(DEFAULT_DIRECCION)))
             .andExpect(jsonPath("$.[*].nombreContacto").value(hasItem(DEFAULT_NOMBRE_CONTACTO)))
             .andExpect(jsonPath("$.[*].nombreEmpresa").value(hasItem(DEFAULT_NOMBRE_EMPRESA)))
@@ -198,7 +189,6 @@ public class ProveedoresResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(proveedores.getId().intValue()))
-            .andExpect(jsonPath("$.createdAt").value(DEFAULT_CREATED_AT.toString()))
             .andExpect(jsonPath("$.direccion").value(DEFAULT_DIRECCION))
             .andExpect(jsonPath("$.nombreContacto").value(DEFAULT_NOMBRE_CONTACTO))
             .andExpect(jsonPath("$.nombreEmpresa").value(DEFAULT_NOMBRE_EMPRESA))
@@ -230,7 +220,6 @@ public class ProveedoresResourceIT {
         // Disconnect from session so that the updates on updatedProveedores are not directly saved in db
         em.detach(updatedProveedores);
         updatedProveedores
-            .createdAt(UPDATED_CREATED_AT)
             .direccion(UPDATED_DIRECCION)
             .nombreContacto(UPDATED_NOMBRE_CONTACTO)
             .nombreEmpresa(UPDATED_NOMBRE_EMPRESA)
@@ -250,7 +239,6 @@ public class ProveedoresResourceIT {
         List<Proveedores> proveedoresList = proveedoresRepository.findAll();
         assertThat(proveedoresList).hasSize(databaseSizeBeforeUpdate);
         Proveedores testProveedores = proveedoresList.get(proveedoresList.size() - 1);
-        assertThat(testProveedores.getCreatedAt()).isEqualTo(UPDATED_CREATED_AT);
         assertThat(testProveedores.getDireccion()).isEqualTo(UPDATED_DIRECCION);
         assertThat(testProveedores.getNombreContacto()).isEqualTo(UPDATED_NOMBRE_CONTACTO);
         assertThat(testProveedores.getNombreEmpresa()).isEqualTo(UPDATED_NOMBRE_EMPRESA);

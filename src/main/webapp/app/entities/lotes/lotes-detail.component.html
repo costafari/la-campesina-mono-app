@@ -12,10 +12,6 @@
                 <dd>
                     <span>{{ lotes.cantidad }}</span>
                 </dd>
-                <dt><span jhiTranslate="lacampesinaApp.lotes.createdAt">Created At</span></dt>
-                <dd>
-                    <span>{{ lotes.createdAt }}</span>
-                </dd>
                 <dt><span jhiTranslate="lacampesinaApp.lotes.fechaEntrada">Fecha Entrada</span></dt>
                 <dd>
                     <span>{{ lotes.fechaEntrada }}</span>
@@ -23,6 +19,18 @@
                 <dt><span jhiTranslate="lacampesinaApp.lotes.lote">Lote</span></dt>
                 <dd>
                     <span>{{ lotes.lote }}</span>
+                </dd>
+                <dt><span jhiTranslate="lacampesinaApp.lotes.productoId">Producto Id</span></dt>
+                <dd>
+                    <div *ngIf="lotes.productoId">
+                        <a [routerLink]="['/productos', lotes.productoId?.id, 'view']">{{ lotes.productoId?.id }}</a>
+                    </div>
+                </dd>
+                <dt><span jhiTranslate="lacampesinaApp.lotes.proveedorId">Proveedor Id</span></dt>
+                <dd>
+                    <div *ngIf="lotes.proveedorId">
+                        <a [routerLink]="['/proveedores', lotes.proveedorId?.id, 'view']">{{ lotes.proveedorId?.id }}</a>
+                    </div>
                 </dd>
             </dl>
 

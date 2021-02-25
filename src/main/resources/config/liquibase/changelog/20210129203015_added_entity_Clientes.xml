@@ -16,13 +16,10 @@
             <column name="id" type="bigint" autoIncrement="${autoIncrement}">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="activo" type="integer">
+            <column name="activo" type="boolean">
                 <constraints nullable="true" />
             </column>
             <column name="apellidos" type="varchar(255)">
-                <constraints nullable="true" />
-            </column>
-            <column name="created_at" type="datetime">
                 <constraints nullable="true" />
             </column>
             <column name="direcion" type="varchar(255)">
@@ -46,21 +43,20 @@
             <column name="sitio_web" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-            <column name="telefono_fijo" type="varchar(255)">
+            <column name="telefono_fijo" type="integer">
                 <constraints nullable="true" />
             </column>
-            <column name="telefono_fijo_2" type="varchar(255)">
+            <column name="telefono_fijo_2" type="integer">
                 <constraints nullable="true" />
             </column>
-            <column name="telefono_movil" type="varchar(255)">
+            <column name="telefono_movil" type="integer">
                 <constraints nullable="true" />
             </column>
-            <column name="telefono_movil_2" type="varchar(255)">
+            <column name="telefono_movil_2" type="integer">
                 <constraints nullable="true" />
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
-        <dropDefaultValue tableName="clientes" columnName="created_at" columnDataType="datetime"/>
     </changeSet>
 
     <changeSet id="20210129203015-1-relations" author="jhipster">
@@ -82,9 +78,8 @@
                   separator=";"
                   tableName="clientes">
             <column name="id" type="numeric"/>
-            <column name="activo" type="numeric"/>
+            <column name="activo" type="boolean"/>
             <column name="apellidos" type="string"/>
-            <column name="created_at" type="datetime"/>
             <column name="direcion" type="string"/>
             <column name="email" type="string"/>
             <column name="nombre_contacto" type="string"/>
@@ -92,10 +87,10 @@
             <column name="nombres" type="string"/>
             <column name="notas" type="string"/>
             <column name="sitio_web" type="string"/>
-            <column name="telefono_fijo" type="string"/>
-            <column name="telefono_fijo_2" type="string"/>
-            <column name="telefono_movil" type="string"/>
-            <column name="telefono_movil_2" type="string"/>
+            <column name="telefono_fijo" type="numeric"/>
+            <column name="telefono_fijo_2" type="numeric"/>
+            <column name="telefono_movil" type="numeric"/>
+            <column name="telefono_movil_2" type="numeric"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>
     </changeSet>
