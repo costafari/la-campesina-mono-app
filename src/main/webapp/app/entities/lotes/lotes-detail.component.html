@@ -1,13 +1,17 @@
 <div class="row justify-content-center">
     <div class="col-8">
         <div *ngIf="lotes">
-            <h2><span jhiTranslate="lacampesinaApp.lotes.detail.title">Lotes</span> {{ lotes.id }}</h2>
+            <h2><span jhiTranslate="lacampesinaApp.lotes.detail.title">Lotes</span> {{ lotes.lote }}</h2>
 
             <hr>
 
             <jhi-alert-error></jhi-alert-error>
 
             <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="lacampesinaApp.lotes.lote">Lote</span></dt>
+                <dd>
+                    <span>{{ lotes.id }}</span>
+                </dd>
                 <dt><span jhiTranslate="lacampesinaApp.lotes.cantidad">Cantidad</span></dt>
                 <dd>
                     <span>{{ lotes.cantidad }}</span>
@@ -16,20 +20,16 @@
                 <dd>
                     <span>{{ lotes.fechaEntrada }}</span>
                 </dd>
-                <dt><span jhiTranslate="lacampesinaApp.lotes.lote">Lote</span></dt>
-                <dd>
-                    <span>{{ lotes.lote }}</span>
-                </dd>
-                <dt><span jhiTranslate="lacampesinaApp.lotes.productoId">Producto Id</span></dt>
+                <dt><span jhiTranslate="lacampesinaApp.lotes.productoId">Producto</span></dt>
                 <dd>
                     <div *ngIf="lotes.productoId">
-                        <a [routerLink]="['/productos', lotes.productoId?.id, 'view']">{{ lotes.productoId?.id }}</a>
+                        <a [routerLink]="['/productos', lotes.productoId?.id, 'view']">{{ lotes.productoId?.nombre }}</a>
                     </div>
                 </dd>
-                <dt><span jhiTranslate="lacampesinaApp.lotes.proveedorId">Proveedor Id</span></dt>
+                <dt><span jhiTranslate="lacampesinaApp.lotes.proveedorId">Proveedor</span></dt>
                 <dd>
                     <div *ngIf="lotes.proveedorId">
-                        <a [routerLink]="['/proveedores', lotes.proveedorId?.id, 'view']">{{ lotes.proveedorId?.id }}</a>
+                        <a [routerLink]="['/proveedores', lotes.proveedorId?.id, 'view']">{{ lotes.proveedorId?.nombreEmpresa }}</a>
                     </div>
                 </dd>
             </dl>
