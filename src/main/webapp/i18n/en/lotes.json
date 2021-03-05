@@ -3,15 +3,15 @@
     "lotes": {
       "home": {
         "title": "Lotes",
-        "createLabel": "Create a new Lotes",
-        "createOrEditLabel": "Create or edit a Lotes",
+        "createLabel": "Create a new Lote",
+        "createOrEditLabel": "Create or edit a Lote",
         "notFound": "No Lotes found"
       },
-      "created": "A new Lotes is created with identifier {{ param }}",
-      "updated": "A Lotes is updated with identifier {{ param }}",
-      "deleted": "A Lotes is deleted with identifier {{ param }}",
+      "created": "A new Lote is created with identifier {{ param }}",
+      "updated": "A Lote is updated with identifier {{ param }}",
+      "deleted": "A Lote is deleted with identifier {{ param }}",
       "delete": {
-        "question": "Are you sure you want to delete Lotes {{ id }}?"
+        "question": "Are you sure you want to delete Lote {{ id }}?"
       },
       "detail": {
         "title": "Lotes"
@@ -20,8 +20,8 @@
       "fechaEntrada": "Fecha Entrada",
       "lote": "Lote",
       "precios": "Precios",
-      "productoId": "Producto Id",
-      "proveedorId": "Proveedor Id"
+      "productoId": "Producto",
+      "proveedorId": "Proveedor"
     }
   }
 }
