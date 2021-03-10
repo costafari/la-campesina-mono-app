@@ -8,6 +8,7 @@
             Create a new Productos
             </span>
         </button>
+        <button pButton type="button" label="Click" ></button>
     </h2>
 
     <jhi-alert-error></jhi-alert-error>
@@ -37,7 +38,7 @@
                     <td>{{ productos.notas }}</td>
                     <td class="text-right">
                         <div class="btn-group">
-                            <button type="submit"
+                            <button pButton type="submit"
                                     [routerLink]="['/productos', productos.id, 'view']"
                                     class="btn btn-info btn-sm">
                                 <fa-icon icon="eye"></fa-icon>

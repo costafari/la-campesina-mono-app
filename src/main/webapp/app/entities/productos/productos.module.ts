@@ -8,8 +8,10 @@ import { ProductosUpdateComponent } from './productos-update.component';
 import { ProductosDeleteDialogComponent } from './productos-delete-dialog.component';
 import { productosRoute } from './productos.route';
 
+import {ButtonModule} from 'primeng/button';
+
 @NgModule({
-  imports: [LacampesinaSharedModule, RouterModule.forChild(productosRoute)],
+  imports: [LacampesinaSharedModule, RouterModule.forChild(productosRoute), ButtonModule],
   declarations: [ProductosComponent, ProductosDetailComponent, ProductosUpdateComponent, ProductosDeleteDialogComponent],
   entryComponents: [ProductosDeleteDialogComponent],
 })

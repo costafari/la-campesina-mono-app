@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import './vendor';
 import { LacampesinaSharedModule } from 'app/shared/shared.module';
@@ -15,6 +16,7 @@ import { PageRibbonComponent } from './layouts/profiles/page-ribbon.component';
 import { ActiveMenuDirective } from './layouts/navbar/active-menu.directive';
 import { ErrorComponent } from './layouts/error/error.component';
 
+
 @NgModule({
   imports: [
     BrowserModule,
@@ -24,6 +26,7 @@ import { ErrorComponent } from './layouts/error/error.component';
     // jhipster-needle-angular-add-module JHipster will add new module here
     LacampesinaEntityModule,
     LacampesinaAppRoutingModule,
+    BrowserAnimationsModule
   ],
   declarations: [MainComponent, NavbarComponent, ErrorComponent, PageRibbonComponent, ActiveMenuDirective, FooterComponent],
   bootstrap: [MainComponent],
