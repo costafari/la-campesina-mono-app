@@ -39,12 +39,12 @@
                     <td>{{ precios.precio }}</td>
                     <td>
                         <div *ngIf="precios.loteId">
-                            <a [routerLink]="['/lotes', precios.loteId?.id, 'view']" >{{ precios.loteId?.id }}</a>
+                            <a [routerLink]="['/lotes', precios.loteId?.id, 'view']" >{{ precios.loteId?.lote }}</a>
                         </div>
                     </td>
                     <td>
                         <div *ngIf="precios.clienteId">
-                            <a [routerLink]="['/clientes', precios.clienteId?.id, 'view']" >{{ precios.clienteId?.id }}</a>
+                            <a [routerLink]="['/clientes', precios.clienteId?.id, 'view']" >{{ precios.clienteId?.nombreEmpresa }}</a>
                         </div>
                     </td>
                     <td class="text-right">
