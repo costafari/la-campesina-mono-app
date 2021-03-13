@@ -29,7 +29,8 @@
       "telefonoFijo2": "Telefono Fijo 2",
       "telefonoMovil": "Telefono Movil",
       "telefonoMovil2": "Telefono Movil 2",
-      "precios": "Precios"
+      "precios": "Precios",
+      "clienteId": "Cliente Id"
     }
   }
 }

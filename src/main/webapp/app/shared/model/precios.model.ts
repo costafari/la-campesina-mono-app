@@ -1,16 +1,16 @@
 import { Moment } from 'moment';
-import { ITickets } from 'app/shared/model/tickets.model';
 import { ILotes } from 'app/shared/model/lotes.model';
 import { IClientes } from 'app/shared/model/clientes.model';
+import { IFacturasDetalle } from 'app/shared/model/facturas-detalle.model';
 
 export interface IPrecios {
   id?: number;
   fechaFin?: Moment;
   fechaInicio?: Moment;
   precio?: number;
-  tickets?: ITickets[];
   loteId?: ILotes;
   clienteId?: IClientes;
+  precioId?: IFacturasDetalle;
 }
 
 export class Precios implements IPrecios {
@@ -19,8 +19,8 @@ export class Precios implements IPrecios {
     public fechaFin?: Moment,
     public fechaInicio?: Moment,
     public precio?: number,
-    public tickets?: ITickets[],
     public loteId?: ILotes,
-    public clienteId?: IClientes
+    public clienteId?: IClientes,
+    public precioId?: IFacturasDetalle
   ) {}
 }

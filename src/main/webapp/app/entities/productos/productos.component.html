@@ -8,7 +8,6 @@
             Create a new Productos
             </span>
         </button>
-        <button pButton type="button" label="Click" ></button>
     </h2>
 
     <jhi-alert-error></jhi-alert-error>
@@ -24,8 +23,8 @@
             <thead>
                 <tr>
                     <th scope="col" ><span jhiTranslate="global.field.id">ID</span></th>
-                    <th scope="col" ><span jhiTranslate="lacampesinaApp.productos.nombre">Nombre</span></th>
                     <th scope="col" ><span jhiTranslate="lacampesinaApp.productos.descipcion">Descipcion</span></th>
+                    <th scope="col" ><span jhiTranslate="lacampesinaApp.productos.nombre">Nombre</span></th>
                     <th scope="col" ><span jhiTranslate="lacampesinaApp.productos.notas">Notas</span></th>
                     <th scope="col"></th>
                 </tr>
@@ -33,12 +32,12 @@
             <tbody>
                 <tr *ngFor="let productos of productos ;trackBy: trackId">
                     <td><a [routerLink]="['/productos', productos.id, 'view']">{{ productos.id }}</a></td>
-                    <td>{{ productos.nombre }}</td>
                     <td>{{ productos.descipcion }}</td>
+                    <td>{{ productos.nombre }}</td>
                     <td>{{ productos.notas }}</td>
                     <td class="text-right">
                         <div class="btn-group">
-                            <button pButton type="submit"
+                            <button type="submit"
                                     [routerLink]="['/productos', productos.id, 'view']"
                                     class="btn btn-info btn-sm">
                                 <fa-icon icon="eye"></fa-icon>

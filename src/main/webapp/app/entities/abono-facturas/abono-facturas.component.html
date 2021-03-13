@@ -1,0 +1,71 @@
+<div>
+    <h2 id="page-heading">
+        <span jhiTranslate="lacampesinaApp.abonoFacturas.home.title">Abono Facturas</span>
+
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-abono-facturas" [routerLink]="['/abono-facturas/new']">
+            <fa-icon icon="plus"></fa-icon>
+            <span  jhiTranslate="lacampesinaApp.abonoFacturas.home.createLabel">
+            Create a new Abono Facturas
+            </span>
+        </button>
+    </h2>
+
+    <jhi-alert-error></jhi-alert-error>
+
+    <jhi-alert></jhi-alert>
+
+    <div class="alert alert-warning" id="no-result" *ngIf="abonoFacturas?.length === 0">
+        <span jhiTranslate="lacampesinaApp.abonoFacturas.home.notFound">No abonoFacturas found</span>
+    </div>
+
+    <div class="table-responsive" id="entities" *ngIf="abonoFacturas && abonoFacturas.length > 0">
+        <table class="table table-striped" aria-describedby="page-heading">
+            <thead>
+                <tr>
+                    <th scope="col" ><span jhiTranslate="global.field.id">ID</span></th>
+                    <th scope="col" ><span jhiTranslate="lacampesinaApp.abonoFacturas.saldoAnterior">Saldo Anterior</span></th>
+                    <th scope="col" ><span jhiTranslate="lacampesinaApp.abonoFacturas.abono">Abono</span></th>
+                    <th scope="col" ><span jhiTranslate="lacampesinaApp.abonoFacturas.nuevoSaldo">Nuevo Saldo</span></th>
+                    <th scope="col" ><span jhiTranslate="lacampesinaApp.abonoFacturas.abonoId">Abono Id</span></th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let abonoFacturas of abonoFacturas ;trackBy: trackId">
+                    <td><a [routerLink]="['/abono-facturas', abonoFacturas.id, 'view']">{{ abonoFacturas.id }}</a></td>
+                    <td>{{ abonoFacturas.saldoAnterior }}</td>
+                    <td>{{ abonoFacturas.abono }}</td>
+                    <td>{{ abonoFacturas.nuevoSaldo }}</td>
+                    <td>
+                        <div *ngIf="abonoFacturas.abonoId">
+                            <a [routerLink]="['/facturas-master', abonoFacturas.abonoId?.id, 'view']" >{{ abonoFacturas.abonoId?.id }}</a>
+                        </div>
+                    </td>
+                    <td class="text-right">
+                        <div class="btn-group">
+                            <button type="submit"
+                                    [routerLink]="['/abono-facturas', abonoFacturas.id, 'view']"
+                                    class="btn btn-info btn-sm">
+                                <fa-icon icon="eye"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                            </button>
+
+                            <button type="submit"
+                                    [routerLink]="['/abono-facturas', abonoFacturas.id, 'edit']"
+                                    class="btn btn-primary btn-sm">
+                                <fa-icon icon="pencil-alt"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                            </button>
+
+                            <button type="submit" (click)="delete(abonoFacturas)"
+                                    class="btn btn-danger btn-sm">
+                                <fa-icon icon="times"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,25 @@
+{
+  "lacampesinaApp": {
+    "abonoFacturas": {
+      "home": {
+        "title": "Abono Facturas",
+        "createLabel": "Crear nuevo Abono Facturas",
+        "createOrEditLabel": "Crear o editar Abono Facturas",
+        "notFound": "Ningún Abono Facturas encontrado"
+      },
+      "created": "Un nuevo Abono Facturas ha sido creado con el identificador {{ param }}",
+      "updated": "Un Abono Facturas ha sido actualizado con el identificador {{ param }}",
+      "deleted": "Un Abono Facturas ha sido eliminado con el identificador {{ param }}",
+      "delete": {
+        "question": "¿Seguro que quiere eliminar Abono Facturas {{ id }}?"
+      },
+      "detail": {
+        "title": "Abono Facturas"
+      },
+      "saldoAnterior": "Saldo Anterior",
+      "abono": "Abono",
+      "nuevoSaldo": "Nuevo Saldo",
+      "abonoId": "Abono Id"
+    }
+  }
+}

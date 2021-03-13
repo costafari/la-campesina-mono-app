@@ -60,6 +60,13 @@
       "otherEntityName": "precios",
       "otherEntityRelationshipName": "clienteId",
       "relationshipName": "precios"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "facturasMaster",
+      "otherEntityRelationshipName": "clientes",
+      "relationshipName": "clienteId",
+      "otherEntityField": "id"
     }
   ],
   "changelogDate": "20210129203015",

@@ -11,8 +11,10 @@ import { ILotes } from 'app/shared/model/lotes.model';
 import { LotesService } from 'app/entities/lotes/lotes.service';
 import { IClientes } from 'app/shared/model/clientes.model';
 import { ClientesService } from 'app/entities/clientes/clientes.service';
+import { IFacturasDetalle } from 'app/shared/model/facturas-detalle.model';
+import { FacturasDetalleService } from 'app/entities/facturas-detalle/facturas-detalle.service';
 
-type SelectableEntity = ILotes | IClientes;
+type SelectableEntity = ILotes | IClientes | IFacturasDetalle;
 
 @Component({
   selector: 'jhi-precios-update',
@@ -22,6 +24,7 @@ export class PreciosUpdateComponent implements OnInit {
   isSaving = false;
   lotes: ILotes[] = [];
   clientes: IClientes[] = [];
+  facturasdetalles: IFacturasDetalle[] = [];
   fechaFinDp: any;
   fechaInicioDp: any;
 
@@ -32,12 +35,14 @@ export class PreciosUpdateComponent implements OnInit {
     precio: [],
     loteId: [],
     clienteId: [],
+    precioId: [],
   });
 
   constructor(
     protected preciosService: PreciosService,
     protected lotesService: LotesService,
     protected clientesService: ClientesService,
+    protected facturasDetalleService: FacturasDetalleService,
     protected activatedRoute: ActivatedRoute,
     private fb: FormBuilder
   ) {}
@@ -49,6 +54,8 @@ export class PreciosUpdateComponent implements OnInit {
       this.lotesService.query().subscribe((res: HttpResponse<ILotes[]>) => (this.lotes = res.body || []));
 
       this.clientesService.query().subscribe((res: HttpResponse<IClientes[]>) => (this.clientes = res.body || []));
+
+      this.facturasDetalleService.query().subscribe((res: HttpResponse<IFacturasDetalle[]>) => (this.facturasdetalles = res.body || []));
     });
   }
 
@@ -60,6 +67,7 @@ export class PreciosUpdateComponent implements OnInit {
       precio: precios.precio,
       loteId: precios.loteId,
       clienteId: precios.clienteId,
+      precioId: precios.precioId,
     });
   }
 
@@ -86,6 +94,7 @@ export class PreciosUpdateComponent implements OnInit {
       precio: this.editForm.get(['precio'])!.value,
       loteId: this.editForm.get(['loteId'])!.value,
       clienteId: this.editForm.get(['clienteId'])!.value,
+      precioId: this.editForm.get(['precioId'])!.value,
     };
   }
 

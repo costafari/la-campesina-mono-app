@@ -1,4 +1,5 @@
 import { IPrecios } from 'app/shared/model/precios.model';
+import { IFacturasMaster } from 'app/shared/model/facturas-master.model';
 
 export interface IClientes {
   id?: number;
@@ -16,6 +17,7 @@ export interface IClientes {
   telefonoMovil?: number;
   telefonoMovil2?: number;
   precios?: IPrecios[];
+  clienteId?: IFacturasMaster;
 }
 
 export class Clientes implements IClientes {
@@ -34,7 +36,8 @@ export class Clientes implements IClientes {
     public telefonoFijo2?: number,
     public telefonoMovil?: number,
     public telefonoMovil2?: number,
-    public precios?: IPrecios[]
+    public precios?: IPrecios[],
+    public clienteId?: IFacturasMaster
   ) {
     this.activo = this.activo || false;
   }

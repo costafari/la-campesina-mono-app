@@ -19,9 +19,9 @@
       "fechaFin": "Fecha Fin",
       "fechaInicio": "Fecha Inicio",
       "precio": "Precio",
-      "tickets": "Tickets",
       "loteId": "Lote Id",
-      "clienteId": "Cliente Id"
+      "clienteId": "Cliente Id",
+      "precioId": "Precio Id"
     }
   }
 }

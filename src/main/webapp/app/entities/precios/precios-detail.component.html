@@ -32,6 +32,12 @@
                         <a [routerLink]="['/clientes', precios.clienteId?.id, 'view']">{{ precios.clienteId?.id }}</a>
                     </div>
                 </dd>
+                <dt><span jhiTranslate="lacampesinaApp.precios.precioId">Precio Id</span></dt>
+                <dd>
+                    <div *ngIf="precios.precioId">
+                        <a [routerLink]="['/facturas-detalle', precios.precioId?.id, 'view']">{{ precios.precioId?.id }}</a>
+                    </div>
+                </dd>
             </dl>
 
             <button type="submit"

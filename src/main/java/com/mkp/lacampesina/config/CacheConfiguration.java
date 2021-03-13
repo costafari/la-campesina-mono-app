@@ -62,6 +62,14 @@ public class CacheConfiguration {
             createCache(cm, com.mkp.lacampesina.domain.Lotes.class.getName() + ".precios");
             createCache(cm, com.mkp.lacampesina.domain.Productos.class.getName() + ".lotes");
             createCache(cm, com.mkp.lacampesina.domain.Proveedores.class.getName() + ".lotes");
+            createCache(cm, com.mkp.lacampesina.domain.FacturasMaster.class.getName());
+            createCache(cm, com.mkp.lacampesina.domain.FacturasMaster.class.getName() + ".clientes");
+            createCache(cm, com.mkp.lacampesina.domain.FacturasMaster.class.getName() + ".abonoFacturas");
+            createCache(cm, com.mkp.lacampesina.domain.FacturasDetalle.class.getName());
+            createCache(cm, com.mkp.lacampesina.domain.FacturasDetalle.class.getName() + ".facturasMasters");
+            createCache(cm, com.mkp.lacampesina.domain.FacturasDetalle.class.getName() + ".lotes");
+            createCache(cm, com.mkp.lacampesina.domain.FacturasDetalle.class.getName() + ".precios");
+            createCache(cm, com.mkp.lacampesina.domain.AbonoFacturas.class.getName());
             // jhipster-needle-ehcache-add-entry
         };
     }

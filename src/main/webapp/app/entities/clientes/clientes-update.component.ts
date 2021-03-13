@@ -7,6 +7,8 @@ import { Observable } from 'rxjs';
 
 import { IClientes, Clientes } from 'app/shared/model/clientes.model';
 import { ClientesService } from './clientes.service';
+import { IFacturasMaster } from 'app/shared/model/facturas-master.model';
+import { FacturasMasterService } from 'app/entities/facturas-master/facturas-master.service';
 
 @Component({
   selector: 'jhi-clientes-update',
@@ -14,6 +16,7 @@ import { ClientesService } from './clientes.service';
 })
 export class ClientesUpdateComponent implements OnInit {
   isSaving = false;
+  facturasmasters: IFacturasMaster[] = [];
 
   editForm = this.fb.group({
     id: [],
@@ -30,13 +33,21 @@ export class ClientesUpdateComponent implements OnInit {
     telefonoFijo2: [],
     telefonoMovil: [],
     telefonoMovil2: [],
+    clienteId: [],
   });
 
-  constructor(protected clientesService: ClientesService, protected activatedRoute: ActivatedRoute, private fb: FormBuilder) {}
+  constructor(
+    protected clientesService: ClientesService,
+    protected facturasMasterService: FacturasMasterService,
+    protected activatedRoute: ActivatedRoute,
+    private fb: FormBuilder
+  ) {}
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ clientes }) => {
       this.updateForm(clientes);
+
+      this.facturasMasterService.query().subscribe((res: HttpResponse<IFacturasMaster[]>) => (this.facturasmasters = res.body || []));
     });
   }
 
@@ -56,6 +67,7 @@ export class ClientesUpdateComponent implements OnInit {
       telefonoFijo2: clientes.telefonoFijo2,
       telefonoMovil: clientes.telefonoMovil,
       telefonoMovil2: clientes.telefonoMovil2,
+      clienteId: clientes.clienteId,
     });
   }
 
@@ -90,6 +102,7 @@ export class ClientesUpdateComponent implements OnInit {
       telefonoFijo2: this.editForm.get(['telefonoFijo2'])!.value,
       telefonoMovil: this.editForm.get(['telefonoMovil'])!.value,
       telefonoMovil2: this.editForm.get(['telefonoMovil2'])!.value,
+      clienteId: this.editForm.get(['clienteId'])!.value,
     };
   }
 
@@ -107,5 +120,9 @@ export class ClientesUpdateComponent implements OnInit {
 
   protected onSaveError(): void {
     this.isSaving = false;
+  }
+
+  trackById(index: number, item: IFacturasMaster): any {
+    return item.id;
   }
 }

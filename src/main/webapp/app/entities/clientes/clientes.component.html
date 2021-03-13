@@ -36,6 +36,7 @@
                     <th scope="col" ><span jhiTranslate="lacampesinaApp.clientes.telefonoFijo2">Telefono Fijo 2</span></th>
                     <th scope="col" ><span jhiTranslate="lacampesinaApp.clientes.telefonoMovil">Telefono Movil</span></th>
                     <th scope="col" ><span jhiTranslate="lacampesinaApp.clientes.telefonoMovil2">Telefono Movil 2</span></th>
+                    <th scope="col" ><span jhiTranslate="lacampesinaApp.clientes.clienteId">Cliente Id</span></th>
                     <th scope="col"></th>
                 </tr>
             </thead>
@@ -55,6 +56,11 @@
                     <td>{{ clientes.telefonoFijo2 }}</td>
                     <td>{{ clientes.telefonoMovil }}</td>
                     <td>{{ clientes.telefonoMovil2 }}</td>
+                    <td>
+                        <div *ngIf="clientes.clienteId">
+                            <a [routerLink]="['/facturas-master', clientes.clienteId?.id, 'view']" >{{ clientes.clienteId?.id }}</a>
+                        </div>
+                    </td>
                     <td class="text-right">
                         <div class="btn-group">
                             <button type="submit"

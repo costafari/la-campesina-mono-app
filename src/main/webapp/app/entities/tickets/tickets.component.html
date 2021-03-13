@@ -38,7 +38,7 @@
                     <td>{{ tickets.total }}</td>
                     <td>
                         <div *ngIf="tickets.precioId">
-                            <a [routerLink]="['/precios', tickets.precioId?.id, 'view']" >{{ tickets.precioId?.id }}</a>
+                            <a [routerLink]="['/precios', tickets.precioId?.id, 'view']" >{{ tickets.precioId?.precio }}</a>
                         </div>
                     </td>
                     <td class="text-right">

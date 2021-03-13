@@ -1,15 +1,13 @@
 package com.mkp.lacampesina.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-
-import javax.persistence.*;
-
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
+import javax.persistence.*;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 /**
  * A Lotes.
@@ -18,7 +16,6 @@ import java.util.Set;
 @Table(name = "lotes")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Lotes implements Serializable {
-
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -45,6 +42,10 @@ public class Lotes implements Serializable {
     @ManyToOne
     @JsonIgnoreProperties(value = "lotes", allowSetters = true)
     private Proveedores proveedorId;
+
+    @ManyToOne
+    @JsonIgnoreProperties(value = "lotes", allowSetters = true)
+    private FacturasDetalle loteId;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
@@ -144,6 +145,20 @@ public class Lotes implements Serializable {
     public void setProveedorId(Proveedores proveedores) {
         this.proveedorId = proveedores;
     }
+
+    public FacturasDetalle getLoteId() {
+        return loteId;
+    }
+
+    public Lotes loteId(FacturasDetalle facturasDetalle) {
+        this.loteId = facturasDetalle;
+        return this;
+    }
+
+    public void setLoteId(FacturasDetalle facturasDetalle) {
+        this.loteId = facturasDetalle;
+    }
+
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override

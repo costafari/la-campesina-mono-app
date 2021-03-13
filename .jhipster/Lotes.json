@@ -34,6 +34,13 @@
       "otherEntityRelationshipName": "lotes",
       "relationshipName": "proveedorId",
       "otherEntityField": "id"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "facturasDetalle",
+      "otherEntityRelationshipName": "lotes",
+      "relationshipName": "loteId",
+      "otherEntityField": "id"
     }
   ],
   "changelogDate": "20210129203115",

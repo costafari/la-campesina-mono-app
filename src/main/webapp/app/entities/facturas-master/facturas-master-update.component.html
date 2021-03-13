@@ -1,0 +1,63 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+            <h2 id="jhi-facturas-master-heading" jhiTranslate="lacampesinaApp.facturasMaster.home.createOrEditLabel">Create or edit a Facturas Master</h2>
+
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+
+                <div class="form-group" [hidden]="!editForm.get('id')!.value">
+                    <label for="id" jhiTranslate="global.field.id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id" formControlName="id" readonly />
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="lacampesinaApp.facturasMaster.numeroFactura" for="field_numeroFactura">Numero Factura</label>
+                    <input type="number" class="form-control" name="numeroFactura" id="field_numeroFactura"
+                           formControlName="numeroFactura"/>
+                    <div *ngIf="editForm.get('numeroFactura')!.invalid && (editForm.get('numeroFactura')!.dirty || editForm.get('numeroFactura')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('numeroFactura')?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.get('numeroFactura')?.errors?.number" jhiTranslate="entity.validation.number">
+                            This field should be a number.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="lacampesinaApp.facturasMaster.fechaFactura" for="field_fechaFactura">Fecha Factura</label>
+                    <div class="d-flex">
+                        <input id="field_fechaFactura" type="datetime-local" class="form-control" name="fechaFactura" formControlName="fechaFactura" placeholder="YYYY-MM-DD HH:mm"/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="lacampesinaApp.facturasMaster.condicionPago" for="field_condicionPago">Condicion Pago</label>
+                    <input type="checkbox" class="form-control" name="condicionPago" id="field_condicionPago"
+                           formControlName="condicionPago"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="lacampesinaApp.facturasMaster.facturaMasterId" for="field_facturaMasterId">Factura Master Id</label>
+                    <select class="form-control" id="field_facturaMasterId" name="facturaMasterId" formControlName="facturaMasterId">
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="facturasDetalleOption.id === editForm.get('facturaMasterId')!.value?.id ? editForm.get('facturaMasterId')!.value : facturasDetalleOption" *ngFor="let facturasDetalleOption of facturasdetalles; trackBy: trackById">{{ facturasDetalleOption.id }}</option>
+                    </select>
+                </div>
+            </div>
+
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
+                    <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+                </button>
+
+                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

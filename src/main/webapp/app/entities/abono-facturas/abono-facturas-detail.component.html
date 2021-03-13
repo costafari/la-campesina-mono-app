@@ -1,0 +1,44 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="abonoFacturas">
+            <h2><span jhiTranslate="lacampesinaApp.abonoFacturas.detail.title">Abono Facturas</span> {{ abonoFacturas.id }}</h2>
+
+            <hr>
+
+            <jhi-alert-error></jhi-alert-error>
+
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="lacampesinaApp.abonoFacturas.saldoAnterior">Saldo Anterior</span></dt>
+                <dd>
+                    <span>{{ abonoFacturas.saldoAnterior }}</span>
+                </dd>
+                <dt><span jhiTranslate="lacampesinaApp.abonoFacturas.abono">Abono</span></dt>
+                <dd>
+                    <span>{{ abonoFacturas.abono }}</span>
+                </dd>
+                <dt><span jhiTranslate="lacampesinaApp.abonoFacturas.nuevoSaldo">Nuevo Saldo</span></dt>
+                <dd>
+                    <span>{{ abonoFacturas.nuevoSaldo }}</span>
+                </dd>
+                <dt><span jhiTranslate="lacampesinaApp.abonoFacturas.abonoId">Abono Id</span></dt>
+                <dd>
+                    <div *ngIf="abonoFacturas.abonoId">
+                        <a [routerLink]="['/facturas-master', abonoFacturas.abonoId?.id, 'view']">{{ abonoFacturas.abonoId?.id }}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/abono-facturas', abonoFacturas.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,26 @@
+{
+  "lacampesinaApp": {
+    "facturasDetalle": {
+      "home": {
+        "title": "Facturas Detalles",
+        "createLabel": "Create a new Facturas Detalle",
+        "createOrEditLabel": "Create or edit a Facturas Detalle",
+        "notFound": "No Facturas Detalles found"
+      },
+      "created": "A new Facturas Detalle is created with identifier {{ param }}",
+      "updated": "A Facturas Detalle is updated with identifier {{ param }}",
+      "deleted": "A Facturas Detalle is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Facturas Detalle {{ id }}?"
+      },
+      "detail": {
+        "title": "Facturas Detalle"
+      },
+      "cantidad": "Cantidad",
+      "total": "Total",
+      "facturasMaster": "Facturas Master",
+      "lotes": "Lotes",
+      "precios": "Precios"
+    }
+  }
+}

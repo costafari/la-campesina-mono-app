@@ -1,11 +1,4 @@
 
-entity Tickets {
-	id Long required
-    cantidad Long
-    fechaExpedicion LocalDate
-    total Long
-}
-
 entity Precios {
 	id Long required
     fechaFin LocalDate
@@ -64,10 +57,35 @@ entity Generalidades {
     nombrePropietario String
 }
 
+entity FacturasMaster {
+	id Long required
+    numeroFactura Long required
+    fechaFactura Instant
+    condicionPago Boolean
+}
+
+entity FacturasDetalle {
+	id Long required
+    cantidad Long required
+    total Long
+}
+
+entity AbonoFacturas {
+	id Long required
+    saldoAnterior Long required
+    abono Long required
+    nuevoSaldo Long
+}
+
 relationship OneToMany {
 	Productos to Lotes{productoId}
     Proveedores to Lotes{proveedorId}
     Lotes to Precios{loteId}
 	Clientes to Precios{clienteId}
-	Precios to Tickets{precioId}
+    FacturasMaster to Clientes{clienteId}
+    FacturasMaster to AbonoFacturas{abonoId}
+    FacturasDetalle to FacturasMaster{facturaMasterId}
+    FacturasDetalle to Lotes{loteId}
+    FacturasDetalle to Precios{precioId}
 }
+

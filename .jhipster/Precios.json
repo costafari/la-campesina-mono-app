@@ -16,12 +16,6 @@
   ],
   "relationships": [
     {
-      "relationshipType": "one-to-many",
-      "otherEntityName": "tickets",
-      "otherEntityRelationshipName": "precioId",
-      "relationshipName": "tickets"
-    },
-    {
       "relationshipType": "many-to-one",
       "otherEntityName": "lotes",
       "otherEntityRelationshipName": "precios",
@@ -33,6 +27,13 @@
       "otherEntityName": "clientes",
       "otherEntityRelationshipName": "precios",
       "relationshipName": "clienteId",
+      "otherEntityField": "id"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "facturasDetalle",
+      "otherEntityRelationshipName": "precios",
+      "relationshipName": "precioId",
       "otherEntityField": "id"
     }
   ],

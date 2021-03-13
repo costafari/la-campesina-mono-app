@@ -34,18 +34,26 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="lacampesinaApp.lotes.productoId" for="field_productoId">Producto</label>
+                    <label class="form-control-label" jhiTranslate="lacampesinaApp.lotes.productoId" for="field_productoId">Producto Id</label>
                     <select class="form-control" id="field_productoId" name="productoId" formControlName="productoId">
                         <option [ngValue]="null"></option>
-                        <option [ngValue]="productosOption.id === editForm.get('productoId')!.value?.id ? editForm.get('productoId')!.value : productosOption" *ngFor="let productosOption of productos; trackBy: trackById">{{ productosOption.nombre }}</option>
+                        <option [ngValue]="productosOption.id === editForm.get('productoId')!.value?.id ? editForm.get('productoId')!.value : productosOption" *ngFor="let productosOption of productos; trackBy: trackById">{{ productosOption.id }}</option>
                     </select>
                 </div>
 
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="lacampesinaApp.lotes.proveedorId" for="field_proveedorId">Proveedor</label>
+                    <label class="form-control-label" jhiTranslate="lacampesinaApp.lotes.proveedorId" for="field_proveedorId">Proveedor Id</label>
                     <select class="form-control" id="field_proveedorId" name="proveedorId" formControlName="proveedorId">
                         <option [ngValue]="null"></option>
-                        <option [ngValue]="proveedoresOption.id === editForm.get('proveedorId')!.value?.id ? editForm.get('proveedorId')!.value : proveedoresOption" *ngFor="let proveedoresOption of proveedores; trackBy: trackById">{{ proveedoresOption.nombreEmpresa }}</option>
+                        <option [ngValue]="proveedoresOption.id === editForm.get('proveedorId')!.value?.id ? editForm.get('proveedorId')!.value : proveedoresOption" *ngFor="let proveedoresOption of proveedores; trackBy: trackById">{{ proveedoresOption.id }}</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="lacampesinaApp.lotes.loteId" for="field_loteId">Lote Id</label>
+                    <select class="form-control" id="field_loteId" name="loteId" formControlName="loteId">
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="facturasDetalleOption.id === editForm.get('loteId')!.value?.id ? editForm.get('loteId')!.value : facturasDetalleOption" *ngFor="let facturasDetalleOption of facturasdetalles; trackBy: trackById">{{ facturasDetalleOption.id }}</option>
                     </select>
                 </div>
             </div>

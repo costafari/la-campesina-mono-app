@@ -32,6 +32,18 @@ import { RouterModule } from '@angular/router';
         path: 'generalidades',
         loadChildren: () => import('./generalidades/generalidades.module').then(m => m.LacampesinaGeneralidadesModule),
       },
+      {
+        path: 'facturas-master',
+        loadChildren: () => import('./facturas-master/facturas-master.module').then(m => m.LacampesinaFacturasMasterModule),
+      },
+      {
+        path: 'facturas-detalle',
+        loadChildren: () => import('./facturas-detalle/facturas-detalle.module').then(m => m.LacampesinaFacturasDetalleModule),
+      },
+      {
+        path: 'abono-facturas',
+        loadChildren: () => import('./abono-facturas/abono-facturas.module').then(m => m.LacampesinaAbonoFacturasModule),
+      },
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ]),
   ],

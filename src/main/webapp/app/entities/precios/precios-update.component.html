@@ -52,6 +52,14 @@
                         <option [ngValue]="clientesOption.id === editForm.get('clienteId')!.value?.id ? editForm.get('clienteId')!.value : clientesOption" *ngFor="let clientesOption of clientes; trackBy: trackById">{{ clientesOption.id }}</option>
                     </select>
                 </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="lacampesinaApp.precios.precioId" for="field_precioId">Precio Id</label>
+                    <select class="form-control" id="field_precioId" name="precioId" formControlName="precioId">
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="facturasDetalleOption.id === editForm.get('precioId')!.value?.id ? editForm.get('precioId')!.value : facturasDetalleOption" *ngFor="let facturasDetalleOption of facturasdetalles; trackBy: trackById">{{ facturasDetalleOption.id }}</option>
+                    </select>
+                </div>
             </div>
 
             <div>

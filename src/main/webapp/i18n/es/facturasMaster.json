@@ -1,0 +1,27 @@
+{
+  "lacampesinaApp": {
+    "facturasMaster": {
+      "home": {
+        "title": "Facturas Masters",
+        "createLabel": "Crear nuevo Facturas Master",
+        "createOrEditLabel": "Crear o editar Facturas Master",
+        "notFound": "Ningún Facturas Masters encontrado"
+      },
+      "created": "Un nuevo Facturas Master ha sido creado con el identificador {{ param }}",
+      "updated": "Un Facturas Master ha sido actualizado con el identificador {{ param }}",
+      "deleted": "Un Facturas Master ha sido eliminado con el identificador {{ param }}",
+      "delete": {
+        "question": "¿Seguro que quiere eliminar Facturas Master {{ id }}?"
+      },
+      "detail": {
+        "title": "Facturas Master"
+      },
+      "numeroFactura": "Numero Factura",
+      "fechaFactura": "Fecha Factura",
+      "condicionPago": "Condicion Pago",
+      "clientes": "Clientes",
+      "abonoFacturas": "Abono Facturas",
+      "facturaMasterId": "Factura Master Id"
+    }
+  }
+}

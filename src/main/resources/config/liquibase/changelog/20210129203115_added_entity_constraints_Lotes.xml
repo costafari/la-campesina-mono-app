@@ -20,5 +20,11 @@
                                  referencedColumnNames="id"
                                  referencedTableName="proveedores"/>
 
+        <addForeignKeyConstraint baseColumnNames="lote_id_id"
+                                 baseTableName="lotes"
+                                 constraintName="fk_lotes_lote_id_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="facturas_detalle"/>
+
     </changeSet>
 </databaseChangeLog>

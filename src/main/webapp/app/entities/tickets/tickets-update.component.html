@@ -37,7 +37,7 @@
                     <label class="form-control-label" jhiTranslate="lacampesinaApp.tickets.precioId" for="field_precioId">Precio Id</label>
                     <select class="form-control" id="field_precioId" name="precioId" formControlName="precioId">
                         <option [ngValue]="null"></option>
-                        <option [ngValue]="preciosOption.id === editForm.get('precioId')!.value?.id ? editForm.get('precioId')!.value : preciosOption" *ngFor="let preciosOption of precios; trackBy: trackById">{{ preciosOption.id }}</option>
+                        <option [ngValue]="preciosOption.id === editForm.get('precioId')!.value?.id ? editForm.get('precioId')!.value : preciosOption" *ngFor="let preciosOption of precios; trackBy: trackById">{{ preciosOption.precio }}</option>
                     </select>
                 </div>
             </div>

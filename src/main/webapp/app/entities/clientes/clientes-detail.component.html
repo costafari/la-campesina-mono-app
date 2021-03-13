@@ -60,6 +60,12 @@
                 <dd>
                     <span>{{ clientes.telefonoMovil2 }}</span>
                 </dd>
+                <dt><span jhiTranslate="lacampesinaApp.clientes.clienteId">Cliente Id</span></dt>
+                <dd>
+                    <div *ngIf="clientes.clienteId">
+                        <a [routerLink]="['/facturas-master', clientes.clienteId?.id, 'view']">{{ clientes.clienteId?.id }}</a>
+                    </div>
+                </dd>
             </dl>
 
             <button type="submit"

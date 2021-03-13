@@ -1,15 +1,11 @@
 package com.mkp.lacampesina.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-
-import javax.persistence.*;
-
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Set;
+import javax.persistence.*;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 /**
  * A Precios.
@@ -18,7 +14,6 @@ import java.util.Set;
 @Table(name = "precios")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Precios implements Serializable {
-
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -34,10 +29,6 @@ public class Precios implements Serializable {
     @Column(name = "precio")
     private Long precio;
 
-    @OneToMany(mappedBy = "precioId")
-    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    private Set<Tickets> tickets = new HashSet<>();
-
     @ManyToOne
     @JsonIgnoreProperties(value = "precios", allowSetters = true)
     private Lotes loteId;
@@ -45,6 +36,10 @@ public class Precios implements Serializable {
     @ManyToOne
     @JsonIgnoreProperties(value = "precios", allowSetters = true)
     private Clientes clienteId;
+
+    @ManyToOne
+    @JsonIgnoreProperties(value = "precios", allowSetters = true)
+    private FacturasDetalle precioId;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
@@ -94,31 +89,6 @@ public class Precios implements Serializable {
         this.precio = precio;
     }
 
-    public Set<Tickets> getTickets() {
-        return tickets;
-    }
-
-    public Precios tickets(Set<Tickets> tickets) {
-        this.tickets = tickets;
-        return this;
-    }
-
-    public Precios addTickets(Tickets tickets) {
-        this.tickets.add(tickets);
-        tickets.setPrecioId(this);
-        return this;
-    }
-
-    public Precios removeTickets(Tickets tickets) {
-        this.tickets.remove(tickets);
-        tickets.setPrecioId(null);
-        return this;
-    }
-
-    public void setTickets(Set<Tickets> tickets) {
-        this.tickets = tickets;
-    }
-
     public Lotes getLoteId() {
         return loteId;
     }
@@ -144,6 +114,20 @@ public class Precios implements Serializable {
     public void setClienteId(Clientes clientes) {
         this.clienteId = clientes;
     }
+
+    public FacturasDetalle getPrecioId() {
+        return precioId;
+    }
+
+    public Precios precioId(FacturasDetalle facturasDetalle) {
+        this.precioId = facturasDetalle;
+        return this;
+    }
+
+    public void setPrecioId(FacturasDetalle facturasDetalle) {
+        this.precioId = facturasDetalle;
+    }
+
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override

@@ -11,8 +11,10 @@ import { IProductos } from 'app/shared/model/productos.model';
 import { ProductosService } from 'app/entities/productos/productos.service';
 import { IProveedores } from 'app/shared/model/proveedores.model';
 import { ProveedoresService } from 'app/entities/proveedores/proveedores.service';
+import { IFacturasDetalle } from 'app/shared/model/facturas-detalle.model';
+import { FacturasDetalleService } from 'app/entities/facturas-detalle/facturas-detalle.service';
 
-type SelectableEntity = IProductos | IProveedores;
+type SelectableEntity = IProductos | IProveedores | IFacturasDetalle;
 
 @Component({
   selector: 'jhi-lotes-update',
@@ -22,6 +24,7 @@ export class LotesUpdateComponent implements OnInit {
   isSaving = false;
   productos: IProductos[] = [];
   proveedores: IProveedores[] = [];
+  facturasdetalles: IFacturasDetalle[] = [];
   fechaEntradaDp: any;
 
   editForm = this.fb.group({
@@ -31,12 +34,14 @@ export class LotesUpdateComponent implements OnInit {
     lote: [],
     productoId: [],
     proveedorId: [],
+    loteId: [],
   });
 
   constructor(
     protected lotesService: LotesService,
     protected productosService: ProductosService,
     protected proveedoresService: ProveedoresService,
+    protected facturasDetalleService: FacturasDetalleService,
     protected activatedRoute: ActivatedRoute,
     private fb: FormBuilder
   ) {}
@@ -48,6 +53,8 @@ export class LotesUpdateComponent implements OnInit {
       this.productosService.query().subscribe((res: HttpResponse<IProductos[]>) => (this.productos = res.body || []));
 
       this.proveedoresService.query().subscribe((res: HttpResponse<IProveedores[]>) => (this.proveedores = res.body || []));
+
+      this.facturasDetalleService.query().subscribe((res: HttpResponse<IFacturasDetalle[]>) => (this.facturasdetalles = res.body || []));
     });
   }
 
@@ -59,6 +66,7 @@ export class LotesUpdateComponent implements OnInit {
       lote: lotes.lote,
       productoId: lotes.productoId,
       proveedorId: lotes.proveedorId,
+      loteId: lotes.loteId,
     });
   }
 
@@ -85,6 +93,7 @@ export class LotesUpdateComponent implements OnInit {
       lote: this.editForm.get(['lote'])!.value,
       productoId: this.editForm.get(['productoId'])!.value,
       proveedorId: this.editForm.get(['proveedorId'])!.value,
+      loteId: this.editForm.get(['loteId'])!.value,
     };
   }
 

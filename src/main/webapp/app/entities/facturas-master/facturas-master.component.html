@@ -1,0 +1,71 @@
+<div>
+    <h2 id="page-heading">
+        <span jhiTranslate="lacampesinaApp.facturasMaster.home.title">Facturas Masters</span>
+
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-facturas-master" [routerLink]="['/facturas-master/new']">
+            <fa-icon icon="plus"></fa-icon>
+            <span  jhiTranslate="lacampesinaApp.facturasMaster.home.createLabel">
+            Create a new Facturas Master
+            </span>
+        </button>
+    </h2>
+
+    <jhi-alert-error></jhi-alert-error>
+
+    <jhi-alert></jhi-alert>
+
+    <div class="alert alert-warning" id="no-result" *ngIf="facturasMasters?.length === 0">
+        <span jhiTranslate="lacampesinaApp.facturasMaster.home.notFound">No facturasMasters found</span>
+    </div>
+
+    <div class="table-responsive" id="entities" *ngIf="facturasMasters && facturasMasters.length > 0">
+        <table class="table table-striped" aria-describedby="page-heading">
+            <thead>
+                <tr>
+                    <th scope="col" ><span jhiTranslate="global.field.id">ID</span></th>
+                    <th scope="col" ><span jhiTranslate="lacampesinaApp.facturasMaster.numeroFactura">Numero Factura</span></th>
+                    <th scope="col" ><span jhiTranslate="lacampesinaApp.facturasMaster.fechaFactura">Fecha Factura</span></th>
+                    <th scope="col" ><span jhiTranslate="lacampesinaApp.facturasMaster.condicionPago">Condicion Pago</span></th>
+                    <th scope="col" ><span jhiTranslate="lacampesinaApp.facturasMaster.facturaMasterId">Factura Master Id</span></th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let facturasMaster of facturasMasters ;trackBy: trackId">
+                    <td><a [routerLink]="['/facturas-master', facturasMaster.id, 'view']">{{ facturasMaster.id }}</a></td>
+                    <td>{{ facturasMaster.numeroFactura }}</td>
+                    <td>{{ facturasMaster.fechaFactura | date:'medium' }}</td>
+                    <td>{{ facturasMaster.condicionPago }}</td>
+                    <td>
+                        <div *ngIf="facturasMaster.facturaMasterId">
+                            <a [routerLink]="['/facturas-detalle', facturasMaster.facturaMasterId?.id, 'view']" >{{ facturasMaster.facturaMasterId?.id }}</a>
+                        </div>
+                    </td>
+                    <td class="text-right">
+                        <div class="btn-group">
+                            <button type="submit"
+                                    [routerLink]="['/facturas-master', facturasMaster.id, 'view']"
+                                    class="btn btn-info btn-sm">
+                                <fa-icon icon="eye"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                            </button>
+
+                            <button type="submit"
+                                    [routerLink]="['/facturas-master', facturasMaster.id, 'edit']"
+                                    class="btn btn-primary btn-sm">
+                                <fa-icon icon="pencil-alt"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                            </button>
+
+                            <button type="submit" (click)="delete(facturasMaster)"
+                                    class="btn btn-danger btn-sm">
+                                <fa-icon icon="times"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

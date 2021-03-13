@@ -1,13 +1,12 @@
 package com.mkp.lacampesina.domain;
 
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-
-import javax.persistence.*;
-
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
+import javax.persistence.*;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 /**
  * A Clientes.
@@ -16,7 +15,6 @@ import java.util.Set;
 @Table(name = "clientes")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Clientes implements Serializable {
-
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -65,6 +63,10 @@ public class Clientes implements Serializable {
     @OneToMany(mappedBy = "clienteId")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     private Set<Precios> precios = new HashSet<>();
+
+    @ManyToOne
+    @JsonIgnoreProperties(value = "clientes", allowSetters = true)
+    private FacturasMaster clienteId;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
@@ -268,6 +270,20 @@ public class Clientes implements Serializable {
     public void setPrecios(Set<Precios> precios) {
         this.precios = precios;
     }
+
+    public FacturasMaster getClienteId() {
+        return clienteId;
+    }
+
+    public Clientes clienteId(FacturasMaster facturasMaster) {
+        this.clienteId = facturasMaster;
+        return this;
+    }
+
+    public void setClienteId(FacturasMaster facturasMaster) {
+        this.clienteId = facturasMaster;
+    }
+
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override

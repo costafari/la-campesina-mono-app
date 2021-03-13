@@ -1,0 +1,43 @@
+{
+  "name": "AbonoFacturas",
+  "fields": [
+    {
+      "fieldName": "saldoAnterior",
+      "fieldType": "Long",
+      "fieldValidateRules": [
+        "required"
+      ]
+    },
+    {
+      "fieldName": "abono",
+      "fieldType": "Long",
+      "fieldValidateRules": [
+        "required"
+      ]
+    },
+    {
+      "fieldName": "nuevoSaldo",
+      "fieldType": "Long"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "facturasMaster",
+      "otherEntityRelationshipName": "abonoFacturas",
+      "relationshipName": "abonoId",
+      "otherEntityField": "id"
+    }
+  ],
+  "changelogDate": "20210313211103",
+  "entityTableName": "abono_facturas",
+  "dto": "no",
+  "pagination": "no",
+  "service": "no",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "clientRootFolder": "",
+  "applications": "*"
+}
