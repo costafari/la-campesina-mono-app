@@ -36,6 +36,9 @@
     "dtoSuffix": "DTO",
     "otherModules": [],
     "blueprints": [],
-    "prettierJava": true
+    "prettierJava": true,
+    "herokuAppName": "lacampesina",
+    "herokuDeployType": "git",
+    "herokuJavaVersion": "14"
   }
 }
