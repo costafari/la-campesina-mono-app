@@ -1,12 +1,14 @@
 package com.mkp.lacampesina.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
+import javax.persistence.*;
+
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
-import javax.persistence.*;
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 /**
  * A Clientes.
@@ -15,6 +17,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @Table(name = "clientes")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Clientes implements Serializable {
+
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -283,7 +286,6 @@ public class Clientes implements Serializable {
     public void setClienteId(FacturasMaster facturasMaster) {
         this.clienteId = facturasMaster;
     }
-
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override

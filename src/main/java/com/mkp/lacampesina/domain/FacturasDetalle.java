@@ -1,12 +1,14 @@
 package com.mkp.lacampesina.domain;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
+import javax.persistence.*;
+import javax.validation.constraints.*;
+
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
-import javax.persistence.*;
-import javax.validation.constraints.*;
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 /**
  * A FacturasDetalle.
@@ -15,6 +17,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @Table(name = "facturas_detalle")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class FacturasDetalle implements Serializable {
+
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -149,7 +152,6 @@ public class FacturasDetalle implements Serializable {
     public void setPrecios(Set<Precios> precios) {
         this.precios = precios;
     }
-
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override

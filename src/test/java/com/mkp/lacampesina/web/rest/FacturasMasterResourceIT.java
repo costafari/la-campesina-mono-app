@@ -1,17 +1,9 @@
 package com.mkp.lacampesina.web.rest;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.hasItem;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
 import com.mkp.lacampesina.LacampesinaApp;
 import com.mkp.lacampesina.domain.FacturasMaster;
 import com.mkp.lacampesina.repository.FacturasMasterRepository;
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
-import java.util.List;
-import javax.persistence.EntityManager;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +13,15 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
+import javax.persistence.EntityManager;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.hasItem;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
  * Integration tests for the {@link FacturasMasterResource} REST controller.
@@ -29,6 +30,7 @@ import org.springframework.transaction.annotation.Transactional;
 @AutoConfigureMockMvc
 @WithMockUser
 public class FacturasMasterResourceIT {
+
     private static final Long DEFAULT_NUMERO_FACTURA = 1L;
     private static final Long UPDATED_NUMERO_FACTURA = 2L;
 
@@ -62,7 +64,6 @@ public class FacturasMasterResourceIT {
             .condicionPago(DEFAULT_CONDICION_PAGO);
         return facturasMaster;
     }
-
     /**
      * Create an updated entity for this test.
      *
@@ -87,12 +88,9 @@ public class FacturasMasterResourceIT {
     public void createFacturasMaster() throws Exception {
         int databaseSizeBeforeCreate = facturasMasterRepository.findAll().size();
         // Create the FacturasMaster
-        restFacturasMasterMockMvc
-            .perform(
-                post("/api/facturas-masters")
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .content(TestUtil.convertObjectToJsonBytes(facturasMaster))
-            )
+        restFacturasMasterMockMvc.perform(post("/api/facturas-masters")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(TestUtil.convertObjectToJsonBytes(facturasMaster)))
             .andExpect(status().isCreated());
 
         // Validate the FacturasMaster in the database
@@ -113,18 +111,16 @@ public class FacturasMasterResourceIT {
         facturasMaster.setId(1L);
 
         // An entity with an existing ID cannot be created, so this API call must fail
-        restFacturasMasterMockMvc
-            .perform(
-                post("/api/facturas-masters")
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .content(TestUtil.convertObjectToJsonBytes(facturasMaster))
-            )
+        restFacturasMasterMockMvc.perform(post("/api/facturas-masters")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(TestUtil.convertObjectToJsonBytes(facturasMaster)))
             .andExpect(status().isBadRequest());
 
         // Validate the FacturasMaster in the database
         List<FacturasMaster> facturasMasterList = facturasMasterRepository.findAll();
         assertThat(facturasMasterList).hasSize(databaseSizeBeforeCreate);
     }
+
 
     @Test
     @Transactional
@@ -135,12 +131,10 @@ public class FacturasMasterResourceIT {
 
         // Create the FacturasMaster, which fails.
 
-        restFacturasMasterMockMvc
-            .perform(
-                post("/api/facturas-masters")
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .content(TestUtil.convertObjectToJsonBytes(facturasMaster))
-            )
+
+        restFacturasMasterMockMvc.perform(post("/api/facturas-masters")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(TestUtil.convertObjectToJsonBytes(facturasMaster)))
             .andExpect(status().isBadRequest());
 
         List<FacturasMaster> facturasMasterList = facturasMasterRepository.findAll();
@@ -154,8 +148,7 @@ public class FacturasMasterResourceIT {
         facturasMasterRepository.saveAndFlush(facturasMaster);
 
         // Get all the facturasMasterList
-        restFacturasMasterMockMvc
-            .perform(get("/api/facturas-masters?sort=id,desc"))
+        restFacturasMasterMockMvc.perform(get("/api/facturas-masters?sort=id,desc"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(facturasMaster.getId().intValue())))
@@ -163,7 +156,7 @@ public class FacturasMasterResourceIT {
             .andExpect(jsonPath("$.[*].fechaFactura").value(hasItem(DEFAULT_FECHA_FACTURA.toString())))
             .andExpect(jsonPath("$.[*].condicionPago").value(hasItem(DEFAULT_CONDICION_PAGO.booleanValue())));
     }
-
+    
     @Test
     @Transactional
     public void getFacturasMaster() throws Exception {
@@ -171,8 +164,7 @@ public class FacturasMasterResourceIT {
         facturasMasterRepository.saveAndFlush(facturasMaster);
 
         // Get the facturasMaster
-        restFacturasMasterMockMvc
-            .perform(get("/api/facturas-masters/{id}", facturasMaster.getId()))
+        restFacturasMasterMockMvc.perform(get("/api/facturas-masters/{id}", facturasMaster.getId()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(facturasMaster.getId().intValue()))
@@ -180,12 +172,12 @@ public class FacturasMasterResourceIT {
             .andExpect(jsonPath("$.fechaFactura").value(DEFAULT_FECHA_FACTURA.toString()))
             .andExpect(jsonPath("$.condicionPago").value(DEFAULT_CONDICION_PAGO.booleanValue()));
     }
-
     @Test
     @Transactional
     public void getNonExistingFacturasMaster() throws Exception {
         // Get the facturasMaster
-        restFacturasMasterMockMvc.perform(get("/api/facturas-masters/{id}", Long.MAX_VALUE)).andExpect(status().isNotFound());
+        restFacturasMasterMockMvc.perform(get("/api/facturas-masters/{id}", Long.MAX_VALUE))
+            .andExpect(status().isNotFound());
     }
 
     @Test
@@ -205,12 +197,9 @@ public class FacturasMasterResourceIT {
             .fechaFactura(UPDATED_FECHA_FACTURA)
             .condicionPago(UPDATED_CONDICION_PAGO);
 
-        restFacturasMasterMockMvc
-            .perform(
-                put("/api/facturas-masters")
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .content(TestUtil.convertObjectToJsonBytes(updatedFacturasMaster))
-            )
+        restFacturasMasterMockMvc.perform(put("/api/facturas-masters")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(TestUtil.convertObjectToJsonBytes(updatedFacturasMaster)))
             .andExpect(status().isOk());
 
         // Validate the FacturasMaster in the database
@@ -228,12 +217,9 @@ public class FacturasMasterResourceIT {
         int databaseSizeBeforeUpdate = facturasMasterRepository.findAll().size();
 
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
-        restFacturasMasterMockMvc
-            .perform(
-                put("/api/facturas-masters")
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .content(TestUtil.convertObjectToJsonBytes(facturasMaster))
-            )
+        restFacturasMasterMockMvc.perform(put("/api/facturas-masters")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(TestUtil.convertObjectToJsonBytes(facturasMaster)))
             .andExpect(status().isBadRequest());
 
         // Validate the FacturasMaster in the database
@@ -250,8 +236,8 @@ public class FacturasMasterResourceIT {
         int databaseSizeBeforeDelete = facturasMasterRepository.findAll().size();
 
         // Delete the facturasMaster
-        restFacturasMasterMockMvc
-            .perform(delete("/api/facturas-masters/{id}", facturasMaster.getId()).accept(MediaType.APPLICATION_JSON))
+        restFacturasMasterMockMvc.perform(delete("/api/facturas-masters/{id}", facturasMaster.getId())
+            .accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isNoContent());
 
         // Validate the database contains one less item

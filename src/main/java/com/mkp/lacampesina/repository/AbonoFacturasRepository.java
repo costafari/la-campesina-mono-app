@@ -1,6 +1,7 @@
 package com.mkp.lacampesina.repository;
 
 import com.mkp.lacampesina.domain.AbonoFacturas;
+
 import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;
 
@@ -9,4 +10,5 @@ import org.springframework.stereotype.Repository;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface AbonoFacturasRepository extends JpaRepository<AbonoFacturas, Long> {}
+public interface AbonoFacturasRepository extends JpaRepository<AbonoFacturas, Long> {
+}

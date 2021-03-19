@@ -1,9 +1,8 @@
 package com.mkp.lacampesina.domain;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-import com.mkp.lacampesina.web.rest.TestUtil;
 import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.Assertions.assertThat;
+import com.mkp.lacampesina.web.rest.TestUtil;
 
 public class FacturasDetalleTest {
 

@@ -1,11 +1,13 @@
 package com.mkp.lacampesina.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import java.io.Serializable;
-import javax.persistence.*;
-import javax.validation.constraints.*;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+
+import javax.persistence.*;
+import javax.validation.constraints.*;
+
+import java.io.Serializable;
 
 /**
  * A AbonoFacturas.
@@ -14,6 +16,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @Table(name = "abono_facturas")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class AbonoFacturas implements Serializable {
+
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -95,7 +98,6 @@ public class AbonoFacturas implements Serializable {
     public void setAbonoId(FacturasMaster facturasMaster) {
         this.abonoId = facturasMaster;
     }
-
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override

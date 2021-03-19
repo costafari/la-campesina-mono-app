@@ -1,15 +1,9 @@
 package com.mkp.lacampesina.web.rest;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.hasItem;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
 import com.mkp.lacampesina.LacampesinaApp;
 import com.mkp.lacampesina.domain.AbonoFacturas;
 import com.mkp.lacampesina.repository.AbonoFacturasRepository;
-import java.util.List;
-import javax.persistence.EntityManager;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +13,13 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
+import javax.persistence.EntityManager;
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.hasItem;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
  * Integration tests for the {@link AbonoFacturasResource} REST controller.
@@ -27,6 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
 @AutoConfigureMockMvc
 @WithMockUser
 public class AbonoFacturasResourceIT {
+
     private static final Long DEFAULT_SALDO_ANTERIOR = 1L;
     private static final Long UPDATED_SALDO_ANTERIOR = 2L;
 
@@ -60,7 +62,6 @@ public class AbonoFacturasResourceIT {
             .nuevoSaldo(DEFAULT_NUEVO_SALDO);
         return abonoFacturas;
     }
-
     /**
      * Create an updated entity for this test.
      *
@@ -85,12 +86,9 @@ public class AbonoFacturasResourceIT {
     public void createAbonoFacturas() throws Exception {
         int databaseSizeBeforeCreate = abonoFacturasRepository.findAll().size();
         // Create the AbonoFacturas
-        restAbonoFacturasMockMvc
-            .perform(
-                post("/api/abono-facturas")
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .content(TestUtil.convertObjectToJsonBytes(abonoFacturas))
-            )
+        restAbonoFacturasMockMvc.perform(post("/api/abono-facturas")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(TestUtil.convertObjectToJsonBytes(abonoFacturas)))
             .andExpect(status().isCreated());
 
         // Validate the AbonoFacturas in the database
@@ -111,18 +109,16 @@ public class AbonoFacturasResourceIT {
         abonoFacturas.setId(1L);
 
         // An entity with an existing ID cannot be created, so this API call must fail
-        restAbonoFacturasMockMvc
-            .perform(
-                post("/api/abono-facturas")
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .content(TestUtil.convertObjectToJsonBytes(abonoFacturas))
-            )
+        restAbonoFacturasMockMvc.perform(post("/api/abono-facturas")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(TestUtil.convertObjectToJsonBytes(abonoFacturas)))
             .andExpect(status().isBadRequest());
 
         // Validate the AbonoFacturas in the database
         List<AbonoFacturas> abonoFacturasList = abonoFacturasRepository.findAll();
         assertThat(abonoFacturasList).hasSize(databaseSizeBeforeCreate);
     }
+
 
     @Test
     @Transactional
@@ -133,12 +129,10 @@ public class AbonoFacturasResourceIT {
 
         // Create the AbonoFacturas, which fails.
 
-        restAbonoFacturasMockMvc
-            .perform(
-                post("/api/abono-facturas")
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .content(TestUtil.convertObjectToJsonBytes(abonoFacturas))
-            )
+
+        restAbonoFacturasMockMvc.perform(post("/api/abono-facturas")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(TestUtil.convertObjectToJsonBytes(abonoFacturas)))
             .andExpect(status().isBadRequest());
 
         List<AbonoFacturas> abonoFacturasList = abonoFacturasRepository.findAll();
@@ -154,12 +148,10 @@ public class AbonoFacturasResourceIT {
 
         // Create the AbonoFacturas, which fails.
 
-        restAbonoFacturasMockMvc
-            .perform(
-                post("/api/abono-facturas")
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .content(TestUtil.convertObjectToJsonBytes(abonoFacturas))
-            )
+
+        restAbonoFacturasMockMvc.perform(post("/api/abono-facturas")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(TestUtil.convertObjectToJsonBytes(abonoFacturas)))
             .andExpect(status().isBadRequest());
 
         List<AbonoFacturas> abonoFacturasList = abonoFacturasRepository.findAll();
@@ -173,8 +165,7 @@ public class AbonoFacturasResourceIT {
         abonoFacturasRepository.saveAndFlush(abonoFacturas);
 
         // Get all the abonoFacturasList
-        restAbonoFacturasMockMvc
-            .perform(get("/api/abono-facturas?sort=id,desc"))
+        restAbonoFacturasMockMvc.perform(get("/api/abono-facturas?sort=id,desc"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(abonoFacturas.getId().intValue())))
@@ -182,7 +173,7 @@ public class AbonoFacturasResourceIT {
             .andExpect(jsonPath("$.[*].abono").value(hasItem(DEFAULT_ABONO.intValue())))
             .andExpect(jsonPath("$.[*].nuevoSaldo").value(hasItem(DEFAULT_NUEVO_SALDO.intValue())));
     }
-
+    
     @Test
     @Transactional
     public void getAbonoFacturas() throws Exception {
@@ -190,8 +181,7 @@ public class AbonoFacturasResourceIT {
         abonoFacturasRepository.saveAndFlush(abonoFacturas);
 
         // Get the abonoFacturas
-        restAbonoFacturasMockMvc
-            .perform(get("/api/abono-facturas/{id}", abonoFacturas.getId()))
+        restAbonoFacturasMockMvc.perform(get("/api/abono-facturas/{id}", abonoFacturas.getId()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(abonoFacturas.getId().intValue()))
@@ -199,12 +189,12 @@ public class AbonoFacturasResourceIT {
             .andExpect(jsonPath("$.abono").value(DEFAULT_ABONO.intValue()))
             .andExpect(jsonPath("$.nuevoSaldo").value(DEFAULT_NUEVO_SALDO.intValue()));
     }
-
     @Test
     @Transactional
     public void getNonExistingAbonoFacturas() throws Exception {
         // Get the abonoFacturas
-        restAbonoFacturasMockMvc.perform(get("/api/abono-facturas/{id}", Long.MAX_VALUE)).andExpect(status().isNotFound());
+        restAbonoFacturasMockMvc.perform(get("/api/abono-facturas/{id}", Long.MAX_VALUE))
+            .andExpect(status().isNotFound());
     }
 
     @Test
@@ -219,14 +209,14 @@ public class AbonoFacturasResourceIT {
         AbonoFacturas updatedAbonoFacturas = abonoFacturasRepository.findById(abonoFacturas.getId()).get();
         // Disconnect from session so that the updates on updatedAbonoFacturas are not directly saved in db
         em.detach(updatedAbonoFacturas);
-        updatedAbonoFacturas.saldoAnterior(UPDATED_SALDO_ANTERIOR).abono(UPDATED_ABONO).nuevoSaldo(UPDATED_NUEVO_SALDO);
+        updatedAbonoFacturas
+            .saldoAnterior(UPDATED_SALDO_ANTERIOR)
+            .abono(UPDATED_ABONO)
+            .nuevoSaldo(UPDATED_NUEVO_SALDO);
 
-        restAbonoFacturasMockMvc
-            .perform(
-                put("/api/abono-facturas")
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .content(TestUtil.convertObjectToJsonBytes(updatedAbonoFacturas))
-            )
+        restAbonoFacturasMockMvc.perform(put("/api/abono-facturas")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(TestUtil.convertObjectToJsonBytes(updatedAbonoFacturas)))
             .andExpect(status().isOk());
 
         // Validate the AbonoFacturas in the database
@@ -244,10 +234,9 @@ public class AbonoFacturasResourceIT {
         int databaseSizeBeforeUpdate = abonoFacturasRepository.findAll().size();
 
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
-        restAbonoFacturasMockMvc
-            .perform(
-                put("/api/abono-facturas").contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(abonoFacturas))
-            )
+        restAbonoFacturasMockMvc.perform(put("/api/abono-facturas")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(TestUtil.convertObjectToJsonBytes(abonoFacturas)))
             .andExpect(status().isBadRequest());
 
         // Validate the AbonoFacturas in the database
@@ -264,8 +253,8 @@ public class AbonoFacturasResourceIT {
         int databaseSizeBeforeDelete = abonoFacturasRepository.findAll().size();
 
         // Delete the abonoFacturas
-        restAbonoFacturasMockMvc
-            .perform(delete("/api/abono-facturas/{id}", abonoFacturas.getId()).accept(MediaType.APPLICATION_JSON))
+        restAbonoFacturasMockMvc.perform(delete("/api/abono-facturas/{id}", abonoFacturas.getId())
+            .accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isNoContent());
 
         // Validate the database contains one less item
