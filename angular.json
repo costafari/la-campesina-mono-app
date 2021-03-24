@@ -30,6 +30,7 @@
   },
   "defaultProject": "lacampesina",
   "cli": {
-    "packageManager": "npm"
+    "packageManager": "npm",
+    "analytics": false
   }
 }

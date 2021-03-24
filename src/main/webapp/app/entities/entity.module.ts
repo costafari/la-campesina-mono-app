@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { FacturacionComponent } from './facturacion/facturacion/facturacion.component';
 
 @NgModule({
   imports: [
@@ -47,5 +48,6 @@ import { RouterModule } from '@angular/router';
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ]),
   ],
+  declarations: [FacturacionComponent],
 })
 export class LacampesinaEntityModule {}
