@@ -37,7 +37,7 @@
     "otherModules": [],
     "blueprints": [],
     "prettierJava": true,
-    "herokuAppName": "lacampesina",
+    "herokuAppName": "warm-spire-27560",
     "herokuDeployType": "git",
     "herokuJavaVersion": "14"
   }
