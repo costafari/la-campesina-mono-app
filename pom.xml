@@ -1150,10 +1150,10 @@
                             <changeLogFile>src/main/resources/config/liquibase/master.xml</changeLogFile>
                             <diffChangeLogFile>src/main/resources/config/liquibase/changelog/${maven.build.timestamp}_changelog.xml</diffChangeLogFile>
                             <driver>com.mysql.cj.jdbc.Driver</driver>
-                            <url>jdbc:mysql://localhost:3306/lacampesina</url>
-                            <defaultSchemaName></defaultSchemaName>
-                            <username>root</username>
-                            <password>123</password>
+                            <url>jdbc:mysql://nylvqg9i35pkymg5:fgeu7494k3hsswxl@ao9moanwus0rjiex.cbetxkdyhwsb.us-east-1.rds.amazonaws.com:3306/tvhwc07cdj7tuqkz</url>
+                            <defaultSchemaName></defaultSchemaName> 
+                            <username>nylvqg9i35pkymg5</username>
+                            <password>fgeu7494k3hsswxl</password>
                             <referenceUrl>hibernate:spring:com.mkp.lacampesina.domain?dialect=org.hibernate.dialect.MySQL8Dialect&amp;hibernate.physical_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy&amp;hibernate.implicit_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy</referenceUrl>
                             <verbose>true</verbose>
                             <logging>debug</logging>

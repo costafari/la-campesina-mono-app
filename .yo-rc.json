@@ -37,7 +37,7 @@
     "otherModules": [],
     "blueprints": [],
     "prettierJava": true,
-    "herokuAppName": "lacampesina",
+    "herokuAppName": "floating-plateau-36068",
     "herokuDeployType": "git",
     "herokuJavaVersion": "14"
   }
