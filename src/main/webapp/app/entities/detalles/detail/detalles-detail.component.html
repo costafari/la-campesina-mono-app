@@ -1,0 +1,48 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <div *ngIf="detalles">
+      <h2 data-cy="detallesDetailsHeading"><span>Detalles</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span>Id</span></dt>
+        <dd>
+          <span>{{ detalles.id }}</span>
+        </dd>
+        <dt><span>Cantidad</span></dt>
+        <dd>
+          <span>{{ detalles.cantidad }}</span>
+        </dd>
+        <dt><span>Total</span></dt>
+        <dd>
+          <span>{{ detalles.total }}</span>
+        </dd>
+        <dt><span>Facturas</span></dt>
+        <dd>
+          <div *ngIf="detalles.facturas">
+            <a [routerLink]="['/facturas', detalles.facturas?.id, 'view']">{{ detalles.facturas?.id }}</a>
+          </div>
+        </dd>
+        <dt><span>Lotes</span></dt>
+        <dd>
+          <div *ngIf="detalles.lotes">
+            <a [routerLink]="['/lotes', detalles.lotes?.id, 'view']">{{ detalles.lotes?.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/detalles', detalles.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

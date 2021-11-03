@@ -1,0 +1,70 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <div *ngIf="proveedores">
+      <h2 data-cy="proveedoresDetailsHeading"><span>Proveedores</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span>Id</span></dt>
+        <dd>
+          <span>{{ proveedores.id }}</span>
+        </dd>
+        <dt><span>Direccion</span></dt>
+        <dd>
+          <span>{{ proveedores.direccion }}</span>
+        </dd>
+        <dt><span>Nombre Contacto</span></dt>
+        <dd>
+          <span>{{ proveedores.nombreContacto }}</span>
+        </dd>
+        <dt><span>Nombre Empresa</span></dt>
+        <dd>
+          <span>{{ proveedores.nombreEmpresa }}</span>
+        </dd>
+        <dt><span>Notas</span></dt>
+        <dd>
+          <span>{{ proveedores.notas }}</span>
+        </dd>
+        <dt><span>Sitio Web</span></dt>
+        <dd>
+          <span>{{ proveedores.sitioWeb }}</span>
+        </dd>
+        <dt><span>Telefono Fijo</span></dt>
+        <dd>
+          <span>{{ proveedores.telefonoFijo }}</span>
+        </dd>
+        <dt><span>Telefono Fijo 2</span></dt>
+        <dd>
+          <span>{{ proveedores.telefonoFijo2 }}</span>
+        </dd>
+        <dt><span>Telefono Movil</span></dt>
+        <dd>
+          <span>{{ proveedores.telefonoMovil }}</span>
+        </dd>
+        <dt><span>Telefono Movil 2</span></dt>
+        <dd>
+          <span>{{ proveedores.telefonoMovil2 }}</span>
+        </dd>
+        <dt><span>Lotes</span></dt>
+        <dd>
+          <div *ngIf="proveedores.lotes">
+            <a [routerLink]="['/lotes', proveedores.lotes?.id, 'view']">{{ proveedores.lotes?.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/proveedores', proveedores.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

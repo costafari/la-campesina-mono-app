@@ -1,0 +1,64 @@
+{
+  "name": "Proveedores",
+  "fields": [
+    {
+      "fieldName": "id",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "direccion",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "nombreContacto",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "nombreEmpresa",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "notas",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "sitioWeb",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "telefonoFijo",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "telefonoFijo2",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "telefonoMovil",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "telefonoMovil2",
+      "fieldType": "Integer"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "one-to-one",
+      "otherEntityName": "lotes",
+      "otherEntityRelationshipName": "proveedores",
+      "relationshipName": "lotes",
+      "ownerSide": true
+    }
+  ],
+  "entityTableName": "proveedores",
+  "dto": "no",
+  "pagination": "no",
+  "service": "no",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": "*",
+  "changelogDate": "20210831212930"
+}

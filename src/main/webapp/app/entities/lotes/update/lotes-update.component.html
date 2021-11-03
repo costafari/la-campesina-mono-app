@@ -1,0 +1,89 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-lotes-heading" data-cy="LotesCreateUpdateHeading">Create or edit a Lotes</h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="form-group" [hidden]="editForm.get('id')!.value == null">
+          <label class="form-control-label" for="field_id">Id</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_cantidad">Cantidad</label>
+          <input type="number" class="form-control" name="cantidad" id="field_cantidad" data-cy="cantidad" formControlName="cantidad" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_fechaEntrada">Fecha Entrada</label>
+          <div class="input-group">
+            <input
+              id="field_fechaEntrada"
+              data-cy="fechaEntrada"
+              type="text"
+              class="form-control"
+              name="fechaEntrada"
+              ngbDatepicker
+              #fechaEntradaDp="ngbDatepicker"
+              formControlName="fechaEntrada"
+            />
+            <span class="input-group-append">
+              <button type="button" class="btn btn-secondary" (click)="fechaEntradaDp.toggle()">
+                <fa-icon icon="calendar-alt"></fa-icon>
+              </button>
+            </span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_lote">Lote</label>
+          <input type="text" class="form-control" name="lote" id="field_lote" data-cy="lote" formControlName="lote" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_productos">Productos</label>
+          <select class="form-control" id="field_productos" data-cy="productos" name="productos" formControlName="productos">
+            <option [ngValue]="null"></option>
+            <option
+              [ngValue]="productosOption.id === editForm.get('productos')!.value?.id ? editForm.get('productos')!.value : productosOption"
+              *ngFor="let productosOption of productosSharedCollection; trackBy: trackProductosById"
+            >
+              {{ productosOption.id }}
+            </option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_precios">Precios</label>
+          <select class="form-control" id="field_precios" data-cy="precios" name="precios" formControlName="precios">
+            <option [ngValue]="null"></option>
+            <option
+              [ngValue]="preciosOption.id === editForm.get('precios')!.value?.id ? editForm.get('precios')!.value : preciosOption"
+              *ngFor="let preciosOption of preciosSharedCollection; trackBy: trackPreciosById"
+            >
+              {{ preciosOption.id }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

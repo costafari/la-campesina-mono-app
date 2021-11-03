@@ -1,0 +1,52 @@
+{
+  "name": "Facturas",
+  "fields": [
+    {
+      "fieldName": "id",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "numeroFactura",
+      "fieldType": "Long",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "fechaFactura",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "condicionPago",
+      "fieldType": "Boolean"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "clientes",
+      "otherEntityRelationshipName": "facturas",
+      "relationshipName": "clientes"
+    },
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "detalles",
+      "otherEntityRelationshipName": "facturas",
+      "relationshipName": "detalles"
+    },
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "abonos",
+      "otherEntityRelationshipName": "facturas",
+      "relationshipName": "abonos"
+    }
+  ],
+  "entityTableName": "facturas",
+  "dto": "no",
+  "pagination": "no",
+  "service": "no",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": "*",
+  "changelogDate": "20210831212931"
+}

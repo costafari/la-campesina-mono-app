@@ -1,0 +1,58 @@
+{
+  "name": "Lotes",
+  "fields": [
+    {
+      "fieldName": "id",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "cantidad",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "fechaEntrada",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "lote",
+      "fieldType": "String"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "detalles",
+      "otherEntityRelationshipName": "lotes",
+      "relationshipName": "detalles"
+    },
+    {
+      "relationshipType": "one-to-one",
+      "otherEntityName": "proveedores",
+      "otherEntityRelationshipName": "lotes",
+      "relationshipName": "proveedores",
+      "ownerSide": false
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "productos",
+      "otherEntityRelationshipName": "lotes",
+      "relationshipName": "productos"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "precios",
+      "otherEntityRelationshipName": "lotes",
+      "relationshipName": "precios"
+    }
+  ],
+  "entityTableName": "lotes",
+  "dto": "no",
+  "pagination": "no",
+  "service": "no",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": "*",
+  "changelogDate": "20210831212928"
+}

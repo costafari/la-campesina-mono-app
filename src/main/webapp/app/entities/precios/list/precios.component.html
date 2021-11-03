@@ -1,0 +1,82 @@
+<div>
+  <h2 id="page-heading" data-cy="PreciosHeading">
+    <span>Precios</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info mr-2" (click)="loadAll()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span>Refresh List</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-precios"
+        [routerLink]="['/precios/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span> Create a new Precios </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="precios?.length === 0">
+    <span>No precios found</span>
+  </div>
+
+  <div class="table-responsive" id="entities" *ngIf="precios && precios.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr>
+          <th scope="col"><span>Id</span></th>
+          <th scope="col"><span>Fecha Fin</span></th>
+          <th scope="col"><span>Fecha Inicio</span></th>
+          <th scope="col"><span>Precio</span></th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let precios of precios; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/precios', precios.id, 'view']">{{ precios.id }}</a>
+          </td>
+          <td>{{ precios.fechaFin | formatMediumDate }}</td>
+          <td>{{ precios.fechaInicio | formatMediumDate }}</td>
+          <td>{{ precios.precio }}</td>
+          <td class="text-right">
+            <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/precios', precios.id, 'view']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline">View</span>
+              </button>
+
+              <button
+                type="submit"
+                [routerLink]="['/precios', precios.id, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline">Edit</span>
+              </button>
+
+              <button type="submit" (click)="delete(precios)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

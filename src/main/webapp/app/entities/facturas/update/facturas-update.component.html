@@ -1,0 +1,94 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-facturas-heading" data-cy="FacturasCreateUpdateHeading">Create or edit a Facturas</h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="form-group" [hidden]="editForm.get('id')!.value == null">
+          <label class="form-control-label" for="field_id">Id</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_numeroFactura">Numero Factura</label>
+          <input
+            type="number"
+            class="form-control"
+            name="numeroFactura"
+            id="field_numeroFactura"
+            data-cy="numeroFactura"
+            formControlName="numeroFactura"
+          />
+          <div
+            *ngIf="
+              editForm.get('numeroFactura')!.invalid && (editForm.get('numeroFactura')!.dirty || editForm.get('numeroFactura')!.touched)
+            "
+          >
+            <small class="form-text text-danger" *ngIf="editForm.get('numeroFactura')?.errors?.required"> This field is required. </small>
+            <small class="form-text text-danger" [hidden]="!editForm.get('numeroFactura')?.errors?.number">
+              This field should be a number.
+            </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_fechaFactura">Fecha Factura</label>
+          <div class="d-flex">
+            <input
+              id="field_fechaFactura"
+              data-cy="fechaFactura"
+              type="datetime-local"
+              class="form-control"
+              name="fechaFactura"
+              formControlName="fechaFactura"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_condicionPago">Condicion Pago</label>
+          <input
+            type="checkbox"
+            class="form-check"
+            name="condicionPago"
+            id="field_condicionPago"
+            data-cy="condicionPago"
+            formControlName="condicionPago"
+          />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_clientes">Clientes</label>
+          <select class="form-control" id="field_clientes" data-cy="clientes" name="clientes" formControlName="clientes">
+            <option [ngValue]="null"></option>
+            <option
+              [ngValue]="clientesOption.id === editForm.get('clientes')!.value?.id ? editForm.get('clientes')!.value : clientesOption"
+              *ngFor="let clientesOption of clientesSharedCollection; trackBy: trackClientesById"
+            >
+              {{ clientesOption.id }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

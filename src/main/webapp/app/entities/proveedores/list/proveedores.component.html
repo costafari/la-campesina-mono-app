@@ -1,0 +1,100 @@
+<div>
+  <h2 id="page-heading" data-cy="ProveedoresHeading">
+    <span>Proveedores</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info mr-2" (click)="loadAll()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span>Refresh List</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-proveedores"
+        [routerLink]="['/proveedores/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span> Create a new Proveedores </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="proveedores?.length === 0">
+    <span>No proveedores found</span>
+  </div>
+
+  <div class="table-responsive" id="entities" *ngIf="proveedores && proveedores.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr>
+          <th scope="col"><span>Id</span></th>
+          <th scope="col"><span>Direccion</span></th>
+          <th scope="col"><span>Nombre Contacto</span></th>
+          <th scope="col"><span>Nombre Empresa</span></th>
+          <th scope="col"><span>Notas</span></th>
+          <th scope="col"><span>Sitio Web</span></th>
+          <th scope="col"><span>Telefono Fijo</span></th>
+          <th scope="col"><span>Telefono Fijo 2</span></th>
+          <th scope="col"><span>Telefono Movil</span></th>
+          <th scope="col"><span>Telefono Movil 2</span></th>
+          <th scope="col"><span>Lotes</span></th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let proveedores of proveedores; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/proveedores', proveedores.id, 'view']">{{ proveedores.id }}</a>
+          </td>
+          <td>{{ proveedores.direccion }}</td>
+          <td>{{ proveedores.nombreContacto }}</td>
+          <td>{{ proveedores.nombreEmpresa }}</td>
+          <td>{{ proveedores.notas }}</td>
+          <td>{{ proveedores.sitioWeb }}</td>
+          <td>{{ proveedores.telefonoFijo }}</td>
+          <td>{{ proveedores.telefonoFijo2 }}</td>
+          <td>{{ proveedores.telefonoMovil }}</td>
+          <td>{{ proveedores.telefonoMovil2 }}</td>
+          <td>
+            <div *ngIf="proveedores.lotes">
+              <a [routerLink]="['/lotes', proveedores.lotes?.id, 'view']">{{ proveedores.lotes?.id }}</a>
+            </div>
+          </td>
+          <td class="text-right">
+            <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/proveedores', proveedores.id, 'view']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline">View</span>
+              </button>
+
+              <button
+                type="submit"
+                [routerLink]="['/proveedores', proveedores.id, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline">Edit</span>
+              </button>
+
+              <button type="submit" (click)="delete(proveedores)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

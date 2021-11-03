@@ -1,0 +1,46 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <div *ngIf="abonos">
+      <h2 data-cy="abonosDetailsHeading"><span>Abonos</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span>Id</span></dt>
+        <dd>
+          <span>{{ abonos.id }}</span>
+        </dd>
+        <dt><span>Saldo Anterior</span></dt>
+        <dd>
+          <span>{{ abonos.saldoAnterior }}</span>
+        </dd>
+        <dt><span>Abono</span></dt>
+        <dd>
+          <span>{{ abonos.abono }}</span>
+        </dd>
+        <dt><span>Nuevo Saldo</span></dt>
+        <dd>
+          <span>{{ abonos.nuevoSaldo }}</span>
+        </dd>
+        <dt><span>Facturas</span></dt>
+        <dd>
+          <div *ngIf="abonos.facturas">
+            <a [routerLink]="['/facturas', abonos.facturas?.id, 'view']">{{ abonos.facturas?.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/abonos', abonos.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

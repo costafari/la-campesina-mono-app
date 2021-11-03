@@ -1,0 +1,42 @@
+{
+  "name": "Detalles",
+  "fields": [
+    {
+      "fieldName": "id",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "cantidad",
+      "fieldType": "Long",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "total",
+      "fieldType": "Long"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "facturas",
+      "otherEntityRelationshipName": "detalles",
+      "relationshipName": "facturas"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "lotes",
+      "otherEntityRelationshipName": "detalles",
+      "relationshipName": "lotes"
+    }
+  ],
+  "entityTableName": "detalles",
+  "dto": "no",
+  "pagination": "no",
+  "service": "no",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": "*",
+  "changelogDate": "20210831212932"
+}

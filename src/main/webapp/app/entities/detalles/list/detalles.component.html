@@ -1,0 +1,92 @@
+<div>
+  <h2 id="page-heading" data-cy="DetallesHeading">
+    <span>Detalles</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info mr-2" (click)="loadAll()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span>Refresh List</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-detalles"
+        [routerLink]="['/detalles/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span> Create a new Detalles </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="detalles?.length === 0">
+    <span>No detalles found</span>
+  </div>
+
+  <div class="table-responsive" id="entities" *ngIf="detalles && detalles.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr>
+          <th scope="col"><span>Id</span></th>
+          <th scope="col"><span>Cantidad</span></th>
+          <th scope="col"><span>Total</span></th>
+          <th scope="col"><span>Facturas</span></th>
+          <th scope="col"><span>Lotes</span></th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let detalles of detalles; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/detalles', detalles.id, 'view']">{{ detalles.id }}</a>
+          </td>
+          <td>{{ detalles.cantidad }}</td>
+          <td>{{ detalles.total }}</td>
+          <td>
+            <div *ngIf="detalles.facturas">
+              <a [routerLink]="['/facturas', detalles.facturas?.id, 'view']">{{ detalles.facturas?.id }}</a>
+            </div>
+          </td>
+          <td>
+            <div *ngIf="detalles.lotes">
+              <a [routerLink]="['/lotes', detalles.lotes?.id, 'view']">{{ detalles.lotes?.id }}</a>
+            </div>
+          </td>
+          <td class="text-right">
+            <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/detalles', detalles.id, 'view']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline">View</span>
+              </button>
+
+              <button
+                type="submit"
+                [routerLink]="['/detalles', detalles.id, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline">Edit</span>
+              </button>
+
+              <button type="submit" (click)="delete(detalles)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
