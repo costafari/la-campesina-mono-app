@@ -90,5 +90,118 @@
         </button>
       </div>
     </form>
+
+    <div>
+      <br />
+    </div>
+
+    <div>
+      <button
+        id="add-items-detalles"
+        data-cy="entityAddDetails"
+        (click)="agregarItemsDetalles()"
+        [disabled]="editForm.invalid || isSaving"
+        class="btn btn-primary"
+      >
+        <fa-icon icon="plus"></fa-icon>&nbsp;<span>Agregar Detalle/s Factura</span>
+      </button>
+    </div>
+
+    <div>
+      <br />
+    </div>
+
+    <!--  -->
+
+    <div class="agregar-detalles-form" [formGroup]="detallesFrm">
+      <div class="table-responsive" id="items-headers">
+        <table class="table table-stripped table table-hover" aria-describedby="page-heading">
+          <thead>
+            <tr>
+              <th scope="col"><span>Id</span></th>
+              <th scope="col"><span>Cantidad</span></th>
+              <th scope="col"><span>Total</span></th>
+              <th scope="col"><span>Factura</span></th>
+              <th scope="col"><span>Lote</span></th>
+              <th scope="col"><span>Producto</span></th>
+            </tr>
+          </thead>
+        </table>
+      </div>
+
+      <ng-container formArrayName="itemsDetalles">
+        <ng-container *ngFor="let detallesForm of itemsDetalles.controls; let i = index">
+          <form name="agregarDetallesForm" role="form" novalidate [formGroup]="detallesForm">
+            <div class="table-responsive" id="items-detalles">
+              <table class="table table-borderless" aria-describedby="page-heading">
+                <tbody>
+                  <tr>
+                    <td>
+                      <div class="form-group">
+                        <input class="form-control" type="number" name="id" id="field_id" formControlName="id" />
+                      </div>
+                    </td>
+                    <td>
+                      <div class="form-group">
+                        <input class="form-control" type="number" name="cantidad" id="field_cantidad" formControlName="cantidad" />
+                      </div>
+                    </td>
+                    <td>
+                      <div class="form-group">
+                        <input class="form-control" type="number" name="total" id="field_total" formControlName="total" />
+                      </div>
+                    </td>
+                    <td>
+                      <div class="form-group">
+                        <input class="form-control" type="number" name="factura" id="field_factura" formControlName="factura" />
+                      </div>
+                    </td>
+                    <td>
+                      <div class="form-group">
+                        <select
+                          class="form-control"
+                          id="field_lotes"
+                          name="lotes"
+                          formControlName="lotes"
+                          (change)="mostrarProductosPorLote(lotesOption)"
+                        >
+                          <option [ngValue]="null"></option>
+                          <option
+                            [ngValue]="
+                              lotesOption.id === detallesForm.get('lotes')!.value?.id ? detallesForm.get('lotes')!.value : lotesOption
+                            "
+                            *ngFor="let lotesOption of lotesList; trackBy: trackLotesById"
+                          >
+                            {{ lotesOption.lote }}
+                          </option>
+                        </select>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="form-group"></div>
+                      <select class="form-control" id="field_productos" name="productos" formControlName="productos">
+                        <option [ngValue]="null"></option>
+                        <option
+                          [ngValue]="
+                            productosOption.id === detallesForm.get('productos')!.value?.id
+                              ? detallesForm.get('productos')!.value
+                              : productosOption
+                          "
+                          *ngFor="let productosOption of productosList; trackBy: trackProductosById"
+                        >
+                          {{ productosOption.lote }}
+                        </option>
+                      </select>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </form>
+        </ng-container>
+      </ng-container>
+    </div>
   </div>
+
+  <!--  -->
 </div>

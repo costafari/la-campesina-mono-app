@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import { finalize, map } from 'rxjs/operators';
+import { finalize, map, switchMap } from 'rxjs/operators';
 
 import * as dayjs from 'dayjs';
 import { DATE_TIME_FORMAT } from 'app/config/input.constants';
@@ -12,6 +12,9 @@ import { IFacturas, Facturas } from '../facturas.model';
 import { FacturasService } from '../service/facturas.service';
 import { IClientes } from 'app/entities/clientes/clientes.model';
 import { ClientesService } from 'app/entities/clientes/service/clientes.service';
+import { LotesService } from 'app/entities/lotes/service/lotes.service';
+import { ILotes } from 'app/entities/lotes/lotes.model';
+import { IProductos } from 'app/entities/productos/productos.model';
 
 @Component({
   selector: 'jhi-facturas-update',
@@ -21,6 +24,9 @@ export class FacturasUpdateComponent implements OnInit {
   isSaving = false;
 
   clientesSharedCollection: IClientes[] = [];
+  lotesSharedCollection: ILotes[] = [];
+  lotesList: ILotes[] = [];
+  productosList: IProductos[] = [];
 
   editForm = this.fb.group({
     id: [],
@@ -30,11 +36,26 @@ export class FacturasUpdateComponent implements OnInit {
     clientes: [],
   });
 
+  detallesFrm = this.fbd.group({
+    itemsDetalles: this.fbd.array([]),
+  });
+
+  detallesForm = this.fbd.group({
+    id: [],
+    cantidad: [],
+    total: [],
+    lotes: [],
+    factura: [],
+    productos: [],
+  });
+
   constructor(
     protected facturasService: FacturasService,
     protected clientesService: ClientesService,
+    protected lotesService: LotesService,
     protected activatedRoute: ActivatedRoute,
-    protected fb: FormBuilder
+    protected fb: FormBuilder,
+    protected fbd: FormBuilder
   ) {}
 
   ngOnInit(): void {
@@ -46,8 +67,20 @@ export class FacturasUpdateComponent implements OnInit {
 
       this.updateForm(facturas);
 
-      this.loadRelationshipsOptions();
+      this.lotesService.getAllObjects('').subscribe(l => {
+        this.lotesList = l;
+      });
     });
+  }
+
+  get itemsDetalles() {
+    return this.detallesFrm.controls['itemsDetalles'] as FormArray;
+  }
+
+  agregarItemsDetalles(): void {
+    const fact = this.editForm.controls['numeroFactura'].value;
+    this.detallesForm.patchValue({ factura: fact });
+    this.itemsDetalles.push(this.detallesForm);
   }
 
   previousState(): void {

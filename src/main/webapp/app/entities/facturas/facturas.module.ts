@@ -5,9 +5,10 @@ import { FacturasDetailComponent } from './detail/facturas-detail.component';
 import { FacturasUpdateComponent } from './update/facturas-update.component';
 import { FacturasDeleteDialogComponent } from './delete/facturas-delete-dialog.component';
 import { FacturasRoutingModule } from './route/facturas-routing.module';
+import { DetallesModule } from '../detalles/detalles.module';
 
 @NgModule({
-  imports: [SharedModule, FacturasRoutingModule],
+  imports: [SharedModule, FacturasRoutingModule, DetallesModule],
   declarations: [FacturasComponent, FacturasDetailComponent, FacturasUpdateComponent, FacturasDeleteDialogComponent],
   entryComponents: [FacturasDeleteDialogComponent],
 })
