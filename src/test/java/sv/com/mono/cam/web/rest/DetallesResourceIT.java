@@ -19,7 +19,10 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import sv.com.mono.cam.IntegrationTest;
 import sv.com.mono.cam.domain.Detalles;
+import sv.com.mono.cam.domain.Facturas;
+import sv.com.mono.cam.domain.Lotes;
 import sv.com.mono.cam.repository.DetallesRepository;
+import sv.com.mono.cam.service.criteria.DetallesCriteria;
 
 /**
  * Integration tests for the {@link DetallesResource} REST controller.
@@ -31,9 +34,11 @@ class DetallesResourceIT {
 
     private static final Long DEFAULT_CANTIDAD = 1L;
     private static final Long UPDATED_CANTIDAD = 2L;
+    private static final Long SMALLER_CANTIDAD = 1L - 1L;
 
     private static final Long DEFAULT_TOTAL = 1L;
     private static final Long UPDATED_TOTAL = 2L;
+    private static final Long SMALLER_TOTAL = 1L - 1L;
 
     private static final String ENTITY_API_URL = "/api/detalles";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
@@ -161,6 +166,309 @@ class DetallesResourceIT {
             .andExpect(jsonPath("$.id").value(detalles.getId().intValue()))
             .andExpect(jsonPath("$.cantidad").value(DEFAULT_CANTIDAD.intValue()))
             .andExpect(jsonPath("$.total").value(DEFAULT_TOTAL.intValue()));
+    }
+
+    @Test
+    @Transactional
+    void getDetallesByIdFiltering() throws Exception {
+        // Initialize the database
+        detallesRepository.saveAndFlush(detalles);
+
+        Long id = detalles.getId();
+
+        defaultDetallesShouldBeFound("id.equals=" + id);
+        defaultDetallesShouldNotBeFound("id.notEquals=" + id);
+
+        defaultDetallesShouldBeFound("id.greaterThanOrEqual=" + id);
+        defaultDetallesShouldNotBeFound("id.greaterThan=" + id);
+
+        defaultDetallesShouldBeFound("id.lessThanOrEqual=" + id);
+        defaultDetallesShouldNotBeFound("id.lessThan=" + id);
+    }
+
+    @Test
+    @Transactional
+    void getAllDetallesByCantidadIsEqualToSomething() throws Exception {
+        // Initialize the database
+        detallesRepository.saveAndFlush(detalles);
+
+        // Get all the detallesList where cantidad equals to DEFAULT_CANTIDAD
+        defaultDetallesShouldBeFound("cantidad.equals=" + DEFAULT_CANTIDAD);
+
+        // Get all the detallesList where cantidad equals to UPDATED_CANTIDAD
+        defaultDetallesShouldNotBeFound("cantidad.equals=" + UPDATED_CANTIDAD);
+    }
+
+    @Test
+    @Transactional
+    void getAllDetallesByCantidadIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        detallesRepository.saveAndFlush(detalles);
+
+        // Get all the detallesList where cantidad not equals to DEFAULT_CANTIDAD
+        defaultDetallesShouldNotBeFound("cantidad.notEquals=" + DEFAULT_CANTIDAD);
+
+        // Get all the detallesList where cantidad not equals to UPDATED_CANTIDAD
+        defaultDetallesShouldBeFound("cantidad.notEquals=" + UPDATED_CANTIDAD);
+    }
+
+    @Test
+    @Transactional
+    void getAllDetallesByCantidadIsInShouldWork() throws Exception {
+        // Initialize the database
+        detallesRepository.saveAndFlush(detalles);
+
+        // Get all the detallesList where cantidad in DEFAULT_CANTIDAD or UPDATED_CANTIDAD
+        defaultDetallesShouldBeFound("cantidad.in=" + DEFAULT_CANTIDAD + "," + UPDATED_CANTIDAD);
+
+        // Get all the detallesList where cantidad equals to UPDATED_CANTIDAD
+        defaultDetallesShouldNotBeFound("cantidad.in=" + UPDATED_CANTIDAD);
+    }
+
+    @Test
+    @Transactional
+    void getAllDetallesByCantidadIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        detallesRepository.saveAndFlush(detalles);
+
+        // Get all the detallesList where cantidad is not null
+        defaultDetallesShouldBeFound("cantidad.specified=true");
+
+        // Get all the detallesList where cantidad is null
+        defaultDetallesShouldNotBeFound("cantidad.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllDetallesByCantidadIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        detallesRepository.saveAndFlush(detalles);
+
+        // Get all the detallesList where cantidad is greater than or equal to DEFAULT_CANTIDAD
+        defaultDetallesShouldBeFound("cantidad.greaterThanOrEqual=" + DEFAULT_CANTIDAD);
+
+        // Get all the detallesList where cantidad is greater than or equal to UPDATED_CANTIDAD
+        defaultDetallesShouldNotBeFound("cantidad.greaterThanOrEqual=" + UPDATED_CANTIDAD);
+    }
+
+    @Test
+    @Transactional
+    void getAllDetallesByCantidadIsLessThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        detallesRepository.saveAndFlush(detalles);
+
+        // Get all the detallesList where cantidad is less than or equal to DEFAULT_CANTIDAD
+        defaultDetallesShouldBeFound("cantidad.lessThanOrEqual=" + DEFAULT_CANTIDAD);
+
+        // Get all the detallesList where cantidad is less than or equal to SMALLER_CANTIDAD
+        defaultDetallesShouldNotBeFound("cantidad.lessThanOrEqual=" + SMALLER_CANTIDAD);
+    }
+
+    @Test
+    @Transactional
+    void getAllDetallesByCantidadIsLessThanSomething() throws Exception {
+        // Initialize the database
+        detallesRepository.saveAndFlush(detalles);
+
+        // Get all the detallesList where cantidad is less than DEFAULT_CANTIDAD
+        defaultDetallesShouldNotBeFound("cantidad.lessThan=" + DEFAULT_CANTIDAD);
+
+        // Get all the detallesList where cantidad is less than UPDATED_CANTIDAD
+        defaultDetallesShouldBeFound("cantidad.lessThan=" + UPDATED_CANTIDAD);
+    }
+
+    @Test
+    @Transactional
+    void getAllDetallesByCantidadIsGreaterThanSomething() throws Exception {
+        // Initialize the database
+        detallesRepository.saveAndFlush(detalles);
+
+        // Get all the detallesList where cantidad is greater than DEFAULT_CANTIDAD
+        defaultDetallesShouldNotBeFound("cantidad.greaterThan=" + DEFAULT_CANTIDAD);
+
+        // Get all the detallesList where cantidad is greater than SMALLER_CANTIDAD
+        defaultDetallesShouldBeFound("cantidad.greaterThan=" + SMALLER_CANTIDAD);
+    }
+
+    @Test
+    @Transactional
+    void getAllDetallesByTotalIsEqualToSomething() throws Exception {
+        // Initialize the database
+        detallesRepository.saveAndFlush(detalles);
+
+        // Get all the detallesList where total equals to DEFAULT_TOTAL
+        defaultDetallesShouldBeFound("total.equals=" + DEFAULT_TOTAL);
+
+        // Get all the detallesList where total equals to UPDATED_TOTAL
+        defaultDetallesShouldNotBeFound("total.equals=" + UPDATED_TOTAL);
+    }
+
+    @Test
+    @Transactional
+    void getAllDetallesByTotalIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        detallesRepository.saveAndFlush(detalles);
+
+        // Get all the detallesList where total not equals to DEFAULT_TOTAL
+        defaultDetallesShouldNotBeFound("total.notEquals=" + DEFAULT_TOTAL);
+
+        // Get all the detallesList where total not equals to UPDATED_TOTAL
+        defaultDetallesShouldBeFound("total.notEquals=" + UPDATED_TOTAL);
+    }
+
+    @Test
+    @Transactional
+    void getAllDetallesByTotalIsInShouldWork() throws Exception {
+        // Initialize the database
+        detallesRepository.saveAndFlush(detalles);
+
+        // Get all the detallesList where total in DEFAULT_TOTAL or UPDATED_TOTAL
+        defaultDetallesShouldBeFound("total.in=" + DEFAULT_TOTAL + "," + UPDATED_TOTAL);
+
+        // Get all the detallesList where total equals to UPDATED_TOTAL
+        defaultDetallesShouldNotBeFound("total.in=" + UPDATED_TOTAL);
+    }
+
+    @Test
+    @Transactional
+    void getAllDetallesByTotalIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        detallesRepository.saveAndFlush(detalles);
+
+        // Get all the detallesList where total is not null
+        defaultDetallesShouldBeFound("total.specified=true");
+
+        // Get all the detallesList where total is null
+        defaultDetallesShouldNotBeFound("total.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllDetallesByTotalIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        detallesRepository.saveAndFlush(detalles);
+
+        // Get all the detallesList where total is greater than or equal to DEFAULT_TOTAL
+        defaultDetallesShouldBeFound("total.greaterThanOrEqual=" + DEFAULT_TOTAL);
+
+        // Get all the detallesList where total is greater than or equal to UPDATED_TOTAL
+        defaultDetallesShouldNotBeFound("total.greaterThanOrEqual=" + UPDATED_TOTAL);
+    }
+
+    @Test
+    @Transactional
+    void getAllDetallesByTotalIsLessThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        detallesRepository.saveAndFlush(detalles);
+
+        // Get all the detallesList where total is less than or equal to DEFAULT_TOTAL
+        defaultDetallesShouldBeFound("total.lessThanOrEqual=" + DEFAULT_TOTAL);
+
+        // Get all the detallesList where total is less than or equal to SMALLER_TOTAL
+        defaultDetallesShouldNotBeFound("total.lessThanOrEqual=" + SMALLER_TOTAL);
+    }
+
+    @Test
+    @Transactional
+    void getAllDetallesByTotalIsLessThanSomething() throws Exception {
+        // Initialize the database
+        detallesRepository.saveAndFlush(detalles);
+
+        // Get all the detallesList where total is less than DEFAULT_TOTAL
+        defaultDetallesShouldNotBeFound("total.lessThan=" + DEFAULT_TOTAL);
+
+        // Get all the detallesList where total is less than UPDATED_TOTAL
+        defaultDetallesShouldBeFound("total.lessThan=" + UPDATED_TOTAL);
+    }
+
+    @Test
+    @Transactional
+    void getAllDetallesByTotalIsGreaterThanSomething() throws Exception {
+        // Initialize the database
+        detallesRepository.saveAndFlush(detalles);
+
+        // Get all the detallesList where total is greater than DEFAULT_TOTAL
+        defaultDetallesShouldNotBeFound("total.greaterThan=" + DEFAULT_TOTAL);
+
+        // Get all the detallesList where total is greater than SMALLER_TOTAL
+        defaultDetallesShouldBeFound("total.greaterThan=" + SMALLER_TOTAL);
+    }
+
+    @Test
+    @Transactional
+    void getAllDetallesByFacturasIsEqualToSomething() throws Exception {
+        // Initialize the database
+        detallesRepository.saveAndFlush(detalles);
+        Facturas facturas = FacturasResourceIT.createEntity(em);
+        em.persist(facturas);
+        em.flush();
+        detalles.setFacturas(facturas);
+        detallesRepository.saveAndFlush(detalles);
+        Long facturasId = facturas.getId();
+
+        // Get all the detallesList where facturas equals to facturasId
+        defaultDetallesShouldBeFound("facturasId.equals=" + facturasId);
+
+        // Get all the detallesList where facturas equals to (facturasId + 1)
+        defaultDetallesShouldNotBeFound("facturasId.equals=" + (facturasId + 1));
+    }
+
+    @Test
+    @Transactional
+    void getAllDetallesByLotesIsEqualToSomething() throws Exception {
+        // Initialize the database
+        detallesRepository.saveAndFlush(detalles);
+        Lotes lotes = LotesResourceIT.createEntity(em);
+        em.persist(lotes);
+        em.flush();
+        detalles.setLotes(lotes);
+        detallesRepository.saveAndFlush(detalles);
+        Long lotesId = lotes.getId();
+
+        // Get all the detallesList where lotes equals to lotesId
+        defaultDetallesShouldBeFound("lotesId.equals=" + lotesId);
+
+        // Get all the detallesList where lotes equals to (lotesId + 1)
+        defaultDetallesShouldNotBeFound("lotesId.equals=" + (lotesId + 1));
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is returned.
+     */
+    private void defaultDetallesShouldBeFound(String filter) throws Exception {
+        restDetallesMockMvc
+            .perform(get(ENTITY_API_URL + "?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(detalles.getId().intValue())))
+            .andExpect(jsonPath("$.[*].cantidad").value(hasItem(DEFAULT_CANTIDAD.intValue())))
+            .andExpect(jsonPath("$.[*].total").value(hasItem(DEFAULT_TOTAL.intValue())));
+
+        // Check, that the count call also returns 1
+        restDetallesMockMvc
+            .perform(get(ENTITY_API_URL + "/count?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(content().string("1"));
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is not returned.
+     */
+    private void defaultDetallesShouldNotBeFound(String filter) throws Exception {
+        restDetallesMockMvc
+            .perform(get(ENTITY_API_URL + "?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(jsonPath("$").isArray())
+            .andExpect(jsonPath("$").isEmpty());
+
+        // Check, that the count call also returns 0
+        restDetallesMockMvc
+            .perform(get(ENTITY_API_URL + "/count?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(content().string("0"));
     }
 
     @Test

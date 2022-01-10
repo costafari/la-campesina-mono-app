@@ -86,3 +86,6 @@ relationship OneToOne {
 	Proveedores to Lotes
 }
 
+filter Facturas
+filter Detalles
+

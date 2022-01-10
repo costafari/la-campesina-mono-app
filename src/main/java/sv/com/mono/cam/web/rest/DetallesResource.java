@@ -11,10 +11,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import sv.com.mono.cam.domain.Detalles;
 import sv.com.mono.cam.repository.DetallesRepository;
+import sv.com.mono.cam.service.DetallesQueryService;
+import sv.com.mono.cam.service.DetallesService;
+import sv.com.mono.cam.service.criteria.DetallesCriteria;
 import sv.com.mono.cam.web.rest.errors.BadRequestAlertException;
 import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.ResponseUtil;
@@ -24,7 +26,6 @@ import tech.jhipster.web.util.ResponseUtil;
  */
 @RestController
 @RequestMapping("/api")
-@Transactional
 public class DetallesResource {
 
     private final Logger log = LoggerFactory.getLogger(DetallesResource.class);
@@ -34,10 +35,20 @@ public class DetallesResource {
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
 
+    private final DetallesService detallesService;
+
     private final DetallesRepository detallesRepository;
 
-    public DetallesResource(DetallesRepository detallesRepository) {
+    private final DetallesQueryService detallesQueryService;
+
+    public DetallesResource(
+        DetallesService detallesService,
+        DetallesRepository detallesRepository,
+        DetallesQueryService detallesQueryService
+    ) {
+        this.detallesService = detallesService;
         this.detallesRepository = detallesRepository;
+        this.detallesQueryService = detallesQueryService;
     }
 
     /**
@@ -53,7 +64,7 @@ public class DetallesResource {
         if (detalles.getId() != null) {
             throw new BadRequestAlertException("A new detalles cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        Detalles result = detallesRepository.save(detalles);
+        Detalles result = detallesService.save(detalles);
         return ResponseEntity
             .created(new URI("/api/detalles/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
@@ -87,7 +98,7 @@ public class DetallesResource {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
-        Detalles result = detallesRepository.save(detalles);
+        Detalles result = detallesService.save(detalles);
         return ResponseEntity
             .ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, detalles.getId().toString()))
@@ -122,21 +133,7 @@ public class DetallesResource {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
-        Optional<Detalles> result = detallesRepository
-            .findById(detalles.getId())
-            .map(
-                existingDetalles -> {
-                    if (detalles.getCantidad() != null) {
-                        existingDetalles.setCantidad(detalles.getCantidad());
-                    }
-                    if (detalles.getTotal() != null) {
-                        existingDetalles.setTotal(detalles.getTotal());
-                    }
-
-                    return existingDetalles;
-                }
-            )
-            .map(detallesRepository::save);
+        Optional<Detalles> result = detallesService.partialUpdate(detalles);
 
         return ResponseUtil.wrapOrNotFound(
             result,
@@ -147,12 +144,26 @@ public class DetallesResource {
     /**
      * {@code GET  /detalles} : get all the detalles.
      *
+     * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of detalles in body.
      */
     @GetMapping("/detalles")
-    public List<Detalles> getAllDetalles() {
-        log.debug("REST request to get all Detalles");
-        return detallesRepository.findAll();
+    public ResponseEntity<List<Detalles>> getAllDetalles(DetallesCriteria criteria) {
+        log.debug("REST request to get Detalles by criteria: {}", criteria);
+        List<Detalles> entityList = detallesQueryService.findByCriteria(criteria);
+        return ResponseEntity.ok().body(entityList);
+    }
+
+    /**
+     * {@code GET  /detalles/count} : count all the detalles.
+     *
+     * @param criteria the criteria which the requested entities should match.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
+     */
+    @GetMapping("/detalles/count")
+    public ResponseEntity<Long> countDetalles(DetallesCriteria criteria) {
+        log.debug("REST request to count Detalles by criteria: {}", criteria);
+        return ResponseEntity.ok().body(detallesQueryService.countByCriteria(criteria));
     }
 
     /**
@@ -164,7 +175,7 @@ public class DetallesResource {
     @GetMapping("/detalles/{id}")
     public ResponseEntity<Detalles> getDetalles(@PathVariable Long id) {
         log.debug("REST request to get Detalles : {}", id);
-        Optional<Detalles> detalles = detallesRepository.findById(id);
+        Optional<Detalles> detalles = detallesService.findOne(id);
         return ResponseUtil.wrapOrNotFound(detalles);
     }
 
@@ -177,7 +188,7 @@ public class DetallesResource {
     @DeleteMapping("/detalles/{id}")
     public ResponseEntity<Void> deleteDetalles(@PathVariable Long id) {
         log.debug("REST request to delete Detalles : {}", id);
-        detallesRepository.deleteById(id);
+        detallesService.delete(id);
         return ResponseEntity
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString()))

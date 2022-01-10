@@ -9,4 +9,4 @@ import sv.com.mono.cam.domain.Facturas;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface FacturasRepository extends JpaRepository<Facturas, Long> {}
+public interface FacturasRepository extends JpaRepository<Facturas, Long>, JpaSpecificationExecutor<Facturas> {}

@@ -91,117 +91,101 @@
       </div>
     </form>
 
-    <div>
-      <br />
-    </div>
+    <!-- DETALLES -->
 
     <div>
-      <button
-        id="add-items-detalles"
-        data-cy="entityAddDetails"
-        (click)="agregarItemsDetalles()"
-        [disabled]="editForm.invalid || isSaving"
-        class="btn btn-primary"
-      >
-        <fa-icon icon="plus"></fa-icon>&nbsp;<span>Agregar Detalle/s Factura</span>
-      </button>
-    </div>
+      <h2 id="page-heading" data-cy="DetallesHeading">
+        <span>Detalles</span>
 
-    <div>
-      <br />
-    </div>
+        <div class="d-flex justify-content-end">
+          <button class="btn btn-info mr-2" (click)="loadAll()" [disabled]="isLoading">
+            <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+            <span>Refresh List</span>
+          </button>
 
-    <!--  -->
+          <button
+            id="jh-create-entity"
+            data-cy="entityCreateButton"
+            class="btn btn-primary jh-create-entity create-detalles"
+            [routerLink]="['/detalles/new']"
+          >
+            <fa-icon icon="plus"></fa-icon>
+            <span> Create a new Detalles </span>
+          </button>
+        </div>
+      </h2>
 
-    <div class="agregar-detalles-form" [formGroup]="detallesFrm">
-      <div class="table-responsive" id="items-headers">
-        <table class="table table-stripped table table-hover" aria-describedby="page-heading">
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <div class="alert alert-warning" id="no-result" *ngIf="detalles?.length === 0">
+        <span>No detalles found</span>
+      </div>
+
+      <div class="table-responsive" id="entities" *ngIf="detalles && detalles.length > 0">
+        <table class="table table-striped" aria-describedby="page-heading">
           <thead>
             <tr>
               <th scope="col"><span>Id</span></th>
               <th scope="col"><span>Cantidad</span></th>
               <th scope="col"><span>Total</span></th>
-              <th scope="col"><span>Factura</span></th>
-              <th scope="col"><span>Lote</span></th>
-              <th scope="col"><span>Producto</span></th>
+              <th scope="col"><span>Facturas</span></th>
+              <th scope="col"><span>Lotes</span></th>
+              <th scope="col"></th>
             </tr>
           </thead>
+          <tbody>
+            <tr *ngFor="let detalles of detalles; trackBy: trackId" data-cy="entityTable">
+              <td>
+                <a [routerLink]="['/detalles', detalles.id, 'view']">{{ detalles.id }}</a>
+              </td>
+              <td>{{ detalles.cantidad }}</td>
+              <td>{{ detalles.total }}</td>
+              <td>
+                <div *ngIf="detalles.facturas">
+                  <a [routerLink]="['/facturas', detalles.facturas?.id, 'view']">{{ detalles.facturas?.id }}</a>
+                </div>
+              </td>
+              <td>
+                <div *ngIf="detalles.lotes">
+                  <a [routerLink]="['/lotes', detalles.lotes?.id, 'view']">{{ detalles.lotes?.id }}</a>
+                </div>
+              </td>
+              <td class="text-right">
+                <div class="btn-group">
+                  <button
+                    type="submit"
+                    [routerLink]="['/detalles', detalles.id, 'view']"
+                    class="btn btn-info btn-sm"
+                    data-cy="entityDetailsButton"
+                  >
+                    <fa-icon icon="eye"></fa-icon>
+                    <span class="d-none d-md-inline">View</span>
+                  </button>
+
+                  <button
+                    type="submit"
+                    [routerLink]="['/detalles', detalles.id, 'edit']"
+                    class="btn btn-primary btn-sm"
+                    data-cy="entityEditButton"
+                  >
+                    <fa-icon icon="pencil-alt"></fa-icon>
+                    <span class="d-none d-md-inline">Edit</span>
+                  </button>
+
+                  <button type="submit" (click)="delete(detalles)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                    <fa-icon icon="times"></fa-icon>
+                    <span class="d-none d-md-inline">Delete</span>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
         </table>
       </div>
-
-      <ng-container formArrayName="itemsDetalles">
-        <ng-container *ngFor="let detallesForm of itemsDetalles.controls; let i = index">
-          <form name="agregarDetallesForm" role="form" novalidate [formGroup]="detallesForm">
-            <div class="table-responsive" id="items-detalles">
-              <table class="table table-borderless" aria-describedby="page-heading">
-                <tbody>
-                  <tr>
-                    <td>
-                      <div class="form-group">
-                        <input class="form-control" type="number" name="id" id="field_id" formControlName="id" />
-                      </div>
-                    </td>
-                    <td>
-                      <div class="form-group">
-                        <input class="form-control" type="number" name="cantidad" id="field_cantidad" formControlName="cantidad" />
-                      </div>
-                    </td>
-                    <td>
-                      <div class="form-group">
-                        <input class="form-control" type="number" name="total" id="field_total" formControlName="total" />
-                      </div>
-                    </td>
-                    <td>
-                      <div class="form-group">
-                        <input class="form-control" type="number" name="factura" id="field_factura" formControlName="factura" />
-                      </div>
-                    </td>
-                    <td>
-                      <div class="form-group">
-                        <select
-                          class="form-control"
-                          id="field_lotes"
-                          name="lotes"
-                          formControlName="lotes"
-                          (change)="mostrarProductosPorLote(lotesOption)"
-                        >
-                          <option [ngValue]="null"></option>
-                          <option
-                            [ngValue]="
-                              lotesOption.id === detallesForm.get('lotes')!.value?.id ? detallesForm.get('lotes')!.value : lotesOption
-                            "
-                            *ngFor="let lotesOption of lotesList; trackBy: trackLotesById"
-                          >
-                            {{ lotesOption.lote }}
-                          </option>
-                        </select>
-                      </div>
-                    </td>
-                    <td>
-                      <div class="form-group"></div>
-                      <select class="form-control" id="field_productos" name="productos" formControlName="productos">
-                        <option [ngValue]="null"></option>
-                        <option
-                          [ngValue]="
-                            productosOption.id === detallesForm.get('productos')!.value?.id
-                              ? detallesForm.get('productos')!.value
-                              : productosOption
-                          "
-                          *ngFor="let productosOption of productosList; trackBy: trackProductosById"
-                        >
-                          {{ productosOption.lote }}
-                        </option>
-                      </select>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </form>
-        </ng-container>
-      </ng-container>
     </div>
-  </div>
 
-  <!--  -->
+    <!--  -->
+  </div>
 </div>

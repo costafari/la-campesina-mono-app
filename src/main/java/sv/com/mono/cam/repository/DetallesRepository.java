@@ -9,4 +9,4 @@ import sv.com.mono.cam.domain.Detalles;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface DetallesRepository extends JpaRepository<Detalles, Long> {}
+public interface DetallesRepository extends JpaRepository<Detalles, Long>, JpaSpecificationExecutor<Detalles> {}

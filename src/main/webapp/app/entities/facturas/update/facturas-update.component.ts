@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
-import { FormArray, FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import { finalize, map, switchMap } from 'rxjs/operators';
+import { finalize, map } from 'rxjs/operators';
 
 import * as dayjs from 'dayjs';
 import { DATE_TIME_FORMAT } from 'app/config/input.constants';
@@ -12,9 +12,10 @@ import { IFacturas, Facturas } from '../facturas.model';
 import { FacturasService } from '../service/facturas.service';
 import { IClientes } from 'app/entities/clientes/clientes.model';
 import { ClientesService } from 'app/entities/clientes/service/clientes.service';
-import { LotesService } from 'app/entities/lotes/service/lotes.service';
-import { ILotes } from 'app/entities/lotes/lotes.model';
-import { IProductos } from 'app/entities/productos/productos.model';
+import { IDetalles } from 'app/entities/detalles/detalles.model';
+import { DetallesService } from 'app/entities/detalles/service/detalles.service';
+import { DetallesDeleteDialogComponent } from 'app/entities/detalles/delete/detalles-delete-dialog.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'jhi-facturas-update',
@@ -24,9 +25,11 @@ export class FacturasUpdateComponent implements OnInit {
   isSaving = false;
 
   clientesSharedCollection: IClientes[] = [];
-  lotesSharedCollection: ILotes[] = [];
-  lotesList: ILotes[] = [];
-  productosList: IProductos[] = [];
+
+  // VARIABLES DE DETALLES
+  detalles?: IDetalles[];
+  isLoading = false;
+  //
 
   editForm = this.fb.group({
     id: [],
@@ -36,27 +39,49 @@ export class FacturasUpdateComponent implements OnInit {
     clientes: [],
   });
 
-  detallesFrm = this.fbd.group({
-    itemsDetalles: this.fbd.array([]),
-  });
-
-  detallesForm = this.fbd.group({
-    id: [],
-    cantidad: [],
-    total: [],
-    lotes: [],
-    factura: [],
-    productos: [],
-  });
-
   constructor(
     protected facturasService: FacturasService,
     protected clientesService: ClientesService,
-    protected lotesService: LotesService,
     protected activatedRoute: ActivatedRoute,
     protected fb: FormBuilder,
-    protected fbd: FormBuilder
-  ) {}
+    // Variables de DETALLES
+    protected detallesService: DetallesService,
+    protected modalService: NgbModal
+  ) //
+  {}
+
+  // VARIABLES DE DETALLES
+
+  loadAll(): void {
+    this.isLoading = true;
+
+    this.detallesService.query().subscribe(
+      (res: HttpResponse<IDetalles[]>) => {
+        this.isLoading = false;
+        this.detalles = res.body ?? [];
+      },
+      () => {
+        this.isLoading = false;
+      }
+    );
+  }
+
+  trackId(index: number, item: IDetalles): number {
+    return item.id!;
+  }
+
+  delete(detalles: IDetalles): void {
+    const modalRef = this.modalService.open(DetallesDeleteDialogComponent, { size: 'lg', backdrop: 'static' });
+    modalRef.componentInstance.detalles = detalles;
+    // unsubscribe not needed because closed completes on modal close
+    modalRef.closed.subscribe(reason => {
+      if (reason === 'deleted') {
+        this.loadAll();
+      }
+    });
+  }
+
+  //
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ facturas }) => {
@@ -67,20 +92,10 @@ export class FacturasUpdateComponent implements OnInit {
 
       this.updateForm(facturas);
 
-      this.lotesService.getAllObjects('').subscribe(l => {
-        this.lotesList = l;
-      });
+      this.loadRelationshipsOptions();
     });
-  }
 
-  get itemsDetalles() {
-    return this.detallesFrm.controls['itemsDetalles'] as FormArray;
-  }
-
-  agregarItemsDetalles(): void {
-    const fact = this.editForm.controls['numeroFactura'].value;
-    this.detallesForm.patchValue({ factura: fact });
-    this.itemsDetalles.push(this.detallesForm);
+    this.loadAll();
   }
 
   previousState(): void {

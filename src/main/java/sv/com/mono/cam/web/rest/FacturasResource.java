@@ -11,10 +11,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import sv.com.mono.cam.domain.Facturas;
 import sv.com.mono.cam.repository.FacturasRepository;
+import sv.com.mono.cam.service.FacturasQueryService;
+import sv.com.mono.cam.service.FacturasService;
+import sv.com.mono.cam.service.criteria.FacturasCriteria;
 import sv.com.mono.cam.web.rest.errors.BadRequestAlertException;
 import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.ResponseUtil;
@@ -24,7 +26,6 @@ import tech.jhipster.web.util.ResponseUtil;
  */
 @RestController
 @RequestMapping("/api")
-@Transactional
 public class FacturasResource {
 
     private final Logger log = LoggerFactory.getLogger(FacturasResource.class);
@@ -34,10 +35,20 @@ public class FacturasResource {
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
 
+    private final FacturasService facturasService;
+
     private final FacturasRepository facturasRepository;
 
-    public FacturasResource(FacturasRepository facturasRepository) {
+    private final FacturasQueryService facturasQueryService;
+
+    public FacturasResource(
+        FacturasService facturasService,
+        FacturasRepository facturasRepository,
+        FacturasQueryService facturasQueryService
+    ) {
+        this.facturasService = facturasService;
         this.facturasRepository = facturasRepository;
+        this.facturasQueryService = facturasQueryService;
     }
 
     /**
@@ -53,7 +64,7 @@ public class FacturasResource {
         if (facturas.getId() != null) {
             throw new BadRequestAlertException("A new facturas cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        Facturas result = facturasRepository.save(facturas);
+        Facturas result = facturasService.save(facturas);
         return ResponseEntity
             .created(new URI("/api/facturas/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
@@ -87,7 +98,7 @@ public class FacturasResource {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
-        Facturas result = facturasRepository.save(facturas);
+        Facturas result = facturasService.save(facturas);
         return ResponseEntity
             .ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, facturas.getId().toString()))
@@ -122,24 +133,7 @@ public class FacturasResource {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
-        Optional<Facturas> result = facturasRepository
-            .findById(facturas.getId())
-            .map(
-                existingFacturas -> {
-                    if (facturas.getNumeroFactura() != null) {
-                        existingFacturas.setNumeroFactura(facturas.getNumeroFactura());
-                    }
-                    if (facturas.getFechaFactura() != null) {
-                        existingFacturas.setFechaFactura(facturas.getFechaFactura());
-                    }
-                    if (facturas.getCondicionPago() != null) {
-                        existingFacturas.setCondicionPago(facturas.getCondicionPago());
-                    }
-
-                    return existingFacturas;
-                }
-            )
-            .map(facturasRepository::save);
+        Optional<Facturas> result = facturasService.partialUpdate(facturas);
 
         return ResponseUtil.wrapOrNotFound(
             result,
@@ -150,12 +144,26 @@ public class FacturasResource {
     /**
      * {@code GET  /facturas} : get all the facturas.
      *
+     * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of facturas in body.
      */
     @GetMapping("/facturas")
-    public List<Facturas> getAllFacturas() {
-        log.debug("REST request to get all Facturas");
-        return facturasRepository.findAll();
+    public ResponseEntity<List<Facturas>> getAllFacturas(FacturasCriteria criteria) {
+        log.debug("REST request to get Facturas by criteria: {}", criteria);
+        List<Facturas> entityList = facturasQueryService.findByCriteria(criteria);
+        return ResponseEntity.ok().body(entityList);
+    }
+
+    /**
+     * {@code GET  /facturas/count} : count all the facturas.
+     *
+     * @param criteria the criteria which the requested entities should match.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
+     */
+    @GetMapping("/facturas/count")
+    public ResponseEntity<Long> countFacturas(FacturasCriteria criteria) {
+        log.debug("REST request to count Facturas by criteria: {}", criteria);
+        return ResponseEntity.ok().body(facturasQueryService.countByCriteria(criteria));
     }
 
     /**
@@ -167,7 +175,7 @@ public class FacturasResource {
     @GetMapping("/facturas/{id}")
     public ResponseEntity<Facturas> getFacturas(@PathVariable Long id) {
         log.debug("REST request to get Facturas : {}", id);
-        Optional<Facturas> facturas = facturasRepository.findById(id);
+        Optional<Facturas> facturas = facturasService.findOne(id);
         return ResponseUtil.wrapOrNotFound(facturas);
     }
 
@@ -180,7 +188,7 @@ public class FacturasResource {
     @DeleteMapping("/facturas/{id}")
     public ResponseEntity<Void> deleteFacturas(@PathVariable Long id) {
         log.debug("REST request to delete Facturas : {}", id);
-        facturasRepository.deleteById(id);
+        facturasService.delete(id);
         return ResponseEntity
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString()))

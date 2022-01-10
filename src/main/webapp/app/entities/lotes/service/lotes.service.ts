@@ -19,11 +19,6 @@ export class LotesService {
 
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {}
 
-  // parametro url: debe ser /lotes
-  getAllObjects(url: String): Observable<any[]> {
-    return this.http.get<any[]>(this.resourceUrl + url);
-  }
-
   create(lotes: ILotes): Observable<EntityResponseType> {
     const copy = this.convertDateFromClient(lotes);
     return this.http

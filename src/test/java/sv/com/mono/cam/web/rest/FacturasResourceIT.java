@@ -20,8 +20,12 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import sv.com.mono.cam.IntegrationTest;
+import sv.com.mono.cam.domain.Abonos;
+import sv.com.mono.cam.domain.Clientes;
+import sv.com.mono.cam.domain.Detalles;
 import sv.com.mono.cam.domain.Facturas;
 import sv.com.mono.cam.repository.FacturasRepository;
+import sv.com.mono.cam.service.criteria.FacturasCriteria;
 
 /**
  * Integration tests for the {@link FacturasResource} REST controller.
@@ -33,6 +37,7 @@ class FacturasResourceIT {
 
     private static final Long DEFAULT_NUMERO_FACTURA = 1L;
     private static final Long UPDATED_NUMERO_FACTURA = 2L;
+    private static final Long SMALLER_NUMERO_FACTURA = 1L - 1L;
 
     private static final Instant DEFAULT_FECHA_FACTURA = Instant.ofEpochMilli(0L);
     private static final Instant UPDATED_FECHA_FACTURA = Instant.now().truncatedTo(ChronoUnit.MILLIS);
@@ -175,6 +180,329 @@ class FacturasResourceIT {
             .andExpect(jsonPath("$.numeroFactura").value(DEFAULT_NUMERO_FACTURA.intValue()))
             .andExpect(jsonPath("$.fechaFactura").value(DEFAULT_FECHA_FACTURA.toString()))
             .andExpect(jsonPath("$.condicionPago").value(DEFAULT_CONDICION_PAGO.booleanValue()));
+    }
+
+    @Test
+    @Transactional
+    void getFacturasByIdFiltering() throws Exception {
+        // Initialize the database
+        facturasRepository.saveAndFlush(facturas);
+
+        Long id = facturas.getId();
+
+        defaultFacturasShouldBeFound("id.equals=" + id);
+        defaultFacturasShouldNotBeFound("id.notEquals=" + id);
+
+        defaultFacturasShouldBeFound("id.greaterThanOrEqual=" + id);
+        defaultFacturasShouldNotBeFound("id.greaterThan=" + id);
+
+        defaultFacturasShouldBeFound("id.lessThanOrEqual=" + id);
+        defaultFacturasShouldNotBeFound("id.lessThan=" + id);
+    }
+
+    @Test
+    @Transactional
+    void getAllFacturasByNumeroFacturaIsEqualToSomething() throws Exception {
+        // Initialize the database
+        facturasRepository.saveAndFlush(facturas);
+
+        // Get all the facturasList where numeroFactura equals to DEFAULT_NUMERO_FACTURA
+        defaultFacturasShouldBeFound("numeroFactura.equals=" + DEFAULT_NUMERO_FACTURA);
+
+        // Get all the facturasList where numeroFactura equals to UPDATED_NUMERO_FACTURA
+        defaultFacturasShouldNotBeFound("numeroFactura.equals=" + UPDATED_NUMERO_FACTURA);
+    }
+
+    @Test
+    @Transactional
+    void getAllFacturasByNumeroFacturaIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        facturasRepository.saveAndFlush(facturas);
+
+        // Get all the facturasList where numeroFactura not equals to DEFAULT_NUMERO_FACTURA
+        defaultFacturasShouldNotBeFound("numeroFactura.notEquals=" + DEFAULT_NUMERO_FACTURA);
+
+        // Get all the facturasList where numeroFactura not equals to UPDATED_NUMERO_FACTURA
+        defaultFacturasShouldBeFound("numeroFactura.notEquals=" + UPDATED_NUMERO_FACTURA);
+    }
+
+    @Test
+    @Transactional
+    void getAllFacturasByNumeroFacturaIsInShouldWork() throws Exception {
+        // Initialize the database
+        facturasRepository.saveAndFlush(facturas);
+
+        // Get all the facturasList where numeroFactura in DEFAULT_NUMERO_FACTURA or UPDATED_NUMERO_FACTURA
+        defaultFacturasShouldBeFound("numeroFactura.in=" + DEFAULT_NUMERO_FACTURA + "," + UPDATED_NUMERO_FACTURA);
+
+        // Get all the facturasList where numeroFactura equals to UPDATED_NUMERO_FACTURA
+        defaultFacturasShouldNotBeFound("numeroFactura.in=" + UPDATED_NUMERO_FACTURA);
+    }
+
+    @Test
+    @Transactional
+    void getAllFacturasByNumeroFacturaIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        facturasRepository.saveAndFlush(facturas);
+
+        // Get all the facturasList where numeroFactura is not null
+        defaultFacturasShouldBeFound("numeroFactura.specified=true");
+
+        // Get all the facturasList where numeroFactura is null
+        defaultFacturasShouldNotBeFound("numeroFactura.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllFacturasByNumeroFacturaIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        facturasRepository.saveAndFlush(facturas);
+
+        // Get all the facturasList where numeroFactura is greater than or equal to DEFAULT_NUMERO_FACTURA
+        defaultFacturasShouldBeFound("numeroFactura.greaterThanOrEqual=" + DEFAULT_NUMERO_FACTURA);
+
+        // Get all the facturasList where numeroFactura is greater than or equal to UPDATED_NUMERO_FACTURA
+        defaultFacturasShouldNotBeFound("numeroFactura.greaterThanOrEqual=" + UPDATED_NUMERO_FACTURA);
+    }
+
+    @Test
+    @Transactional
+    void getAllFacturasByNumeroFacturaIsLessThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        facturasRepository.saveAndFlush(facturas);
+
+        // Get all the facturasList where numeroFactura is less than or equal to DEFAULT_NUMERO_FACTURA
+        defaultFacturasShouldBeFound("numeroFactura.lessThanOrEqual=" + DEFAULT_NUMERO_FACTURA);
+
+        // Get all the facturasList where numeroFactura is less than or equal to SMALLER_NUMERO_FACTURA
+        defaultFacturasShouldNotBeFound("numeroFactura.lessThanOrEqual=" + SMALLER_NUMERO_FACTURA);
+    }
+
+    @Test
+    @Transactional
+    void getAllFacturasByNumeroFacturaIsLessThanSomething() throws Exception {
+        // Initialize the database
+        facturasRepository.saveAndFlush(facturas);
+
+        // Get all the facturasList where numeroFactura is less than DEFAULT_NUMERO_FACTURA
+        defaultFacturasShouldNotBeFound("numeroFactura.lessThan=" + DEFAULT_NUMERO_FACTURA);
+
+        // Get all the facturasList where numeroFactura is less than UPDATED_NUMERO_FACTURA
+        defaultFacturasShouldBeFound("numeroFactura.lessThan=" + UPDATED_NUMERO_FACTURA);
+    }
+
+    @Test
+    @Transactional
+    void getAllFacturasByNumeroFacturaIsGreaterThanSomething() throws Exception {
+        // Initialize the database
+        facturasRepository.saveAndFlush(facturas);
+
+        // Get all the facturasList where numeroFactura is greater than DEFAULT_NUMERO_FACTURA
+        defaultFacturasShouldNotBeFound("numeroFactura.greaterThan=" + DEFAULT_NUMERO_FACTURA);
+
+        // Get all the facturasList where numeroFactura is greater than SMALLER_NUMERO_FACTURA
+        defaultFacturasShouldBeFound("numeroFactura.greaterThan=" + SMALLER_NUMERO_FACTURA);
+    }
+
+    @Test
+    @Transactional
+    void getAllFacturasByFechaFacturaIsEqualToSomething() throws Exception {
+        // Initialize the database
+        facturasRepository.saveAndFlush(facturas);
+
+        // Get all the facturasList where fechaFactura equals to DEFAULT_FECHA_FACTURA
+        defaultFacturasShouldBeFound("fechaFactura.equals=" + DEFAULT_FECHA_FACTURA);
+
+        // Get all the facturasList where fechaFactura equals to UPDATED_FECHA_FACTURA
+        defaultFacturasShouldNotBeFound("fechaFactura.equals=" + UPDATED_FECHA_FACTURA);
+    }
+
+    @Test
+    @Transactional
+    void getAllFacturasByFechaFacturaIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        facturasRepository.saveAndFlush(facturas);
+
+        // Get all the facturasList where fechaFactura not equals to DEFAULT_FECHA_FACTURA
+        defaultFacturasShouldNotBeFound("fechaFactura.notEquals=" + DEFAULT_FECHA_FACTURA);
+
+        // Get all the facturasList where fechaFactura not equals to UPDATED_FECHA_FACTURA
+        defaultFacturasShouldBeFound("fechaFactura.notEquals=" + UPDATED_FECHA_FACTURA);
+    }
+
+    @Test
+    @Transactional
+    void getAllFacturasByFechaFacturaIsInShouldWork() throws Exception {
+        // Initialize the database
+        facturasRepository.saveAndFlush(facturas);
+
+        // Get all the facturasList where fechaFactura in DEFAULT_FECHA_FACTURA or UPDATED_FECHA_FACTURA
+        defaultFacturasShouldBeFound("fechaFactura.in=" + DEFAULT_FECHA_FACTURA + "," + UPDATED_FECHA_FACTURA);
+
+        // Get all the facturasList where fechaFactura equals to UPDATED_FECHA_FACTURA
+        defaultFacturasShouldNotBeFound("fechaFactura.in=" + UPDATED_FECHA_FACTURA);
+    }
+
+    @Test
+    @Transactional
+    void getAllFacturasByFechaFacturaIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        facturasRepository.saveAndFlush(facturas);
+
+        // Get all the facturasList where fechaFactura is not null
+        defaultFacturasShouldBeFound("fechaFactura.specified=true");
+
+        // Get all the facturasList where fechaFactura is null
+        defaultFacturasShouldNotBeFound("fechaFactura.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllFacturasByCondicionPagoIsEqualToSomething() throws Exception {
+        // Initialize the database
+        facturasRepository.saveAndFlush(facturas);
+
+        // Get all the facturasList where condicionPago equals to DEFAULT_CONDICION_PAGO
+        defaultFacturasShouldBeFound("condicionPago.equals=" + DEFAULT_CONDICION_PAGO);
+
+        // Get all the facturasList where condicionPago equals to UPDATED_CONDICION_PAGO
+        defaultFacturasShouldNotBeFound("condicionPago.equals=" + UPDATED_CONDICION_PAGO);
+    }
+
+    @Test
+    @Transactional
+    void getAllFacturasByCondicionPagoIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        facturasRepository.saveAndFlush(facturas);
+
+        // Get all the facturasList where condicionPago not equals to DEFAULT_CONDICION_PAGO
+        defaultFacturasShouldNotBeFound("condicionPago.notEquals=" + DEFAULT_CONDICION_PAGO);
+
+        // Get all the facturasList where condicionPago not equals to UPDATED_CONDICION_PAGO
+        defaultFacturasShouldBeFound("condicionPago.notEquals=" + UPDATED_CONDICION_PAGO);
+    }
+
+    @Test
+    @Transactional
+    void getAllFacturasByCondicionPagoIsInShouldWork() throws Exception {
+        // Initialize the database
+        facturasRepository.saveAndFlush(facturas);
+
+        // Get all the facturasList where condicionPago in DEFAULT_CONDICION_PAGO or UPDATED_CONDICION_PAGO
+        defaultFacturasShouldBeFound("condicionPago.in=" + DEFAULT_CONDICION_PAGO + "," + UPDATED_CONDICION_PAGO);
+
+        // Get all the facturasList where condicionPago equals to UPDATED_CONDICION_PAGO
+        defaultFacturasShouldNotBeFound("condicionPago.in=" + UPDATED_CONDICION_PAGO);
+    }
+
+    @Test
+    @Transactional
+    void getAllFacturasByCondicionPagoIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        facturasRepository.saveAndFlush(facturas);
+
+        // Get all the facturasList where condicionPago is not null
+        defaultFacturasShouldBeFound("condicionPago.specified=true");
+
+        // Get all the facturasList where condicionPago is null
+        defaultFacturasShouldNotBeFound("condicionPago.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllFacturasByClientesIsEqualToSomething() throws Exception {
+        // Initialize the database
+        facturasRepository.saveAndFlush(facturas);
+        Clientes clientes = ClientesResourceIT.createEntity(em);
+        em.persist(clientes);
+        em.flush();
+        facturas.setClientes(clientes);
+        facturasRepository.saveAndFlush(facturas);
+        Long clientesId = clientes.getId();
+
+        // Get all the facturasList where clientes equals to clientesId
+        defaultFacturasShouldBeFound("clientesId.equals=" + clientesId);
+
+        // Get all the facturasList where clientes equals to (clientesId + 1)
+        defaultFacturasShouldNotBeFound("clientesId.equals=" + (clientesId + 1));
+    }
+
+    @Test
+    @Transactional
+    void getAllFacturasByDetallesIsEqualToSomething() throws Exception {
+        // Initialize the database
+        facturasRepository.saveAndFlush(facturas);
+        Detalles detalles = DetallesResourceIT.createEntity(em);
+        em.persist(detalles);
+        em.flush();
+        facturas.addDetalles(detalles);
+        facturasRepository.saveAndFlush(facturas);
+        Long detallesId = detalles.getId();
+
+        // Get all the facturasList where detalles equals to detallesId
+        defaultFacturasShouldBeFound("detallesId.equals=" + detallesId);
+
+        // Get all the facturasList where detalles equals to (detallesId + 1)
+        defaultFacturasShouldNotBeFound("detallesId.equals=" + (detallesId + 1));
+    }
+
+    @Test
+    @Transactional
+    void getAllFacturasByAbonosIsEqualToSomething() throws Exception {
+        // Initialize the database
+        facturasRepository.saveAndFlush(facturas);
+        Abonos abonos = AbonosResourceIT.createEntity(em);
+        em.persist(abonos);
+        em.flush();
+        facturas.addAbonos(abonos);
+        facturasRepository.saveAndFlush(facturas);
+        Long abonosId = abonos.getId();
+
+        // Get all the facturasList where abonos equals to abonosId
+        defaultFacturasShouldBeFound("abonosId.equals=" + abonosId);
+
+        // Get all the facturasList where abonos equals to (abonosId + 1)
+        defaultFacturasShouldNotBeFound("abonosId.equals=" + (abonosId + 1));
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is returned.
+     */
+    private void defaultFacturasShouldBeFound(String filter) throws Exception {
+        restFacturasMockMvc
+            .perform(get(ENTITY_API_URL + "?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(facturas.getId().intValue())))
+            .andExpect(jsonPath("$.[*].numeroFactura").value(hasItem(DEFAULT_NUMERO_FACTURA.intValue())))
+            .andExpect(jsonPath("$.[*].fechaFactura").value(hasItem(DEFAULT_FECHA_FACTURA.toString())))
+            .andExpect(jsonPath("$.[*].condicionPago").value(hasItem(DEFAULT_CONDICION_PAGO.booleanValue())));
+
+        // Check, that the count call also returns 1
+        restFacturasMockMvc
+            .perform(get(ENTITY_API_URL + "/count?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(content().string("1"));
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is not returned.
+     */
+    private void defaultFacturasShouldNotBeFound(String filter) throws Exception {
+        restFacturasMockMvc
+            .perform(get(ENTITY_API_URL + "?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(jsonPath("$").isArray())
+            .andExpect(jsonPath("$").isEmpty());
+
+        // Check, that the count call also returns 0
+        restFacturasMockMvc
+            .perform(get(ENTITY_API_URL + "/count?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(content().string("0"));
     }
 
     @Test
