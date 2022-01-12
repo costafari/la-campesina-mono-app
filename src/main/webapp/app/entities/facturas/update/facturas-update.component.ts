@@ -31,6 +31,9 @@ export class FacturasUpdateComponent implements OnInit {
   isLoading = false;
   //
 
+  //
+  facturaValue: IFacturas = new Facturas();
+
   editForm = this.fb.group({
     id: [],
     numeroFactura: [null, [Validators.required]],
@@ -46,24 +49,27 @@ export class FacturasUpdateComponent implements OnInit {
     protected fb: FormBuilder,
     // Variables de DETALLES
     protected detallesService: DetallesService,
-    protected modalService: NgbModal
-  ) //
-  {}
+    protected modalService: NgbModal //
+  ) {}
 
   // VARIABLES DE DETALLES
 
-  loadAll(): void {
+  // this.bookService.query({'title.equals':someValue}).subscribe(...);
+
+  loadAll(facturas: IFacturas): void {
     this.isLoading = true;
 
-    this.detallesService.query().subscribe(
-      (res: HttpResponse<IDetalles[]>) => {
-        this.isLoading = false;
-        this.detalles = res.body ?? [];
-      },
-      () => {
-        this.isLoading = false;
-      }
-    );
+    if (this.facturaValue.id != undefined) {
+      this.detallesService.query({ 'facturasId.equals': facturas.id }).subscribe(
+        (res: HttpResponse<IDetalles[]>) => {
+          this.isLoading = false;
+          this.detalles = res.body ?? [];
+        },
+        () => {
+          this.isLoading = false;
+        }
+      );
+    }
   }
 
   trackId(index: number, item: IDetalles): number {
@@ -76,7 +82,7 @@ export class FacturasUpdateComponent implements OnInit {
     // unsubscribe not needed because closed completes on modal close
     modalRef.closed.subscribe(reason => {
       if (reason === 'deleted') {
-        this.loadAll();
+        this.loadAll(this.facturaValue);
       }
     });
   }
@@ -93,9 +99,11 @@ export class FacturasUpdateComponent implements OnInit {
       this.updateForm(facturas);
 
       this.loadRelationshipsOptions();
-    });
 
-    this.loadAll();
+      this.facturaValue = facturas;
+
+      this.loadAll(this.facturaValue);
+    });
   }
 
   previousState(): void {
@@ -105,6 +113,7 @@ export class FacturasUpdateComponent implements OnInit {
   save(): void {
     this.isSaving = true;
     const facturas = this.createFromForm();
+    this.facturaValue = facturas;
     if (facturas.id !== undefined) {
       this.subscribeToSaveResponse(this.facturasService.update(facturas));
     } else {
@@ -124,7 +133,21 @@ export class FacturasUpdateComponent implements OnInit {
   }
 
   protected onSaveSuccess(): void {
-    this.previousState();
+    // this.previousState();
+
+    this.isLoading = true;
+    let facturaRes: IFacturas[];
+
+    this.facturasService.query({ 'numeroFactura.equals': this.facturaValue.numeroFactura }).subscribe(
+      (res: HttpResponse<IFacturas[]>) => {
+        this.isLoading = false;
+        facturaRes = res.body ?? [];
+        this.facturaValue = facturaRes[0];
+      },
+      () => {
+        this.isLoading = false;
+      }
+    );
   }
 
   protected onSaveError(): void {

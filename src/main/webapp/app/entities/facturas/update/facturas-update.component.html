@@ -98,8 +98,8 @@
         <span>Detalles</span>
 
         <div class="d-flex justify-content-end">
-          <button class="btn btn-info mr-2" (click)="loadAll()" [disabled]="isLoading">
-            <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+          <button class="btn btn-info mr-2" (click)="loadAll(facturaValue)" [disabled]="isLoading">
+            <fa-icon icon="sync"></fa-icon>
             <span>Refresh List</span>
           </button>
 
@@ -115,9 +115,9 @@
         </div>
       </h2>
 
-      <jhi-alert-error></jhi-alert-error>
+      <!-- <jhi-alert-error></jhi-alert-error>
 
-      <jhi-alert></jhi-alert>
+        <jhi-alert></jhi-alert> -->
 
       <div class="alert alert-warning" id="no-result" *ngIf="detalles?.length === 0">
         <span>No detalles found</span>

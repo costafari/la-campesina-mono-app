@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { FormBuilder, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
 
@@ -35,7 +35,8 @@ export class DetallesUpdateComponent implements OnInit {
     protected facturasService: FacturasService,
     protected lotesService: LotesService,
     protected activatedRoute: ActivatedRoute,
-    protected fb: FormBuilder
+    protected fb: FormBuilder,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -76,7 +77,10 @@ export class DetallesUpdateComponent implements OnInit {
   }
 
   protected onSaveSuccess(): void {
-    this.previousState();
+    // this.previousState();
+    let routeFactura: IFacturas;
+    routeFactura = this.editForm.get(['facturas'])!.value;
+    this.router.navigate(['/facturas', routeFactura.id, 'edit']);
   }
 
   protected onSaveError(): void {
