@@ -101,6 +101,7 @@ export class DetallesUpdateComponent implements OnInit {
     });
 
     this.facturasSharedCollection = this.facturasService.addFacturasToCollectionIfMissing(this.facturasSharedCollection, detalles.facturas);
+    this.facturasSharedCollection[this.facturasSharedCollection.length - 1];
     this.lotesSharedCollection = this.lotesService.addLotesToCollectionIfMissing(this.lotesSharedCollection, detalles.lotes);
   }
 

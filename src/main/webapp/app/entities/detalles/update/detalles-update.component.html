@@ -35,7 +35,7 @@
               [ngValue]="facturasOption.id === editForm.get('facturas')!.value?.id ? editForm.get('facturas')!.value : facturasOption"
               *ngFor="let facturasOption of facturasSharedCollection; trackBy: trackFacturasById"
             >
-              {{ facturasOption.id }}
+              {{ facturasOption.numeroFactura }}
             </option>
           </select>
         </div>
@@ -48,7 +48,7 @@
               [ngValue]="lotesOption.id === editForm.get('lotes')!.value?.id ? editForm.get('lotes')!.value : lotesOption"
               *ngFor="let lotesOption of lotesSharedCollection; trackBy: trackLotesById"
             >
-              {{ lotesOption.id }}
+              {{ lotesOption.lote }}
             </option>
           </select>
         </div>
